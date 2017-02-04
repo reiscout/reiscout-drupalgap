@@ -1,0 +1,52 @@
+
+/* Global styles */
+.ui-content.region_content {
+    background-image: url("../images/background-logo.png");
+    background-size: 50%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Styles for property listing */
+#reiscout_property_listing_view .view-row {
+	padding-bottom: 10px;
+	border-bottom: 1px solid rgb(145, 158, 169);
+	margin-bottom: 35px;
+}
+
+#reiscout_property_listing_view .address {
+	margin: 15px 0;
+	text-decoration: none;
+}
+
+#reiscout_property_listing_view img {
+	margin-left: 20px;
+}
+
+#reiscout_property_listing_view a.ui-link {
+	color: rgba(145, 158, 169, 0.7);
+	text-decoration: none;
+	font-weight: 300;
+}
+
+#reiscout_property_listing_view a.ui-link:hover {
+	color: rgb(128, 141, 152);
+	font-weight: 300;
+	text-shadow: 1px 1px 0 rgb(128, 141, 152);
+}
+
+/* Splash screen */
+#_drupalgap_splash_content {
+    text-align: center;
+}
+
+/* Property page */
+.node.node-view h2 {
+    display: none;
+}
+
+.node.ui-page .region_sub_header {
+    display: none;
+}
+

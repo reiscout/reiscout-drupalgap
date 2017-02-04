@@ -1,0 +1,22 @@
+.DS_Store
+
+cordova*js
+#app/modules/*
+#app/themes/*
+#app/settings.js
+app/.gitignore
+app/settings-webapp-local.js
+app/README.*
+res
+#config.xml
+
+# Ignore a potential jDrupal folder
+jDrupal
+
+# Ignore jQM Theme Roller Files
+bin/themes/images
+bin/themes/*.css
+
+# Ignore tools
+tools/*
+
