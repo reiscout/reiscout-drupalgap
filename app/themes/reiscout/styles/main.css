@@ -50,3 +50,7 @@
     display: none;
 }
 
+.field-name-field-owner-info-product,
+.field-name-field-address-access-product {
+    display: none;
+}
