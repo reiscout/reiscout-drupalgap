@@ -13,3 +13,11 @@
 .pac-icon-marker {
   display: none;
 }
+
+#reiscout_address_purchased_list_view .views-results li {
+    text-align:center;
+}
+
+#reiscout_address_purchased_list_view .views-results li .title a {
+    white-space: normal;
+}

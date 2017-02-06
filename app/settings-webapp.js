@@ -248,6 +248,16 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
         }
       }
     },
+    {
+        title: 'Purchased Addresses',
+        path: 'purchased-addresses',
+        options: {
+            attributes: {
+                'data-icon': 'grid',
+                'class': 'ui-btn ui-btn-icon-right'
+            }
+        }
+    }
   ]
 };
 
