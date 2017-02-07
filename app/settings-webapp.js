@@ -15,7 +15,7 @@ Drupal.settings.debug = false;
 /* DRUPAL PATHS */
 
 // Site Path (do not use a trailing slash)
-Drupal.settings.site_path = 'http://reiscout.com/'; // e.g. http://www.example.com
+Drupal.settings.site_path = 'https://reiscout.com'; // e.g. http://www.example.com
 
 // Default Services Endpoint Path
 Drupal.settings.endpoint = 'drupalgap';
@@ -172,12 +172,6 @@ Drupal.modules.custom['reiscout_address'] = {
 };
 Drupal.modules.custom['reiscout_property_commerce'] = {};
 
-Drupal.modules.custom['reiscout_get_owner_info'] = {};
-Drupal.modules.custom['reiscont_buy_info_points'] = {};
-
-Drupal.modules.custom['reiscout_send_letters'] = {};
-Drupal.modules.custom['reiscont_buy_letters_points'] = {};
-
 drupalgap.settings.stripe_api_key = 'pk_test_wbtsk9Um4YdkftiHOgfcPUWF';
 
 /***************************************|
@@ -247,6 +241,16 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
     {
       title: 'My Properties',
       path: 'my-properties',
+      options: {
+        attributes: {
+          'data-icon': 'grid',
+          'class': 'ui-btn ui-btn-icon-right'
+        }
+      }
+    },
+    {
+      title: 'Purchased Addresses',
+      path: 'purchased-addresses',
       options: {
         attributes: {
           'data-icon': 'grid',
