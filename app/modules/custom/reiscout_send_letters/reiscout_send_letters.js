@@ -1,5 +1,6 @@
 /**
  * Define the form.
+ * * Add send letters form and check what form we need to show
  */
 function reiscout_send_letters_custom_form(form, form_state) {
   try {
@@ -12,12 +13,11 @@ function reiscout_send_letters_custom_form(form, form_state) {
       bundle: null,
       data: JSON.stringify(form.arguments[0].vid),
       success: function(data) {
-        //console.log(data);
         if (data.viewSendLetters == 1) {
-          document.getElementById('reiscout_send_letters_custom_form').style.display = 'block';
+          $('#reiscout_send_letters_custom_form').css("display", "block");
         }
         if (data.viewBuyLettersPoints == 1) {
-          document.getElementById('reiscont_buy_letters_points_custom_form').style.display = 'block';
+          $('#reiscont_buy_letters_points_custom_form').css("display", "block");
         }
       },
     });
@@ -34,6 +34,7 @@ function reiscout_send_letters_custom_form(form, form_state) {
 
 /**
  * Define the form's submit function.
+ * Call sendLetter server function
  */
 function reiscout_send_letters_custom_form_submit(form, form_state) {
   try {
@@ -49,13 +50,13 @@ function reiscout_send_letters_custom_form_submit(form, form_state) {
       data: JSON.stringify(form.arguments[0].vid),
       success: function(data) {
         try {
-          console.log(data);
+          drupalgap_alert('The letter been sent');
         }
         catch (error) { console.log('reiscout_send_letters_custom_form_submit - success - ' + error); }
       },
       error: function(xhr, status, message) {
         try {
-          console.log(status);
+          drupalgap_alert('Something went wrong');
         }
         catch (error) { console.log('reiscout_send_letters_custom_form_submit - error - ' + error); }
       }

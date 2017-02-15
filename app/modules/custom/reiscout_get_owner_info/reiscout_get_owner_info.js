@@ -1,5 +1,6 @@
 /**
  * Define the form.
+ * Add owner info form and check what form we need to show
  */
 function reiscout_get_owner_info_custom_form(form, form_state) {
   try {
@@ -12,12 +13,11 @@ function reiscout_get_owner_info_custom_form(form, form_state) {
       bundle: null,
       data: JSON.stringify(form.arguments[0].vid),
       success: function(data) {
-        //console.log(data);
         if (data.viewGetOwnerInfo == 1) {
-          document.getElementById('reiscout_get_owner_info_custom_form').style.display = 'block';
+          $('#reiscout_get_owner_info_custom_form').css("display", "block");
         }
         if (data.viewBuyInfoPoints == 1) {
-          document.getElementById('reiscout_buy_info_points_custom_form').style.display = 'block';
+          $('#reiscout_buy_info_points_custom_form').css("display", "block");
         }
       },
     });
@@ -34,6 +34,7 @@ function reiscout_get_owner_info_custom_form(form, form_state) {
 
 /**
  * Define the form's submit function.
+ * Call getinfo server function
  */
 function reiscout_get_owner_info_custom_form_submit(form, form_state) {
   try {
@@ -43,19 +44,18 @@ function reiscout_get_owner_info_custom_form_submit(form, form_state) {
       service: 'ownerinfo',
       resource: 'getinfo',
       contentType: 'application/x-www-form-urlencoded',
-      //entity_type: 'commerce_order',
-      //entity_id: order.order_id,
       bundle: null,
       data: JSON.stringify(form.arguments[0].vid),
       success: function(data) {
         try {
-          console.log(data);
+          drupalgap_alert('Success');
+          drupalgap_goto(drupalgap_path_get(), {reloadPage:true});
         }
         catch (error) { console.log('reiscout_get_owner_info_custom_form_submit - success - ' + error); }
       },
       error: function(xhr, status, message) {
         try {
-          console.log(status);
+          drupalgap_alert('Something went wrong');
         }
         catch (error) { console.log('reiscout_get_owner_info_custom_form_submit - error - ' + error); }
       }
