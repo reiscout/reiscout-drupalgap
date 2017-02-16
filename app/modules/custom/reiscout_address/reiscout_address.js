@@ -10,7 +10,7 @@ function reiscout_address_install() {
     var google_maps_javascript_api_key = 'AIzaSyBx9gwBnaYdWhHbxOQE9h7I-ZV96YUxrHs';
     var module_path = drupalgap_get_path('module', 'reiscout_address');
     drupalgap_add_js('https://maps.googleapis.com/maps/api/js?libraries=places&key=' + google_maps_javascript_api_key);
-    drupalgap_add_js(module_path + '/geocomplete/jquery.geocomplete' + (Drupal.settings.debug ? '' : '.min') + '.js');
+    drupalgap_add_js('app/libraries/geocomplete/jquery.geocomplete.min.js');
     drupalgap_add_css(module_path + '/reiscout_address.css');
   }
   catch (error) {
