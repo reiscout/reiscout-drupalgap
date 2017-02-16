@@ -35,8 +35,7 @@ function reiscout_property_form_alter(form, form_state, form_id) {
       for (var i in fields) {
         var fieldname = fields[i];
         if (form.elements[fieldname]) {
-          form.elements[fieldname].prefix = '<div style="display: none;">';
-          form.elements[fieldname].suffix = '</div>';
+          form.elements[fieldname].access = false;
         }
       }
     }
