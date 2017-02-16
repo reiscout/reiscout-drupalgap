@@ -1,4 +1,16 @@
 /**
+ * Implements hook_install().
+ */
+function reiscout_property_install() {
+  try {
+    drupalgap_add_css(drupalgap_get_path('module', 'reiscout_property') + '/reiscout_property.css');
+  }
+  catch (error) {
+    console.log('reiscout_property_install - ' + error);
+  }
+}
+
+/**
  * Implements hook_form_alter().
  */
 function reiscout_property_form_alter(form, form_state, form_id) {
@@ -6,8 +18,6 @@ function reiscout_property_form_alter(form, form_state, form_id) {
     if (form_id == 'node_edit' && form.bundle == 'property') {
       // On property node edit forms, hide title field and set some non-empty value
       // In will be autopopulated on server side on save.
-      form.elements['title'].prefix = '<div style="display: none;">';
-      form.elements['title'].suffix = '</div>';
       form.elements['title'].default_value = 'value placeholder';
 
       // Hide some fields fro now
