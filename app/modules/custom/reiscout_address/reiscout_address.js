@@ -51,6 +51,7 @@ function reiscout_address_form_alter(form, form_state, form_id) {
       var language = language_default();
       var elements = form.elements;
 
+      // @todo: delete this code block
       if (typeof elements.field_address_text !== 'undefined') {
         if (elements.field_address_text.type === 'text') {
           if (in_array(elements.field_address_text.field_info_instance.widget.type, ['text_textfield', 'reiscout_geocomplete'])) {
@@ -110,6 +111,78 @@ function reiscout_address_form_alter(form, form_state, form_id) {
       else {
         console.log('WARNING: reiscout_address_form_alter() - module geofield is not installed');
       }
+
+      // Is it a field_address field with addressfield_autocomplete widget enabled on it?
+      if (typeof elements.field_address !== 'undefined') {
+        if (elements.field_address.type === 'addressfield') {
+          if (elements.field_address.field_info_instance.widget.type == 'addressfield_autocomplete') {
+            // A value that is stored in field_info_instance.widget.module property defines what
+            // module will provide a widget for the field. addressfield_autocomplete module is not
+            // exists, so we set it to 'reiscout_address' and now _drupalgap_form_render_element()
+            // will call reiscout_address_field_widget_form().
+            elements.field_address.field_info_instance.widget.module = 'reiscout_address';
+
+            // A value_callback function will be used for form_state array generation on form submission phase.
+            elements.field_address.value_callback = 'addressfield_field_value_callback';
+
+            // We hide the field's title because field_address_autocomplete field's title will be displayed.
+            elements.field_address.title = '';
+
+            // We want to display the field at the bottom.
+            elements.field_address.field_info_instance.widget.weight = 10;
+
+            var widget_id = drupalgap_form_get_element_id('field-address', form.id, 'und', 0);
+
+            // If this form is for node editing.
+            if (typeof elements.field_address.und[0].item !== 'undefined') {
+              var data_json = JSON.parse(elements.field_address.und[0].item.data_json);
+            }
+
+            // This field will be used for address autocompleting.
+            elements['field-address-und-0-value-autocomplete'] = {
+              // Search input will have a 'X' icon on the right end of the field.
+              // @todo: change field's type to 'search' or add a 'X' icon ourselves
+              type: 'textfield',
+              title: 'Address*',
+              default_value: (typeof data_json !== 'undefined') ? data_json['formatted_address'] : '',
+              weight: 7,
+              attributes: {
+                id: widget_id + '-autocomplete'
+              }
+            };
+
+            // We use 'pageshow' event to enable an autocomplete feature on the field.
+            elements.field_address_autocomplete_markup = {
+              markup: drupalgap_jqm_page_event_script_code({
+                page_id: drupalgap_get_page_id(),
+                jqm_page_event: 'pageshow',
+                jqm_page_event_callback: '_reiscout_address_field_autocomplete_enable',
+                jqm_page_event_args: JSON.stringify({
+                  widget_id: widget_id
+                })
+              })
+            };
+
+            // We create latitude and longitude fields because address_autocomplete widget needs these values.
+            elements['field-address-und-0-value-latitude'] = {
+              type: 'hidden',
+              default_value: (typeof data_json !== 'undefined') ? data_json['latitude'] : '',
+              weight: 8,
+              attributes: {
+                id: widget_id + '-latitude'
+              }
+            };
+            elements['field-address-und-0-value-longitude'] = {
+              type: 'hidden',
+              default_value: (typeof data_json !== 'undefined') ? data_json['longitude'] : '',
+              weight: 9,
+              attributes: {
+                id: widget_id + '-longitude'
+              }
+            };
+          }
+        }
+      }
     }
   }
   catch (error) {
@@ -134,6 +207,7 @@ function reiscout_address_field_widget_form(form, form_state, field, instance, l
       console.log(['reiscout_address_field_widget_form', form, form_state, field, instance, langcode, items, delta, element]);
     }
 
+    // @todo: delete this code block
     if (instance.widget.type === 'reiscout_geocomplete') {
       text_field_widget_form(form, form_state, field, instance, langcode, items, delta, element);
 
@@ -176,6 +250,10 @@ function reiscout_address_field_widget_form(form, form_state, field, instance, l
           }
         }
       });
+    }
+    else if (instance.widget.type === 'addressfield_autocomplete') {
+      // We use addressfield_standard widget to display this field.
+      addressfield_field_widget_form(form, form_state, field, instance, langcode, items, delta, element);
     }
     else {
       console.log('WARNING: reiscout_address_field_widget_form() - unsupported widget type: ' + instance.widget.type);
@@ -319,6 +397,7 @@ function _reiscout_address_getposition_click(position_id, address_id) {
   }
 }
 
+// @todo: delete this code block
 function _reiscout_address_geocomplete_field_pageshow(options) {
   try {
     if (Drupal.settings.debug) {
@@ -331,6 +410,49 @@ function _reiscout_address_geocomplete_field_pageshow(options) {
   }
   catch (error) {
     console.log('_reiscout_address_geocomplete_field_pageshow - ' + error);
+  }
+}
+
+/**
+ * Enables autocomplete feature on field_address_autocomplete field.
+ */
+function _reiscout_address_field_autocomplete_enable(data) {
+  try {
+    // Restrict suggestions to US country.
+    var options = {
+      country: 'us'
+    };
+
+    var widget_id = data.widget_id;
+
+    // Field IDs we will be put result in.
+    var fields_mapping = {
+      locality: widget_id + '-locality',
+      administrative_area_level_1: widget_id + '-administrative_area',
+      postal_code: widget_id + '-postal_code'
+    };
+
+    $('#' + widget_id + '-autocomplete')
+      .geocomplete(options)
+      .bind("geocode:result", function(event, result) {
+        // Set 'Address 1', 'Latitude' and 'Longitude' fields' values.
+        $('#' + widget_id + '-thoroughfare').val(result.name);
+        $('#' + widget_id + '-latitude').val(result.geometry.location.lat());
+        $('#' + widget_id + '-longitude').val(result.geometry.location.lng());
+
+        // Get each component of the address from the result
+        // object and fill the corresponding field on the form.
+        for (var i = 0; i < result.address_components.length; i++) {
+          var address_type = result.address_components[i].types[0];
+          var field_id = fields_mapping[address_type];
+          if (typeof field_id !== 'undefined') {
+            $('#' + field_id).val(result.address_components[i].short_name).change();
+          }
+        }
+      });
+  }
+  catch (error) {
+    console.log('_reiscout_address_field_autocomplete_enable - ' + error);
   }
 }
 
@@ -509,6 +631,7 @@ function _reiscout_address_user_request_address_info(button) {
   }
 }
 
+// @todo: delete this code block
 function _reiscout_address_clearable_field_pageshow(options) {
   try {
     if (Drupal.settings.debug) {

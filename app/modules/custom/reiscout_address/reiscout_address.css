@@ -1,15 +1,16 @@
 .pac-item {
-  font-family: sans-serif;
-  font-size: 0.9em;
+    font-size: 0.9em;
 }
-
-.pac-item-query {
-    color: #000;
-    font-size: 1em;
-    padding-left: 5px;
-    padding-right: 8px;
+.pac-item span {
+    font-size: 0.9em;
 }
-
+.pac-item .pac-matched {
+    font-size: 1.1em;
+}
 .pac-icon-marker {
-  display: none;
+    display: none;
+}
+
+.field-name-field-address {
+    display: none;
 }
