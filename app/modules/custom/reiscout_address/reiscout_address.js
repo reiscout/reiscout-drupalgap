@@ -140,14 +140,13 @@ function reiscout_address_form_alter(form, form_state, form_id) {
 
             // This field will be used for address autocompleting.
             elements['field-address-und-0-value-autocomplete'] = {
-              // Search input will have a 'X' icon on the right end of the field.
-              // @todo: change field's type to 'search' or add a 'X' icon ourselves
               type: 'textfield',
               title: 'Address*',
               default_value: (typeof data_json !== 'undefined') ? data_json['formatted_address'] : '',
               weight: 7,
               attributes: {
-                id: widget_id + '-autocomplete'
+                id: widget_id + '-autocomplete',
+                'data-clear-btn': true
               }
             };
 
