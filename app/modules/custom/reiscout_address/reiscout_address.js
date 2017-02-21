@@ -77,12 +77,13 @@ function reiscout_address_form_alter(form, form_state, form_id) {
             if (in_array(elements.field_geo_position.field_info_instance.widget.type, ['geofield_latlon', 'reiscout_geofield_latlon'])) {
               // Update standard 'Get location' button behaviour:
               // after success geo coords retrieving it request the website for address (text) for the coords and
-              // put the address to field_address_text.
+              // put the address to field_address.
               position = elements.field_geo_position;
               position.field_info_instance.widget.module = 'reiscout_address';
               position.field_info_instance.widget.type = 'reiscout_geofield_latlon';
               position.reiscout_address_id = '';
-              
+
+              address = elements.field_address;
               if (address && typeof address[language] !== 'undefined') {
                 for (delta in address[language]) {
                   if (address[language].hasOwnProperty(delta)) {
