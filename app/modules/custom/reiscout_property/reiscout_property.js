@@ -30,7 +30,8 @@ function reiscout_property_form_alter(form, form_state, form_id) {
         // hide property info fields
         'field_under_contract', 'field_arv', 'field_repairs_price', 'field_mortgage_company', 'field_assessed_value',
         'field_last_purchase_time', 'field_last_purchase_price', 'field_lot_size', 'field_bathrooms',
-        'field_bedrooms', 'field_size', 'field_zillow_mls', 'field_zillow_status', 'field_zillow_zpid'
+        'field_bedrooms', 'field_size', 'field_zillow_mls', 'field_zillow_status', 'field_zillow_zpid',
+        'field_address_text'
       ];
       for (var i in fields) {
         var fieldname = fields[i];

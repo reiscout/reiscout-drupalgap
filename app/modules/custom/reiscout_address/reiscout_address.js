@@ -46,30 +46,9 @@ function reiscout_address_form_alter(form, form_state, form_id) {
       form.submit = ['_reiscout_address_user_pass_form_submit'];
     }
     else if (form_id === 'node_edit' && form.bundle === 'property') {
-      // Implement address geocomplete for field_address_text
       var address, position, delta;
       var language = language_default();
       var elements = form.elements;
-
-      // @todo: delete this code block
-      if (typeof elements.field_address_text !== 'undefined') {
-        if (elements.field_address_text.type === 'text') {
-          if (in_array(elements.field_address_text.field_info_instance.widget.type, ['text_textfield', 'reiscout_geocomplete'])) {
-            address = elements.field_address_text;
-            address.field_info_instance.widget.module = 'reiscout_address';
-            address.field_info_instance.widget.type = 'reiscout_geocomplete';
-          }
-          else {
-            console.log('WARNING: reiscout_address_form_alter() - field field_address_text has unsupported widget type: ' + elements.field_address_text.field_info_instance.widget.type);
-          }
-        }
-        else {
-          console.log('WARNING: reiscout_address_form_alter() - field field_address_text has unsupported field type: ' + elements.field_address_text.type);
-        }
-      }
-      else {
-        console.log('WARNING: reiscout_address_form_alter() - field field_address_text is missing');
-      }
 
       if (module_exists('geofield')) {
         if (typeof elements.field_geo_position !== 'undefined') {
@@ -207,33 +186,7 @@ function reiscout_address_field_widget_form(form, form_state, field, instance, l
       console.log(['reiscout_address_field_widget_form', form, form_state, field, instance, langcode, items, delta, element]);
     }
 
-    // @todo: delete this code block
-    if (instance.widget.type === 'reiscout_geocomplete') {
-      text_field_widget_form(form, form_state, field, instance, langcode, items, delta, element);
-
-      items[delta].children.push({
-        markup: drupalgap_jqm_page_event_script_code({
-          page_id: drupalgap_get_page_id(),
-          jqm_page_event: 'pageshow',
-          jqm_page_event_callback: '_reiscout_address_clearable_field_pageshow',
-          jqm_page_event_args: JSON.stringify({
-              clearable_id: items[delta].id
-          })
-        })
-      });
-
-      items[delta].children.push({
-        markup: drupalgap_jqm_page_event_script_code({
-          page_id: drupalgap_get_page_id(),
-          jqm_page_event: 'pageshow',
-          jqm_page_event_callback: '_reiscout_address_geocomplete_field_pageshow',
-          jqm_page_event_args: JSON.stringify({
-              geocomplete_id: items[delta].id
-          })
-        })
-      });
-    }
-    else if (instance.widget.type === 'reiscout_geofield_latlon') {
+    if (instance.widget.type === 'reiscout_geofield_latlon') {
       items[delta].type = 'hidden';
 
       if (items[delta].item) {
@@ -394,22 +347,6 @@ function _reiscout_address_getposition_click(position_id, address_id) {
   }
   catch (error) {
     console.log('_reiscout_address_getposition_click - ' + error);
-  }
-}
-
-// @todo: delete this code block
-function _reiscout_address_geocomplete_field_pageshow(options) {
-  try {
-    if (Drupal.settings.debug) {
-      console.log(['_reiscout_address_geocomplete_field_pageshow', options]);
-    }
-
-    var placeholder = $('#' + options.geocomplete_id).prop('placeholder');
-    $('#' + options.geocomplete_id).geocomplete();
-    $('#' + options.geocomplete_id).prop('placeholder', placeholder);
-  }
-  catch (error) {
-    console.log('_reiscout_address_geocomplete_field_pageshow - ' + error);
   }
 }
 
@@ -628,46 +565,6 @@ function _reiscout_address_user_request_address_info(button) {
     drupalgap.loading = false;
     
     console.log('_reiscout_address_user_request_address_info - ' + error);
-  }
-}
-
-// @todo: delete this code block
-function _reiscout_address_clearable_field_pageshow(options) {
-  try {
-    if (Drupal.settings.debug) {
-      console.log(['_reiscout_address_clearable_field_pageshow', options]);
-    }
-
-    $('#' + options.clearable_id).parent().append([
-      '<span style="position: relative; float: right; right: -4px; top: -50px; z-index: 1000;">',
-        theme('button_link', {
-          text: t('Clear Address'),
-          options: {
-            attributes: {
-              class: 'ui-mini ui-link ui-btn ui-btn-b ui-icon-delete ui-btn-icon-left ui-btn-inline ui-shadow ui-corner-all',
-              onclick: 'javascript:_reiscout_address_clear_address(this, \'' + options.clearable_id + '\');'
-            }
-          }
-        }),
-      '</span>'
-    ].join(''));
-  }
-  catch (error) {
-    console.log('_reiscout_address_clearable_field_pageshow - ' + error);
-  }
-}
-
-function _reiscout_address_clear_address(button, id) {
-  try {
-    if (Drupal.settings.debug) {
-      console.log(['_reiscout_address_clear_address', button, id]);
-    }
-
-    $(button).blur();
-    $('#' + id).val('');
-  }
-  catch (error) {
-    console.log('_reiscout_address_clear_address - ' + error);
   }
 }
 
