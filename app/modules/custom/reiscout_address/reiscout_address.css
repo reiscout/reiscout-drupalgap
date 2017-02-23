@@ -14,3 +14,7 @@
 .field-name-field-address {
     display: none;
 }
+
+.field_address {
+    margin-top: 15px;
+}
