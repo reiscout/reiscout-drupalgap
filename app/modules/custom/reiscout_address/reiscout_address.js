@@ -260,6 +260,9 @@ function reiscout_address_entity_post_render_field(entity, field_name, field, re
             fields: hiddenFields
           });
         }
+
+        // Remove field_address_text field's content till the field will be deleted.
+        reference.content = '';
       }
       else if (hideFields && in_array(field_name, hiddenFields)) {
         var label = _reiscout_address_get_entity_field_label(field);
