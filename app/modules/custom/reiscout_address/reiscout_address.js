@@ -234,7 +234,8 @@ function reiscout_address_entity_post_render_field(entity, field_name, field, re
     if (field.entity_type === 'node' && field.bundle === 'property') {
       var hideFields   = (typeof entity._flag_is_user_has_view === 'undefined' || entity._flag_is_user_has_view !== true);
       var hiddenFields = ['field_owner_fname', 'field_owner_lname', 'field_owner_address', 'field_owner_phone'];
-      
+      var fields_owner_info = ['field_owner_fname', 'field_owner_lname', 'field_owner_address', 'field_owner_phone'];
+
       if (field_name === 'field_address_text') {
         var label = _reiscout_address_get_entity_field_label(field);
         var value = _reiscout_address_get_entity_field_value(entity, field_name);
@@ -264,6 +265,16 @@ function reiscout_address_entity_post_render_field(entity, field_name, field, re
         // Remove field_address_text field's content till the field will be deleted.
         reference.content = '';
       }
+      else if (field_name == 'field_address') {
+        if (!_reiscout_address_user_can_view_property_address(entity, Drupal.user.uid)) {
+          reference.content = '';
+        }
+      }
+      else if (in_array(field_name, fields_owner_info)) {
+        if (!_reiscout_address_user_can_view_property_owner_info(entity, Drupal.user.uid)) {
+          reference.content = '';
+        }
+      }
       else if (hideFields && in_array(field_name, hiddenFields)) {
         var label = _reiscout_address_get_entity_field_label(field);
         var value = _reiscout_address_get_entity_field_value(entity, field_name);
@@ -280,6 +291,56 @@ function reiscout_address_entity_post_render_field(entity, field_name, field, re
   catch (error) {
     console.log('reiscout_address_entity_post_render_field - ' + error);
   }
+}
+
+/**
+ * Defines if user has an access to view a property's address.
+ *
+ * We grant an access only to a user who is either a property's
+ * author or bought an 'Address Access' product.
+ *
+ * @param {object} entity
+ * @param {int} uid
+ * @returns {boolean}
+ */
+function _reiscout_address_user_can_view_property_address(entity, uid) {
+  // If user is a property's author.
+  if (entity.uid == uid) {
+    return true;
+  }
+
+  // If user bought an 'Address Access' product.
+  if (typeof entity._user_bought_address_access_product !== 'undefined'
+   && entity._user_bought_address_access_product === true) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Defines if user has an access to view a property's owner info.
+ *
+ * We grant an access only to a user who is either a property's
+ * author or bought an 'Owner Info' product.
+ *
+ * @param {object} entity
+ * @param {int} uid
+ * @returns {boolean}
+ */
+function _reiscout_address_user_can_view_property_owner_info(entity, uid) {
+  // If user is a property's author.
+  if (entity.uid == uid) {
+    return true;
+  }
+
+  // If user bought an 'Owner Info' product.
+  if (typeof entity._user_bought_owner_info_product !== 'undefined'
+   && entity._user_bought_owner_info_product === true) {
+    return true;
+  }
+
+  return false;
 }
 
 function _reiscout_address_getposition_click(position_id, address_id) {
