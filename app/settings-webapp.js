@@ -167,7 +167,6 @@ Drupal.modules.custom['reiscout_property'] = {};
 Drupal.modules.custom['reiscout_purchased_addresses'] = {};
 Drupal.modules.custom['reiscout_address'] = {
   includes: [
-    {name: 'reiscout_address.theme'},
     {name: 'reiscout_address.forms'}
   ]
 };

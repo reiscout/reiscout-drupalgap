@@ -227,41 +227,10 @@ function reiscout_address_field_widget_form(form, form_state, field, instance, l
  */
 function reiscout_address_entity_post_render_field(entity, field_name, field, reference) {
   try {
-    if (Drupal.settings.debug) {
-      console.log(['reiscout_address_entity_post_render_field', entity, field_name, field, reference]);
-    }
-
     if (field.entity_type === 'node' && field.bundle === 'property') {
-      var hideFields   = (typeof entity._flag_is_user_has_view === 'undefined' || entity._flag_is_user_has_view !== true);
-      var hiddenFields = ['field_owner_fname', 'field_owner_lname', 'field_owner_address', 'field_owner_phone'];
       var fields_owner_info = ['field_owner_fname', 'field_owner_lname', 'field_owner_address', 'field_owner_phone'];
 
       if (field_name === 'field_address_text') {
-        var label = _reiscout_address_get_entity_field_label(field);
-        var value = _reiscout_address_get_entity_field_value(entity, field_name);
-
-        // Author of the node with "edit own content" permission.
-        // Function node_access also checks "edit any content" permission and this is why we do not use it here.
-        if (entity.uid === Drupal.user.uid && user_access('edit own ' + entity.type + ' content')) {
-          reference.content = theme('reiscout_address_editable', {
-            bundle: field.bundle,
-            nid: entity.nid,
-            language: value.language,
-            label: label,
-            name: field_name,
-            value: value.value
-          });
-        }
-        else if (hideFields) {
-          reference.content = theme('reiscout_address_hidden', {
-            nid: entity.nid,
-            label: label,
-            name: field_name,
-            value: value.value,
-            fields: hiddenFields
-          });
-        }
-
         // Remove field_address_text field's content till the field will be deleted.
         reference.content = '';
       }
@@ -274,17 +243,6 @@ function reiscout_address_entity_post_render_field(entity, field_name, field, re
         if (!_reiscout_address_user_can_view_property_owner_info(entity, Drupal.user.uid)) {
           reference.content = '';
         }
-      }
-      else if (hideFields && in_array(field_name, hiddenFields)) {
-        var label = _reiscout_address_get_entity_field_label(field);
-        var value = _reiscout_address_get_entity_field_value(entity, field_name);
-        
-        reference.content = theme('reiscout_address_hidden_field', {
-          label: label,
-          name: field_name,
-          value: value.value,
-          delta: field.id
-        });
       }
     }
   }
@@ -457,181 +415,6 @@ function _reiscout_address_field_autocomplete_enable(data) {
   }
 }
 
-function _reiscout_address_editable_address_form_show(button) {
-  try {
-    var container = $(button).parent().parent().parent();
-    container.find('#editable-form-value').val(container.find('.editable-view .editable-value').text());
-    container.find('.editable-view, .editable-form').toggle();
-  }
-  catch (error) {
-    console.log('_reiscout_address_editable_address_form_show - ' + error);
-  }
-}
-
-function _reiscout_address_editable_address_form_save(button, nid, type, field, language) {
-  try {
-    if (Drupal.settings.debug) {
-      console.log(['_reiscout_address_editable_address_form_save', nid, type, field, language]);
-    }
-    
-    var container = $(button).parent().parent().parent();
-    var input     = container.find('#editable-form-value');
-    var value     = input.val();
-
-    if (value.length) {
-      Drupal.services.call({
-        method: 'POST',
-        path: 'editableapi/save.json',
-        service: 'editableapi',
-        resource: 'save',
-        data: JSON.stringify({
-          nid: nid,
-          type: type,
-          field: field,
-          language: language,
-          delta: 0,
-          value: value
-        }),
-        success: function(result) {
-          if (Drupal.settings.debug) {
-            console.log(['_reiscout_address_editable_address_form_save.success', result]);
-          }
-
-          container.find('.editable-view .editable-value').text(result.value);
-          container.find('.editable-view, .editable-form').toggle();
-          input.val('');
-        },
-        error: function(xhr, status, message) {
-          if (Drupal.settings.debug) {
-            console.log(['_reiscout_address_editable_address_form_save.error', xhr, status, message]);
-          }
-
-          if (message) {
-            try {
-              message = JSON.parse(message);
-              if (typeof message === 'string') {
-                drupalgap_alert(message);
-              }
-              else if (message instanceof Array) {
-                drupalgap_alert(message.join("\n"));
-              }
-              else {
-                drupalgap_alert(t('Unexpected error occurred'));
-              }
-            }
-            catch (error) {
-              drupalgap_alert(t('Unexpected error occurred'));
-            }
-          }
-        }
-      });
-    }
-    else {
-      container.find('.editable-view, .editable-form').toggle();
-      input.val('');
-    }
-  }
-  catch (error) {
-    console.log('_reiscout_address_editable_address_form_save - ' + error);
-  }
-}
-
-function _reiscout_address_editable_address_form_cancel(button) {
-  try {
-    var container = $(button).parent().parent().parent();
-    container.find('.editable-view, .editable-form').toggle();
-    container.find('#editable-form-value').val('');
-  }
-  catch (error) {
-    console.log('_reiscout_address_editable_address_form_cancel - ' + error);
-  }
-}
-
-function _reiscout_address_property_address_pageshow(options) {
-  try {
-    if (Drupal.settings.debug) {
-      console.log(['_reiscout_address_property_address_pageshow', options]);
-    }
-    
-    $(options.selector).data(options);
-  }
-  catch (error) {
-    console.log('_reiscout_address_property_address_pageshow - ' + error);
-  }
-}
-
-function _reiscout_address_property_hidden_pageshow(options) {
-  try {
-    if (Drupal.settings.debug) {
-      console.log(['_reiscout_address_property_hidden_pageshow', options]);
-    }
-
-    $(options.selector).data('value', options.value);
-  }
-  catch (error) {
-    console.log('_reiscout_address_property_hidden_pageshow - ' + error);
-  }
-}
-
-function _reiscout_address_user_request_address_info(button) {
-  try {
-    if (Drupal.settings.debug) {
-      console.log(['_reiscout_address_user_request_address_info']);
-    }
-
-    if (!Drupal.user.uid) {
-      _reiscout_address_goto('user/login');
-    }
-    else {
-      var container = $(button).parent().parent();
-      var address = container.find('.address-value');
-      var fields = address.data('fields');
-      address.text(address.data('address'));
-      container.find('.address-button').hide();
-
-      for (var i = 0, j = fields.length; i < j; i++) {
-        var fieldContainer = $('.' + fields[i]);
-        if (fieldContainer.length) {
-          var fieldValue = fieldContainer.find('.value');
-          fieldValue.text(fieldValue.data('value'));
-          fieldContainer.show();
-        }
-      }
-
-      drupalgap.loading = true;
-
-      Drupal.services.call({
-        method: 'POST',
-        path: 'addressapi/setview.json',
-        service: 'addressapi',
-        resource: 'setview',
-        data: JSON.stringify({
-          nid: address.data('nid')
-        }),
-        success: function(result) {
-          drupalgap.loading = false;
-
-          if (Drupal.settings.debug) {
-            console.log(['_reiscout_address_user_request_address_info.success', result]);
-          }
-        },
-        error: function(xhr, status, message) {
-          drupalgap.loading = false;
-          
-          if (Drupal.settings.debug) {
-            console.log(['_reiscout_address_user_request_address_info.error', xhr, status, message]);
-          }
-        }
-      });
-    }
-  }
-  catch (error) {
-    drupalgap.loading = false;
-    
-    console.log('_reiscout_address_user_request_address_info - ' + error);
-  }
-}
-
 function _reiscout_address_goto(path, destination) {
   try {
     if (Drupal.settings.debug) {
@@ -691,61 +474,5 @@ function _reiscout_address_path_destination(path, destination) {
   }
   catch (error) {
     console.log('_reiscout_address_path_destination - ' + error);
-  }
-}
-
-function _reiscout_address_get_entity_field_value(entity, field_name) {
-  try {
-    // TODO: find a proper way to get a field value and render it
-    var value = '';
-    var default_lang = language_default();
-    var language = entity.language;
-    if (entity[field_name]) {
-      var items = null;
-      if (entity[field_name][default_lang]) {
-        items = entity[field_name][default_lang];
-        language = default_lang;
-      }
-      else if (entity[field_name][language]) {
-        items = entity[field_name][language];
-      }
-      else if (entity[field_name]['und']) {
-        items = entity[field_name]['und'];
-        language = 'und';
-      }
-
-      if (items && typeof items[0] !== 'undefined') {
-        if (typeof items[0].safe_value !== 'undefined') {
-          value = items[0].safe_value;
-        }
-        else if (typeof items[0].value !== 'undefined') {
-          value = items[0].value;
-        }
-      }
-    }
-
-    return {value: value, language: language};
-  }
-  catch (error) {
-    console.log('_reiscout_address_get_entity_field_value - ' + error);
-  }
-}
-
-function _reiscout_address_get_entity_field_label(field) {
-  try {
-    var display = field.display['default'];
-    if (field.display['drupalgap']) {
-      display = field.display['drupalgap'];
-    }
-
-    var label = '';
-    if (display['label'] !== 'hidden' && typeof field.label === 'string') {
-      label = field.label;
-    }
-
-    return label;
-  }
-  catch (error) {
-    console.log('_reiscout_address_get_entity_field_label - ' + error);
   }
 }
