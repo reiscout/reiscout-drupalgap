@@ -105,9 +105,9 @@ Drupal.settings.cache.views = {
 drupalgap.settings.mode = 'web-app';
 
 // Language Files - locale/[language-code].json
-drupalgap.settings.locale = {
+//drupalgap.settings.locale = {
    /* es: { } */
-};
+//};
 
 /*************|
  * Appearance |
