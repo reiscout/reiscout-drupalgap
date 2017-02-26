@@ -1,8 +1,8 @@
 /**
- * jQuery Geocoding and Places Autocomplete Plugin - V 1.6.5
+ * jQuery Geocoding and Places Autocomplete Plugin - V 1.7.0
  *
- * @author Martin Kleppe <kleppe@ubilabs.net>, 2014
- * @author Ubilabs http://ubilabs.net, 2014
+ * @author Martin Kleppe <kleppe@ubilabs.net>, 2016
+ * @author Ubilabs http://ubilabs.net, 2016
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
 
@@ -83,6 +83,12 @@
   function GeoComplete(input, options) {
 
     this.options = $.extend(true, {}, defaults, options);
+
+    // This is a fix to allow types:[] not to be overridden by defaults
+    // so search results includes everything
+    if (options && options.types) {
+      this.options.types = options.types;
+    }
 
     this.input = input;
     this.$input = $(input);
@@ -342,6 +348,7 @@
       if (this.options.country){
         request.region = this.options.country;
       }
+
       this.geocoder.geocode(request, $.proxy(this.handleGeocode, this));
     },
 

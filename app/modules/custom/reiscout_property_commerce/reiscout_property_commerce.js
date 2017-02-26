@@ -32,18 +32,16 @@ function reiscout_property_commerce_form_commerce_cart_add_to_cart_form_alter(fo
     _commerce_product_display_product_id = node._reiscout_property_commerce_product_id;
 
     // Update cart submit button in depend of product type
-    if (typeof node._reiscout_property_commerce_product_id != undefined
-    && node._reiscout_property_commerce_product_type == 'reiscout_property_address_access') {
-      form.elements.submit.value = 'Buy Address Info';
-      form.elements.submit.access = true;
+    if (typeof node._reiscout_property_commerce_product_type != undefined) {
+      if (node._reiscout_property_commerce_product_type == 'reiscout_property_address_access') {
+        form.elements.submit.value = 'Buy Address Info';
+        form.elements.submit.access = true;
+      }
+      else if (node._reiscout_property_commerce_product_type == 'reiscout_property_owner_info') {
+        form.elements.submit.value = 'Buy Owner Info';
+        form.elements.submit.access = true;
+      }
     }
-
-    if (node._reiscout_property_commerce_product_type != undefined
-    && node._reiscout_property_commerce_product_type == 'reiscout_property_owner_info') {
-      form.elements.submit.value = 'Buy Owner Info';
-      form.elements.submit.access = true;
-    }
-
   } catch (error) {
     console.log('reiscout_property_commerce_form_commerce_cart_add_to_cart_form_alter - ' + error);
   }
