@@ -9,9 +9,9 @@ function reiscout_send_letters_custom_form(form, form_state) {
       path: 'sendletters/checkButtonShow.json',
       service: 'sendletters',
       resource: 'checkButtonShow',
-      contentType: 'application/x-www-form-urlencoded',
-      bundle: null,
-      data: JSON.stringify(form.arguments[0].vid),
+      data: JSON.stringify({
+        nid: form.arguments[0].nid
+      }),
       success: function(data) {
         if (data.viewSendLetters == 1) {
           $('#reiscout_send_letters_custom_form').css("display", "block");
@@ -43,11 +43,9 @@ function reiscout_send_letters_custom_form_submit(form, form_state) {
       path: 'sendletters/sendLetter.json',
       service: 'sendletters',
       resource: 'sendLetter',
-      contentType: 'application/x-www-form-urlencoded',
-      //entity_type: 'commerce_order',
-      //entity_id: order.order_id,
-      bundle: null,
-      data: JSON.stringify(form.arguments[0].vid),
+      data: JSON.stringify({
+        nid: form.arguments[0].nid
+      }),
       success: function(data) {
         try {
           drupalgap_alert('The letter been sent');

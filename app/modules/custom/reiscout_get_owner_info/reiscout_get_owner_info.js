@@ -9,9 +9,9 @@ function reiscout_get_owner_info_custom_form(form, form_state) {
       path: 'ownerinfo/checkButtonShow.json',
       service: 'ownerinfo',
       resource: 'checkButtonShow',
-      contentType: 'application/x-www-form-urlencoded',
-      bundle: null,
-      data: JSON.stringify(form.arguments[0].vid),
+      data: JSON.stringify({
+        nid: form.arguments[0].nid
+      }),
       success: function(data) {
         if (data.viewGetOwnerInfo == 1) {
           $('#reiscout_get_owner_info_custom_form').css("display", "block");
@@ -43,9 +43,9 @@ function reiscout_get_owner_info_custom_form_submit(form, form_state) {
       path: 'ownerinfo/getinfo.json',
       service: 'ownerinfo',
       resource: 'getinfo',
-      contentType: 'application/x-www-form-urlencoded',
-      bundle: null,
-      data: JSON.stringify(form.arguments[0].vid),
+      data: JSON.stringify({
+        nid: form.arguments[0].nid
+      }),
       success: function(data) {
         try {
           drupalgap_alert('Success');
