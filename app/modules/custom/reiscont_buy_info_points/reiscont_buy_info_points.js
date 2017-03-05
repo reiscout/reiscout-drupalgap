@@ -6,7 +6,7 @@ function reiscout_buy_info_points_custom_form(form, form_state) {
     form.options.attributes['style'] = 'display: none';
     form.elements['submit'] = {
       type: 'submit',
-      value: 'Buy Info Points'
+      value: 'Buy Get Owner Info Points'
     };
     return form;
   }

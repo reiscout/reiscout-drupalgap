@@ -48,7 +48,7 @@ function reiscout_get_owner_info_custom_form_submit(form, form_state) {
       }),
       success: function(data) {
         try {
-          drupalgap_alert('Success');
+          drupalgap_alert('Property owner information update. Check corresponding content fields.');
           drupalgap_goto(drupalgap_path_get(), {reloadPage:true});
         }
         catch (error) { console.log('reiscout_get_owner_info_custom_form_submit - success - ' + error); }
@@ -63,4 +63,3 @@ function reiscout_get_owner_info_custom_form_submit(form, form_state) {
   }
   catch (error) { console.log('reiscout_get_owner_info_custom_form_submit - ' + error); }
 }
-

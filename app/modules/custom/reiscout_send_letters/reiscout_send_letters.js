@@ -1,6 +1,6 @@
 /**
  * Define the form.
- * * Add send letters form and check what form we need to show
+ * Add send letters form and check what form we need to show.
  */
 function reiscout_send_letters_custom_form(form, form_state) {
   try {
@@ -25,7 +25,8 @@ function reiscout_send_letters_custom_form(form, form_state) {
     form.options.attributes['style'] = 'display: none';
     form.elements['submit'] = {
       type: 'submit',
-      value: 'Send Owner a Mail'
+      value: 'Send Owner a Mail',
+      description: 'This will send to property owner a mail which template selected on for your user profile as default.'
     };
     return form;
   }
@@ -48,13 +49,13 @@ function reiscout_send_letters_custom_form_submit(form, form_state) {
       }),
       success: function(data) {
         try {
-          drupalgap_alert('The letter been sent');
+          drupalgap_alert('The letter has been sent.');
         }
         catch (error) { console.log('reiscout_send_letters_custom_form_submit - success - ' + error); }
       },
       error: function(xhr, status, message) {
         try {
-          drupalgap_alert('Something went wrong');
+          drupalgap_alert('Something went wrong.');
         }
         catch (error) { console.log('reiscout_send_letters_custom_form_submit - error - ' + error); }
       }
