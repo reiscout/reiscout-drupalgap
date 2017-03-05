@@ -1,31 +1,42 @@
 /**
+ * Implements hook_install().
+ */
+function reiscout_property_install() {
+  try {
+    drupalgap_add_css(drupalgap_get_path('module', 'reiscout_property') + '/reiscout_property.css');
+  }
+  catch (error) {
+    console.log('reiscout_property_install - ' + error);
+  }
+}
+
+/**
  * Implements hook_form_alter().
  */
 function reiscout_property_form_alter(form, form_state, form_id) {
   try {
     if (form_id == 'node_edit' && form.bundle == 'property') {
-      // On property node edit forms, hide title field and set some non-empty value
-      // In will be autopopulated on server side on save.
-      form.elements['title'].prefix = '<div style="display: none;">';
-      form.elements['title'].suffix = '</div>';
+      // The title field is hidden using CSS. Here we set its value to some text.
+      // The field value will be filled with real value on a server side on save.
       form.elements['title'].default_value = 'value placeholder';
 
       // Hide some fields fro now
-      var hide_fields = [
+      var fields = [
         // hide owner fields
-        'field_owner_fname', 'field_owner_lname', 'field_owner_phone', 'field_owner_address',
+        'field_owner_fname', 'field_owner_lname', 'field_owner_phone', 'field_owner_address', 'field_owner_postal_address',
         // hide product field
-        'field_product',
+        'field_owner_info_product',
+        'field_address_access_product',
         // hide property info fields
-        'field_under_contract', 'field_arv', 	'field_repairs_price', 'field_mortgage_company', 'field_assessed_value',
+        'field_under_contract', 'field_arv', 'field_repairs_price', 'field_mortgage_company', 'field_assessed_value',
         'field_last_purchase_time', 'field_last_purchase_price', 'field_lot_size', 'field_bathrooms',
-        'field_bedrooms', 'field_size', 'field_zillow_mls', 'field_zillow_status', 'field_zillow_zpid'
+        'field_bedrooms', 'field_size', 'field_zillow_mls', 'field_zillow_status', 'field_zillow_zpid',
+        'field_address_text'
       ];
-      for (var i in hide_fields) {
-        var fieldname = hide_fields[i];
+      for (var i in fields) {
+        var fieldname = fields[i];
         if (form.elements[fieldname]) {
-          form.elements[fieldname].prefix = '<div style="display: none;">';
-          form.elements[fieldname].suffix = '</div>';
+          form.elements[fieldname].access = false;
         }
       }
     }

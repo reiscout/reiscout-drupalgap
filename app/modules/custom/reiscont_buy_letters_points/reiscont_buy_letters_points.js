@@ -3,6 +3,7 @@
  */
 function reiscont_buy_letters_points_custom_form(form, form_state) {
   try {
+    //we add form to view and hide it. After in reiscout_send_letters_custom_form we show form if it needs
     form.options.attributes['style'] = 'display: none';
     form.elements['submit'] = {
       type: 'submit',
@@ -15,6 +16,7 @@ function reiscont_buy_letters_points_custom_form(form, form_state) {
 
 /**
  * Define the form's submit function.
+ * This form adds to cart letters points
  */
 function reiscont_buy_letters_points_custom_form_submit(form, form_state) {
   try {
@@ -48,7 +50,6 @@ function reiscont_buy_letters_points_custom_form_submit(form, form_state) {
 }
 
 function _commerce_line_letters_item_add_to_order(options) {
-  console.log(options);
   try {
     var product_id = 597; //  /admin/commerce/products/list?sku=point
     commerce_line_item_create({

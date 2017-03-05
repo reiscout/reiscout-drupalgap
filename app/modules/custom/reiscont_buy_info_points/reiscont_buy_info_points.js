@@ -15,6 +15,7 @@ function reiscout_buy_info_points_custom_form(form, form_state) {
 
 /**
  * Define the form's submit function.
+ * This form adds to cart info points
  */
 function reiscout_buy_info_points_custom_form_submit(form, form_state) {
   try {
@@ -48,7 +49,6 @@ function reiscout_buy_info_points_custom_form_submit(form, form_state) {
 }
 
 function _commerce_line_point_item_add_to_order(options) {
-  console.log(options);
   try {
     var product_id = 596; //  /admin/commerce/products/list?sku=point
     commerce_line_item_create({

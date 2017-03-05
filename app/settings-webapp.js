@@ -105,9 +105,9 @@ Drupal.settings.cache.views = {
 drupalgap.settings.mode = 'web-app';
 
 // Language Files - locale/[language-code].json
-drupalgap.settings.locale = {
+//drupalgap.settings.locale = {
    /* es: { } */
-};
+//};
 
 /*************|
  * Appearance |
@@ -164,9 +164,9 @@ Drupal.modules.contrib['addressfield'] = {};
 
 /** Custom Modules - www/app/modules/custom **/
 Drupal.modules.custom['reiscout_property'] = {};
+Drupal.modules.custom['reiscout_purchased_addresses'] = {};
 Drupal.modules.custom['reiscout_address'] = {
   includes: [
-    {name: 'reiscout_address.theme'},
     {name: 'reiscout_address.forms'}
   ]
 };
