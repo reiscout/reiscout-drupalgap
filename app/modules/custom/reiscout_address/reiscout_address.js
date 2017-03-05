@@ -113,8 +113,8 @@ function reiscout_address_form_alter(form, form_state, form_id) {
 
             var widget_id = drupalgap_form_get_element_id('field-address', form.id, 'und', 0);
 
-            // If this form is for node editing.
-            if (typeof elements.field_address.und[0].item !== 'undefined') {
+            if (typeof elements.field_address.und[0].item !== 'undefined'
+             && typeof elements.field_address.und[0].item.data_json !== 'undefined') {
               var data_json = JSON.parse(elements.field_address.und[0].item.data_json);
             }
 
