@@ -15,7 +15,7 @@ Drupal.settings.debug = false;
 /* DRUPAL PATHS */
 
 // Site Path (do not use a trailing slash)
-Drupal.settings.site_path = 'http://dev2.reiscout.com'; // e.g. http://www.example.com
+Drupal.settings.site_path = 'https://reiscout.com'; // e.g. http://www.example.com
 
 // Default Services Endpoint Path
 Drupal.settings.endpoint = 'drupalgap';
@@ -105,9 +105,9 @@ Drupal.settings.cache.views = {
 drupalgap.settings.mode = 'phonegap';
 
 // Language Files - locale/[language-code].json
-drupalgap.settings.locale = {
+//drupalgap.settings.locale = {
    /* es: { } */
-};
+//};
 
 /*************|
  * Appearance |
@@ -164,17 +164,17 @@ Drupal.modules.contrib['addressfield'] = {};
 
 /** Custom Modules - www/app/modules/custom **/
 Drupal.modules.custom['reiscout_property'] = {};
+Drupal.modules.custom['reiscout_purchased_addresses'] = {};
 Drupal.modules.custom['reiscout_address'] = {
   includes: [
-    {name: 'reiscout_address.theme'},
     {name: 'reiscout_address.forms'}
   ]
 };
-Drupal.modules.custom['reiscout_property_commerce'] = {};
 Drupal.modules.custom['reiscout_get_owner_info'] = {};
 Drupal.modules.custom['reiscont_buy_info_points'] = {};
 Drupal.modules.custom['reiscout_send_letters'] = {};
 Drupal.modules.custom['reiscont_buy_letters_points'] = {};
+Drupal.modules.custom['reiscout_property_commerce'] = {};
 
 drupalgap.settings.stripe_api_key = 'pk_test_wbtsk9Um4YdkftiHOgfcPUWF';
 

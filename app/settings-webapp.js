@@ -170,13 +170,10 @@ Drupal.modules.custom['reiscout_address'] = {
     {name: 'reiscout_address.forms'}
   ]
 };
-
 Drupal.modules.custom['reiscout_get_owner_info'] = {};
 Drupal.modules.custom['reiscont_buy_info_points'] = {};
-
 Drupal.modules.custom['reiscout_send_letters'] = {};
 Drupal.modules.custom['reiscont_buy_letters_points'] = {};
-
 Drupal.modules.custom['reiscout_property_commerce'] = {};
 
 drupalgap.settings.stripe_api_key = 'pk_test_wbtsk9Um4YdkftiHOgfcPUWF';
@@ -323,11 +320,10 @@ drupalgap.settings.blocks.reiscout = {
         mode: 'include',
       }
     },
-
     //main_menu: { }
   },
   sub_header: {
-    title: { },
+    title: { }
   },
   navigation: {
     commerce_cart: {
@@ -336,11 +332,11 @@ drupalgap.settings.blocks.reiscout = {
         value: ['cart', 'checkout/*', 'checkout/shipping/*']
       }
     },
-    primary_local_tasks: { },
+    primary_local_tasks: { }
   },
   content: {
     messages: { },
-    main: { },
+    main: { }
   },
   footer: { }
 };
