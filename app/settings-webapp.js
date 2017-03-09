@@ -429,6 +429,13 @@ drupalgap.settings.menus.regions['footer'] = {
   ]
 };
 
+/**************|
+ * Google Maps |
+ **************/
+drupalgap.settings.google_maps = {
+  javascript_api_key: 'AIzaSyBx9gwBnaYdWhHbxOQE9h7I-ZV96YUxrHs'
+};
+
 /*********|
  * Camera |
  **********/
