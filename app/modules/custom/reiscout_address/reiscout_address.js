@@ -7,10 +7,9 @@
 function reiscout_address_install() {
   try {
     // Add libs required by address autocomplete feature.
-    var module_path = drupalgap_get_path('module', 'reiscout_address');
     drupalgap_add_js('https://maps.googleapis.com/maps/api/js?libraries=places&key=' + drupalgap.settings.google_maps.javascript_api_key);
     drupalgap_add_js('app/libraries/geocomplete/jquery.geocomplete.min.js');
-    drupalgap_add_css(module_path + '/reiscout_address.css');
+    drupalgap_add_css(drupalgap_get_path('module', 'reiscout_address') + '/reiscout_address.css');
   }
   catch (error) {
     console.log('reiscout_address_install - ' + error);
