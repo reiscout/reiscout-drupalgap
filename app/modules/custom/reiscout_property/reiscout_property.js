@@ -51,6 +51,7 @@ function reiscout_property_form_alter(form, form_state, form_id) {
  */
 function reiscout_property_menu() {
   var items = {};
+
   items['property-listing'] = {
     title: 'Reiscout',
     page_callback: 'reiscout_property_listing_page'
@@ -61,7 +62,6 @@ function reiscout_property_menu() {
     page_callback: 'reiscout_property_my_properties_view_page'
   };
 
-
   return items;
 }
 
@@ -71,6 +71,7 @@ function reiscout_property_menu() {
 function reiscout_property_listing_page() {
   try {
     var content = {};
+
     content['reiscout_property_listing'] = {
       theme: 'view',
       format: 'unformatted_list',
@@ -81,6 +82,7 @@ function reiscout_property_listing_page() {
         id: 'reiscout_property_listing_view'
       }
     };
+
     return content;
   }
   catch (error) {
