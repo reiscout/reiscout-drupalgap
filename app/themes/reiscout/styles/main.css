@@ -9,31 +9,27 @@
 }
 
 /* Styles for property listing */
-#reiscout_property_listing_view .view-row {
+.view-row {
+	margin-bottom: 35px;
 	padding-bottom: 10px;
 	border-bottom: 1px solid rgb(145, 158, 169);
-	margin-bottom: 35px;
+	text-align: center;
 }
 
-#reiscout_property_listing_view .address {
+.view-row:last-child {
+	border-bottom: none;
+}
+
+.view-row .address {
 	margin: 15px 0;
+}
+
+.view-row a.ui-link {
 	text-decoration: none;
 }
 
-#reiscout_property_listing_view img {
-	margin-left: 20px;
-}
-
-#reiscout_property_listing_view a.ui-link {
-	color: rgba(145, 158, 169, 0.7);
-	text-decoration: none;
-	font-weight: 300;
-}
-
-#reiscout_property_listing_view a.ui-link:hover {
-	color: rgb(128, 141, 152);
-	font-weight: 300;
-	text-shadow: 1px 1px 0 rgb(128, 141, 152);
+.view-row a.ui-link:hover {
+	text-decoration: underline;
 }
 
 /* Splash screen */
