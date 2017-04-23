@@ -55,12 +55,12 @@ function reiscout_purchased_addresses_list_page() {
  */
 function reiscout_purchased_addresses_list_row(view, row) {
   try {
-    image = theme('image', {
+    var image = theme('image', {
       path: row.image.src,
       alt: row.image.alt
     });
 
-    title = l(t(row.address), 'node/' + row.nid);
+    var title = l(t(row.address), 'node/' + row.nid);
 
     return '<div class="image">' + image + '</div>'
          + '<div class="title">' + title + '</div>';

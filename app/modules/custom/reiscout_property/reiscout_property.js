@@ -120,17 +120,23 @@ function reiscout_property_listing_page() {
  */
 function reiscout_property_listing_row(view, row) {
   try {
+    var row_html = '';
+
     if (row.image.src && typeof row.image.src !== "undefined") {
-      var row_html = '';
-      row_html += '<img src="' + row.image.src + '">';
+      var image = theme('image', {
+        path: row.image.src,
+        alt: row.image.alt
+      });
+      row_html = '<div class="image">' + image + '</div>';
+
       if (row.address && row.address.length) {
         row_html += '<div class="address">' + row.address + '</div>';
       }
-      row_html = l(row_html, 'node/' + row.nid);
-      return '<div class="view-row">' + row_html + '</div>';
-    } else {
-      return '';
+
+      row_html = '<div class="view-row">' + l(row_html, 'node/' + row.nid) + '</div>';
     }
+
+    return row_html;
   }
   catch (error) {
     console.log('reiscout_property_listing_row - ' + error);
