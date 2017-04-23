@@ -57,6 +57,13 @@ function reiscout_property_form_alter(form, form_state, form_id) {
           form.elements[fieldname].access = false;
         }
       }
+
+      if (!Drupal.user.content_types_user_permissions.property.delete_own
+       && !Drupal.user.content_types_user_permissions.property.delete_any) {
+        if ('undefined' !== typeof form.buttons.delete) {
+          delete form.buttons.delete;
+        }
+      }
     }
   }
   catch (error) {
