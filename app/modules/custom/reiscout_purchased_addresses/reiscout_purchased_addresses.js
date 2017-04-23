@@ -1,16 +1,4 @@
 /**
- * Implements hook_install().
- */
-function reiscout_purchased_addresses_install() {
-  try {
-    drupalgap_add_css(drupalgap_get_path('module', 'reiscout_purchased_addresses') + '/reiscout_purchased_addresses.css');
-  }
-  catch (error) {
-    console.log('reiscout_purchased_addresses_install - ' + error);
-  }
-}
-
-/**
  * Implements hook_menu().
  * @return {Object}
  */
