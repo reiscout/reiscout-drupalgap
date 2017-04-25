@@ -1,16 +1,4 @@
 /**
- * Implements hook_install().
- */
-function reiscout_property_install() {
-  try {
-    drupalgap_add_css(drupalgap_get_path('module', 'reiscout_property') + '/reiscout_property.css');
-  }
-  catch (error) {
-    console.log('reiscout_property_install - ' + error);
-  }
-}
-
-/**
  * Implements hook_page_build().
  */
 function reiscout_property_page_build(output) {
