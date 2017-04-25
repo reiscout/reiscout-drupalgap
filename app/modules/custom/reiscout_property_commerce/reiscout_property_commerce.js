@@ -37,14 +37,9 @@ function reiscout_property_commerce_form_commerce_cart_add_to_cart_form_alter(fo
         form.elements.submit.value = 'Buy Address Info';
         form.elements.submit.access = true;
       }
-      else if (node._reiscout_property_commerce_product_type == 'reiscout_property_owner_info') {
-        form.elements.submit.value = 'Buy Owner Info';
-        form.elements.submit.access = true;
-      }
     }
   }
   catch (error) {
     console.log('reiscout_property_commerce_form_commerce_cart_add_to_cart_form_alter - ' + error);
   }
 }
-
