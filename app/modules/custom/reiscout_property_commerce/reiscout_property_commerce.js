@@ -1,4 +1,3 @@
-
 /**
  * Implements hook_form_alter().
  */
@@ -8,7 +7,8 @@ function reiscout_property_commerce_form_alter(form, form_state, form_id) {
     if (form_id == 'commerce_cart_add_to_cart_form' && typeof form.bundle != undefined && form.bundle == 'property') {
       reiscout_property_commerce_form_commerce_cart_add_to_cart_form_alter(form, form_state);
     }
-  }catch (error) {
+  }
+  catch (error) {
     console.log('reiscout_property_commerce_form_alter - ' + error);
   }
 }
@@ -42,7 +42,8 @@ function reiscout_property_commerce_form_commerce_cart_add_to_cart_form_alter(fo
         form.elements.submit.access = true;
       }
     }
-  } catch (error) {
+  }
+  catch (error) {
     console.log('reiscout_property_commerce_form_commerce_cart_add_to_cart_form_alter - ' + error);
   }
 }
