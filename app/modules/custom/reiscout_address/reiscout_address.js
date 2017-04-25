@@ -226,13 +226,9 @@ function reiscout_address_field_widget_form(form, form_state, field, instance, l
 function reiscout_address_entity_post_render_field(entity, field_name, field, reference) {
   try {
     if (field.entity_type === 'node' && field.bundle === 'property') {
-      var fields_owner_info = ['field_owner_fname', 'field_owner_lname', 'field_owner_address', 'field_owner_phone'];
+      var fields_owner_info = ['field_owner_postal_address', 'field_owner_phone'];
 
-      if (field_name === 'field_address_text') {
-        // Remove field_address_text field's content till the field will be deleted.
-        reference.content = '';
-      }
-      else if (field_name == 'field_address') {
+      if (field_name == 'field_address') {
         if (!_reiscout_address_user_can_view_property_address(entity, Drupal.user.uid)) {
           reference.content = '';
         }
