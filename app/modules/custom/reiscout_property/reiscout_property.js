@@ -201,3 +201,55 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
     console.log('reiscout_property_entity_post_render_field - ' + error);
   }
 }
+
+/**
+ * Defines if a user has an access to view a property's address.
+ *
+ * User may see a property's address if:
+ * - he is a property's author OR
+ * - he has bought a property's address.
+ *
+ * @param {object} entity
+ * @param {int} uid
+ * @returns {boolean}
+ */
+function _reiscout_property_user_can_view_property_address(entity, uid) {
+  // If user is a property's author.
+  if (entity.uid == uid) {
+    return true;
+  }
+
+  // If user has bought a property's address.
+  if (typeof entity._user_bought_address_access_product !== 'undefined'
+    && entity._user_bought_address_access_product === true) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Defines if user has an access to view a property's owner info.
+ *
+ * User may see info about property's owner if:
+ * - he is a property's author OR
+ * - he has bought a property's address.
+ *
+ * @param {object} entity
+ * @param {int} uid
+ * @returns {boolean}
+ */
+function _reiscout_property_user_can_view_property_owner_info(entity, uid) {
+  // If user is a property's author.
+  if (entity.uid == uid) {
+    return true;
+  }
+
+  // If user has bought a property's address.
+  if (typeof entity._user_bought_address_access_product !== 'undefined'
+    && entity._user_bought_address_access_product === true) {
+    return true;
+  }
+
+  return false;
+}

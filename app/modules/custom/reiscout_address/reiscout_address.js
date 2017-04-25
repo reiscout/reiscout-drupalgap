@@ -229,12 +229,12 @@ function reiscout_address_entity_post_render_field(entity, field_name, field, re
       var fields_owner_info = ['field_owner_postal_address', 'field_owner_phone'];
 
       if (field_name == 'field_address') {
-        if (!_reiscout_address_user_can_view_property_address(entity, Drupal.user.uid)) {
+        if (!_reiscout_property_user_can_view_property_address(entity, Drupal.user.uid)) {
           reference.content = '';
         }
       }
       else if (in_array(field_name, fields_owner_info)) {
-        if (!_reiscout_address_user_can_view_property_owner_info(entity, Drupal.user.uid)) {
+        if (!_reiscout_property_user_can_view_property_owner_info(entity, Drupal.user.uid)) {
           reference.content = '';
         }
       }
@@ -243,56 +243,6 @@ function reiscout_address_entity_post_render_field(entity, field_name, field, re
   catch (error) {
     console.log('reiscout_address_entity_post_render_field - ' + error);
   }
-}
-
-/**
- * Defines if user has an access to view a property's address.
- *
- * We grant an access only to a user who is either a property's
- * author or bought an 'Address Access' product.
- *
- * @param {object} entity
- * @param {int} uid
- * @returns {boolean}
- */
-function _reiscout_address_user_can_view_property_address(entity, uid) {
-  // If user is a property's author.
-  if (entity.uid == uid) {
-    return true;
-  }
-
-  // If user bought an 'Address Access' product.
-  if (typeof entity._user_bought_address_access_product !== 'undefined'
-   && entity._user_bought_address_access_product === true) {
-    return true;
-  }
-
-  return false;
-}
-
-/**
- * Defines if user has an access to view a property's owner info.
- *
- * We grant an access only to a user who is either a property's
- * author or bought an 'Owner Info' product.
- *
- * @param {object} entity
- * @param {int} uid
- * @returns {boolean}
- */
-function _reiscout_address_user_can_view_property_owner_info(entity, uid) {
-  // If user is a property's author.
-  if (entity.uid == uid) {
-    return true;
-  }
-
-  // If user bought an 'Owner Info' product.
-  if (typeof entity._user_bought_owner_info_product !== 'undefined'
-   && entity._user_bought_owner_info_product === true) {
-    return true;
-  }
-
-  return false;
 }
 
 function _reiscout_address_getposition_click(position_id, address_id) {
