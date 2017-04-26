@@ -48,8 +48,14 @@ function reiscout_get_owner_info_custom_form_submit(form, form_state) {
       }),
       success: function(data) {
         try {
-          drupalgap_alert('Property owner information update. Check corresponding content fields.');
-          drupalgap_goto(drupalgap_path_get(), {reloadPage:true});
+          if (data.status) {
+            drupalgap_set_message("Information about the property's owner has been updated.");
+            drupalgap_goto(drupalgap_path_get(), {reloadPage: true});
+          }
+          else {
+            drupalgap_set_message("Information about the property's owner cannot be updated. Please, try again later or contact technical support for assistance!", 'error');
+            drupalgap_goto(drupalgap_path_get(), {reloadPage: true});
+          }
         }
         catch (error) { console.log('reiscout_get_owner_info_custom_form_submit - success - ' + error); }
       },
