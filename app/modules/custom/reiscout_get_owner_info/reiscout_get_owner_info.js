@@ -2,7 +2,7 @@
  * Define the form.
  * Add owner info form and check what form we need to show
  */
-function reiscout_get_owner_info_custom_form(form, form_state) {
+function reiscout_get_owner_info_custom_form(form, form_state, product_display) {
   try {
     Drupal.services.call({
       method: 'POST',
@@ -10,16 +10,17 @@ function reiscout_get_owner_info_custom_form(form, form_state) {
       service: 'ownerinfo',
       resource: 'checkButtonShow',
       data: JSON.stringify({
-        nid: form.arguments[0].nid
+        nid: product_display.nid
       }),
       success: function(data) {
-        if (data.viewGetOwnerInfo == 1) {
-          $('#reiscout_get_owner_info_custom_form').css("display", "block");
+        if (data.viewGetOwnerInfo) {
+          $('#edit-reiscout-get-owner-info-custom-form-submit').html(data.btnGetOwnerInfoTitle);
+          $('#reiscout_get_owner_info_custom_form').show();
         }
-        if (data.viewBuyInfoPoints == 1) {
-          $('#reiscout_buy_info_points_custom_form').css("display", "block");
+        if (data.viewBuyInfoPoints) {
+          $('#reiscout_buy_info_points_custom_form').show();
         }
-      },
+      }
     });
 
     form.options.attributes['style'] = 'display: none';
