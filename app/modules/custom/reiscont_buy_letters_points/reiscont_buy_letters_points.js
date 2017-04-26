@@ -7,7 +7,7 @@ function reiscont_buy_letters_points_custom_form(form, form_state) {
     form.options.attributes['style'] = 'display: none';
     form.elements['submit'] = {
       type: 'submit',
-      value: 'Buy Send Letter Points'
+      value: 'Buy Ability to Send Letter'
     };
     return form;
   }

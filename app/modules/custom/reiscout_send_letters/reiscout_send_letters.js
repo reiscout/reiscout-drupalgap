@@ -19,14 +19,14 @@ function reiscout_send_letters_custom_form(form, form_state) {
         if (data.viewBuyLettersPoints == 1) {
           $('#reiscont_buy_letters_points_custom_form').css("display", "block");
         }
-      },
+      }
     });
 
     form.options.attributes['style'] = 'display: none';
     form.elements['submit'] = {
       type: 'submit',
-      value: 'Send Owner a Mail',
-      description: 'This will send to property owner a mail which template selected on for your user profile as default.'
+      value: 'Send a letter to Property Owner',
+      description: "Send a letter to the property's owner using a template that is selected in your user profile."
     };
     return form;
   }
@@ -63,4 +63,3 @@ function reiscout_send_letters_custom_form_submit(form, form_state) {
   }
   catch (error) { console.log('reiscout_send_letters_custom_form_submit - ' + error); }
 }
-
