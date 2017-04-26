@@ -38,8 +38,12 @@
 }
 
 /* Property page */
-.node.node-view h2 {
+.node.node-view h2:first-child {
     display: none;
+}
+
+.node.node-view h3 {
+    margin: 0.8em 0 0.3em 0;
 }
 
 .node.ui-page .region_sub_header {
@@ -53,4 +57,8 @@
 
 #node_edit .field-name-title {
     display: none;
+}
+
+#commerce_cart .ui-listview h2 {
+    margin-top: 1.5em;
 }
