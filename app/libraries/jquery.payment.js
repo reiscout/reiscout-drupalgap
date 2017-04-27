@@ -20,15 +20,8 @@
 
   $.payment.cards = cards = [
     {
-      type: 'visaelectron',
-      patterns: [4026, 417500, 4405, 4508, 4844, 4913, 4917],
-      format: defaultFormat,
-      length: [16],
-      cvcLength: [3],
-      luhn: true
-    }, {
       type: 'maestro',
-      patterns: [5018, 502, 503, 56, 58, 639, 6220, 67],
+      patterns: [5018, 502, 503, 506, 56, 58, 639, 6220, 67],
       format: defaultFormat,
       length: [12, 13, 14, 15, 16, 17, 18, 19],
       cvcLength: [3],
@@ -158,7 +151,7 @@
   };
 
   safeVal = function(value, $target) {
-    var cursor, error, last;
+    var currPair, cursor, digit, error, last, prevPair;
     try {
       cursor = $target.prop('selectionStart');
     } catch (_error) {
@@ -170,6 +163,14 @@
     if (cursor !== null && $target.is(":focus")) {
       if (cursor === last.length) {
         cursor = value.length;
+      }
+      if (last !== value) {
+        prevPair = last.slice(cursor - 1, +cursor + 1 || 9e9);
+        currPair = value.slice(cursor - 1, +cursor + 1 || 9e9);
+        digit = value[cursor];
+        if (/\d/.test(digit) && prevPair === ("" + digit + " ") && currPair === (" " + digit)) {
+          cursor = cursor + 1;
+        }
       }
       $target.prop('selectionStart', cursor);
       return $target.prop('selectionEnd', cursor);
