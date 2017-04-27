@@ -2,7 +2,7 @@
  * Define the form.
  * Add send letters form and check what form we need to show.
  */
-function reiscout_send_letters_custom_form(form, form_state) {
+function reiscout_send_letters_custom_form(form, form_state, product_display) {
   try {
     Drupal.services.call({
       method: 'POST',
@@ -10,14 +10,15 @@ function reiscout_send_letters_custom_form(form, form_state) {
       service: 'sendletters',
       resource: 'checkButtonShow',
       data: JSON.stringify({
-        nid: form.arguments[0].nid
+        nid: product_display.nid
       }),
       success: function(data) {
-        if (data.viewSendLetters == 1) {
-          $('#reiscout_send_letters_custom_form').css("display", "block");
+        if (data.viewSendLetters) {
+          $('#edit-reiscout-send-letters-custom-form-submit').html(data.btnSendLetterTitle);
+          $('#reiscout_send_letters_custom_form').show();
         }
-        if (data.viewBuyLettersPoints == 1) {
-          $('#reiscont_buy_letters_points_custom_form').css("display", "block");
+        if (data.viewBuyLettersPoints) {
+          $('#reiscont_buy_letters_points_custom_form').show();
         }
       }
     });
@@ -49,7 +50,14 @@ function reiscout_send_letters_custom_form_submit(form, form_state) {
       }),
       success: function(data) {
         try {
-          drupalgap_alert('The letter has been sent.');
+          if (data.status) {
+            drupalgap_set_message(data.message);
+            drupalgap_goto(drupalgap_path_get(), {reloadPage: true});
+          }
+          else {
+            drupalgap_set_message("Letter to the property's owner cannot be sent. Please, try again later or contact technical support for assistance!", 'error');
+            drupalgap_goto(drupalgap_path_get(), {reloadPage: true});
+          }
         }
         catch (error) { console.log('reiscout_send_letters_custom_form_submit - success - ' + error); }
       },
