@@ -46,6 +46,10 @@
     margin: 0.8em 0 0.3em 0;
 }
 
+.node.node-view .body {
+    font-size: 0.8em;
+}
+
 .node.ui-page .region_sub_header {
     display: none;
 }
@@ -61,4 +65,8 @@
 
 #commerce_cart .ui-listview h2 {
     margin-top: 1.5em;
+}
+
+#edit-reiscout-send-letters-custom-form-submit {
+    font-size: 12px;
 }
