@@ -1,4 +1,26 @@
 /**
+ * Implements hook_services_postprocess().
+ * @param {Object} options
+ * @param {Object} result
+ */
+function reiscout_property_commerce_services_postprocess(options, result) {
+  try {
+    if (options.service == 'checkout_complete' && options.resource == 'create') {
+      // If we're on the checkout complete page, inject a link to the 'Purchased Addresses' page.
+      if ('checkout/complete/%' == drupalgap_router_path_get()) {
+        var order_id = arg(2);
+        var container = $('#commerce_checkout_complete_' + order_id);
+        if (container.length) {
+          var html = '<div id="link">' + l('Go to purchased addresses list', 'purchased-addresses') + '<div>';
+          $(container).append(html).trigger('create');
+        }
+      }
+    }
+  }
+  catch (error) { console.log('reiscout_property_commerce_services_postprocess - ' + error); }
+}
+
+/**
  * Implements hook_form_alter().
  */
 function reiscout_property_commerce_form_alter(form, form_state, form_id) {
