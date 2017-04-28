@@ -121,7 +121,7 @@ function reiscout_property_listing_row(view, row) {
         row_html += '<div class="address">' + row.address + '</div>';
       }
 
-      row_html = '<div class="view-row">' + l(row_html, 'node/' + row.nid) + '</div>';
+      row_html = '<div class="view-row">' + l(row_html, 'node/' + row.nid, {reloadPage: true}) + '</div>';
     }
 
     return row_html;

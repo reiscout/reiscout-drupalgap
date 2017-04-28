@@ -51,7 +51,7 @@ function reiscout_purchased_addresses_list_row(view, row) {
     var html = '<div class="image">' + image + '</div>'
              + '<div class="address">' + row.address + '</div>';
 
-    return '<div class="view-row">' + l(html, 'node/' + row.nid) + '</div>';
+    return '<div class="view-row">' + l(html, 'node/' + row.nid, {reloadPage: true}) + '</div>';
   }
   catch (error) {
     console.log('reiscout_purchased_addresses_list_row - ' + error);
