@@ -70,3 +70,8 @@
 #edit-reiscout-send-letters-custom-form-submit {
     font-size: 12px;
 }
+
+div[id^='commerce_checkout_complete_'] #link {
+    margin-top: 10px;
+    text-align: center;
+}
