@@ -1,4 +1,5 @@
 .DS_Store
+.idea
 
 cordova*js
 #app/modules/*
