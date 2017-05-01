@@ -591,6 +591,11 @@ function _addressfield_field_widget_form_country_onchange(select, widget_id, del
         // Try to grab the field instance.
         var entityType = $(select).attr('entity_type');
         var bundle = $(select).attr('bundle');
+        // We need to set a bundle, otherwise the widget will not work
+        // for entities that has not a bundle, for example, user entity.
+        if (typeof bundle === 'undefined') {
+          bundle = entityType;
+        }
         var instance = entityType && bundle && field_name.indexOf('field_') != -1 ?
             drupalgap_field_info_instance(entityType, field_name, bundle) : null;
 
