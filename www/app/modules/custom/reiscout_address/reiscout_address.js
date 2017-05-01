@@ -51,69 +51,7 @@ function reiscout_address_form_alter(form, form_state, form_id) {
       if (typeof elements.field_user_postal_address !== 'undefined') {
         if (elements.field_user_postal_address.type === 'addressfield') {
           if (elements.field_user_postal_address.field_info_instance.widget.type == 'addressfield_autocomplete') {
-            // A value that is stored in field_info_instance.widget.module property defines what
-            // module will provide a widget for the field. addressfield_autocomplete module is not
-            // exists, so we set it to 'reiscout_address' and now _drupalgap_form_render_element()
-            // will call reiscout_address_field_widget_form().
-            elements.field_user_postal_address.field_info_instance.widget.module = 'reiscout_address';
-
-            // A value_callback function will be used for form_state array generation on form submission phase.
-            elements.field_user_postal_address.value_callback = 'addressfield_field_value_callback';
-
-            // We hide the field's title because field_address_autocomplete field's title will be displayed.
-            elements.field_user_postal_address.title = '';
-
-            // We want to display the field at the bottom.
-            elements.field_user_postal_address.field_info_instance.widget.weight = 10;
-
-            var widget_id = drupalgap_form_get_element_id('field-user-postal-address', form.id, 'und', 0);
-
-            if (typeof elements.field_user_postal_address.und[0].item !== 'undefined'
-              && typeof elements.field_user_postal_address.und[0].item.data_json !== 'undefined') {
-              var data_json = JSON.parse(elements.field_user_postal_address.und[0].item.data_json);
-            }
-
-            // This field will be used for address autocompleting.
-            elements['field-user-postal-address-und-0-value-autocomplete'] = {
-              type: 'textfield',
-              title: 'Address*',
-              default_value: (typeof data_json !== 'undefined') ? data_json['formatted_address'] : '',
-              weight: 7,
-              attributes: {
-                id: widget_id + '-autocomplete',
-                'data-clear-btn': true
-              }
-            };
-
-            // We use 'pageshow' event to enable an autocomplete feature on the field.
-            elements.field_user_postal_address_autocomplete_markup = {
-              markup: drupalgap_jqm_page_event_script_code({
-                page_id: drupalgap_get_page_id(),
-                jqm_page_event: 'pageshow',
-                jqm_page_event_callback: '_reiscout_address_field_autocomplete_enable',
-                jqm_page_event_args: JSON.stringify({
-                  widget_id: widget_id
-                })
-              })
-            };
-
-            // We create latitude and longitude fields because address_autocomplete widget needs these values.
-            elements['field-user-postal-address-und-0-value-latitude'] = {
-              type: 'hidden',
-              default_value: (typeof data_json !== 'undefined') ? data_json['latitude'] : '',
-              weight: 8,
-              attributes: {
-                id: widget_id + '-latitude'
-              }
-            };
-            elements['field-user-postal-address-und-0-value-longitude'] = {
-              type: 'hidden',
-              default_value: (typeof data_json !== 'undefined') ? data_json['longitude'] : '',
-              weight: 9,
-              attributes: {
-                id: widget_id + '-longitude'
-              }
-            };
+            _reiscout_address_enable_addressfield_autocomplete_widget_on_addressfield(form.id, elements, 'field_user_postal_address');
           }
         }
       }
@@ -172,69 +110,7 @@ function reiscout_address_form_alter(form, form_state, form_id) {
       if (typeof elements.field_address !== 'undefined') {
         if (elements.field_address.type === 'addressfield') {
           if (elements.field_address.field_info_instance.widget.type == 'addressfield_autocomplete') {
-            // A value that is stored in field_info_instance.widget.module property defines what
-            // module will provide a widget for the field. addressfield_autocomplete module is not
-            // exists, so we set it to 'reiscout_address' and now _drupalgap_form_render_element()
-            // will call reiscout_address_field_widget_form().
-            elements.field_address.field_info_instance.widget.module = 'reiscout_address';
-
-            // A value_callback function will be used for form_state array generation on form submission phase.
-            elements.field_address.value_callback = 'addressfield_field_value_callback';
-
-            // We hide the field's title because field_address_autocomplete field's title will be displayed.
-            elements.field_address.title = '';
-
-            // We want to display the field at the bottom.
-            elements.field_address.field_info_instance.widget.weight = 10;
-
-            var widget_id = drupalgap_form_get_element_id('field-address', form.id, 'und', 0);
-
-            if (typeof elements.field_address.und[0].item !== 'undefined'
-             && typeof elements.field_address.und[0].item.data_json !== 'undefined') {
-              var data_json = JSON.parse(elements.field_address.und[0].item.data_json);
-            }
-
-            // This field will be used for address autocompleting.
-            elements['field-address-und-0-value-autocomplete'] = {
-              type: 'textfield',
-              title: 'Address*',
-              default_value: (typeof data_json !== 'undefined') ? data_json['formatted_address'] : '',
-              weight: 7,
-              attributes: {
-                id: widget_id + '-autocomplete',
-                'data-clear-btn': true
-              }
-            };
-
-            // We use 'pageshow' event to enable an autocomplete feature on the field.
-            elements.field_address_autocomplete_markup = {
-              markup: drupalgap_jqm_page_event_script_code({
-                page_id: drupalgap_get_page_id(),
-                jqm_page_event: 'pageshow',
-                jqm_page_event_callback: '_reiscout_address_field_autocomplete_enable',
-                jqm_page_event_args: JSON.stringify({
-                  widget_id: widget_id
-                })
-              })
-            };
-
-            // We create latitude and longitude fields because address_autocomplete widget needs these values.
-            elements['field-address-und-0-value-latitude'] = {
-              type: 'hidden',
-              default_value: (typeof data_json !== 'undefined') ? data_json['latitude'] : '',
-              weight: 8,
-              attributes: {
-                id: widget_id + '-latitude'
-              }
-            };
-            elements['field-address-und-0-value-longitude'] = {
-              type: 'hidden',
-              default_value: (typeof data_json !== 'undefined') ? data_json['longitude'] : '',
-              weight: 9,
-              attributes: {
-                id: widget_id + '-longitude'
-              }
-            };
+            _reiscout_address_enable_addressfield_autocomplete_widget_on_addressfield(form.id, elements, 'field_address');
           }
         }
       }
@@ -243,6 +119,71 @@ function reiscout_address_form_alter(form, form_state, form_id) {
   catch (error) {
     console.log('reiscout_address_form_alter - ' + error);
   }
+}
+
+/**
+ * Provides support for addressfield field, whose widget is addressfield_autocomplete.
+ */
+function _reiscout_address_enable_addressfield_autocomplete_widget_on_addressfield(form_id, elements, field_name) {
+  // A value that is stored in field_info_instance.widget.module property defines what
+  // module will provide a widget for the field. addressfield_autocomplete module is not
+  // exists, so we set it to 'reiscout_address' and now _drupalgap_form_render_element()
+  // will call reiscout_address_field_widget_form().
+  elements[field_name].field_info_instance.widget.module = 'reiscout_address';
+
+  // A value_callback function will be used for form_state array generation on form submission phase.
+  elements[field_name].value_callback = 'addressfield_field_value_callback';
+
+  // We hide the field's title because field_address_autocomplete field's title will be displayed.
+  elements[field_name].title = '';
+
+  var field_name_class = field_name.replace(/_/g, '-');
+  var widget_id = drupalgap_form_get_element_id(field_name_class, form_id, 'und', 0);
+
+  if (typeof elements[field_name].und[0].item !== 'undefined'
+    && typeof elements[field_name].und[0].item.data_json !== 'undefined') {
+    var data_json = JSON.parse(elements[field_name].und[0].item.data_json);
+  }
+
+  // This field will be used for address autocompleting.
+  elements[field_name_class + '-und-0-value-autocomplete'] = {
+    type: 'textfield',
+    title: 'Address*',
+    default_value: (typeof data_json !== 'undefined') ? data_json['formatted_address'] : '',
+    weight: 7,
+    attributes: {
+      id: widget_id + '-autocomplete',
+      'data-clear-btn': true
+    }
+  };
+
+  // We use 'pageshow' event to enable an autocomplete feature on the field.
+  elements[field_name_class + '-autocomplete-markup'] = {
+    markup: drupalgap_jqm_page_event_script_code({
+      page_id: drupalgap_get_page_id(),
+      jqm_page_event: 'pageshow',
+      jqm_page_event_callback: '_reiscout_address_field_autocomplete_enable',
+      jqm_page_event_args: JSON.stringify({
+        widget_id: widget_id
+      })
+    })
+  };
+
+  // We create latitude and longitude fields because address_autocomplete widget needs these values.
+  elements[field_name_class + '-und-0-value-latitude'] = {
+    type: 'hidden',
+    default_value: (typeof data_json !== 'undefined') ? data_json['latitude'] : '',
+    attributes: {
+      id: widget_id + '-latitude'
+    }
+  };
+  elements[field_name_class + '-und-0-value-longitude'] = {
+    type: 'hidden',
+    default_value: (typeof data_json !== 'undefined') ? data_json['longitude'] : '',
+    attributes: {
+      id: widget_id + '-longitude'
+    }
+  };
 }
 
 /**
