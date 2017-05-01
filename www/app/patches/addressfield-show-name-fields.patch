@@ -1,0 +1,21 @@
+diff --git a/www/app/modules/addressfield/addressfield.js b/www/app/modules/addressfield/addressfield.js
+index 8b5164d..090bbdb 100644
+--- a/www/app/modules/addressfield/addressfield.js
++++ b/www/app/modules/addressfield/addressfield.js
+@@ -612,6 +612,16 @@ function _addressfield_field_widget_form_country_onchange(select, widget_id, del
+         if (instance && instance.widget.settings.format_handlers['address-hide-street'] == 0) {
+           showThoroughfare = true;
+           showPremise = true;
++          if (instance.widget.settings.format_handlers['name-full']) {
++            showFirstName = true;
++            showLastName = true;
++            showNameLine = false;
++          }
++          else if (instance.widget.settings.format_handlers['name-oneline']) {
++            showFirstName = false;
++            showLastName = false;
++            showNameLine = true;
++          }
+         }
+         else if (variables.components) {
+           showNameLine = typeof variables.components.name_line !== 'undefined';
