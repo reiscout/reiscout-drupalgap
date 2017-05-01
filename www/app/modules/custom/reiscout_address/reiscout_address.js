@@ -40,6 +40,11 @@ function reiscout_address_form_alter(form, form_state, form_id) {
     else if (form_id === 'user_register_form') {
       form.submit = ['_reiscout_address_user_register_form_submit'];
     }
+    else if (form_id === 'user_profile_form') {
+      if ('undefined' != typeof form.elements.field_default_template_nid) {
+        form.elements.field_default_template_nid.access = false;
+      }
+    }
     else if (form_id === 'user_pass_form') {
       form.submit = ['_reiscout_address_user_pass_form_submit'];
     }

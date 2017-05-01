@@ -55,7 +55,7 @@ function reiscout_send_letters_custom_form_submit(form, form_state) {
             drupalgap_goto(drupalgap_path_get(), {reloadPage: true});
           }
           else {
-            drupalgap_set_message("Letter to the property's owner cannot be sent. Please, try again later or contact technical support for assistance!", 'error');
+            drupalgap_set_message(data.message, 'error');
             drupalgap_goto(drupalgap_path_get(), {reloadPage: true});
           }
         }
