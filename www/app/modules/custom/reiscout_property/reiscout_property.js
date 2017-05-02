@@ -214,6 +214,11 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
  * @returns {boolean}
  */
 function _reiscout_property_user_can_view_property_address(entity, uid) {
+  // If user is an administrator.
+  if (drupalgap_user_has_role('administrator')) {
+    return true;
+  }
+
   // If user is a property's author.
   if (entity.uid == uid) {
     return true;
@@ -240,6 +245,11 @@ function _reiscout_property_user_can_view_property_address(entity, uid) {
  * @returns {boolean}
  */
 function _reiscout_property_user_can_view_property_owner_info(entity, uid) {
+  // If user is an administrator.
+  if (drupalgap_user_has_role('administrator')) {
+    return true;
+  }
+
   // If user is a property's author.
   if (entity.uid == uid) {
     return true;
