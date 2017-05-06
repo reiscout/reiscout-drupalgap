@@ -3,7 +3,7 @@
  **************/
 
 // Uncomment to clear the app's local storage cache each time the app loads.
-//window.localStorage.clear();
+window.localStorage.clear();
 
 // Set to true to see console.log() messages. Set to false when publishing app.
 Drupal.settings.debug = false;
@@ -33,7 +33,7 @@ Drupal.settings.language_default = 'und';
 Drupal.settings.cache.entity = {
 
   /* Globals (will be used if not overwritten below) */
-  enabled: true,
+  enabled: false,
   expiration: 60, // # of seconds to cache, set to 0 to cache forever
 
   /* Entity types */
@@ -53,7 +53,7 @@ Drupal.settings.cache.entity = {
     node: {
 
       /* Node Globals (will be used if not overwritten below) */
-      enabled: true,
+      enabled: false,
       expiration: 120,
 
       /* Content types (aka bundles) */
@@ -63,7 +63,7 @@ Drupal.settings.cache.entity = {
           expiration: 3600
         },
         page: {
-          enabled: true
+          enabled: false
         }
 
       }
@@ -91,7 +91,7 @@ Drupal.settings.cache.entity = {
 /* Views Caching */
 
 Drupal.settings.cache.views = {
-  enabled: true,
+  enabled: false,
   expiration: 3600
 };
 
