@@ -72,7 +72,11 @@ function reiscout_property_menu() {
 
   items['my-properties'] = {
     title: 'My Properties',
-    page_callback: 'reiscout_property_my_properties_view_page'
+    page_callback: 'reiscout_property_my_properties_view_page',
+    // See go.inc.js, drupalgap_goto(), line 151
+    options: {
+      reloadPage: true
+    }
   };
 
   return items;

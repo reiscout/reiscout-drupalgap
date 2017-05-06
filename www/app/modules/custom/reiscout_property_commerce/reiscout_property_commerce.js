@@ -11,7 +11,7 @@ function reiscout_property_commerce_services_postprocess(options, result) {
         var order_id = arg(2);
         var container = $('#commerce_checkout_complete_' + order_id);
         if (container.length) {
-          var html = '<div id="link">' + l('Go to purchased addresses list', 'purchased-addresses') + '<div>';
+          var html = '<div id="link">' + l('Go to purchased addresses list', 'purchased-addresses', {reloadPage: true}) + '<div>';
           $(container).append(html).trigger('create');
         }
       }

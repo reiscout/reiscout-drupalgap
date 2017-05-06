@@ -7,7 +7,11 @@ function reiscout_purchased_addresses_menu() {
 
   items['purchased-addresses'] = {
     title: 'Purchased Addresses',
-    page_callback: 'reiscout_purchased_addresses_list_page'
+    page_callback: 'reiscout_purchased_addresses_list_page',
+    // See go.inc.js, drupalgap_goto(), line 151
+    options: {
+      reloadPage: true
+    }
   };
 
   return items;

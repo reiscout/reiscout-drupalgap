@@ -449,5 +449,5 @@ drupalgap.settings.camera = {
 drupalgap.settings.cache = {}; // Do not remove this line.
 
 // Theme Registry - Set to true to load the page.tpl.html contents from cache.
-drupalgap.settings.cache.theme_registry = true;
+drupalgap.settings.cache.theme_registry = false;
 
