@@ -75,3 +75,5 @@ div[id^='commerce_checkout_complete_'] #link {
     margin-top: 10px;
     text-align: center;
 }
+
+.messages a {text-decoration: underline}
