@@ -269,7 +269,12 @@ function _reiscout_address_getposition_click(position_id, address_id) {
     if (Drupal.settings.debug) {
       console.log(['_reiscout_address_getposition_click', position_id, address_id]);
     }
-    
+
+    if (!navigator.geolocation) {
+      drupalgap_alert(t('Geolocation is not supported by your device.'));
+      return;
+    }
+
     drupalgap_loading_message_show({
       text: t('Getting position and address') + '...',
       textVisible: true,
