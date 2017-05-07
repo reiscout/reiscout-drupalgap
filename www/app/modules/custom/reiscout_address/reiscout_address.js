@@ -60,8 +60,6 @@ function reiscout_address_form_alter(form, form_state, form_id) {
       form.submit = ['_reiscout_address_user_pass_form_submit'];
     }
     else if (form_id === 'node_edit' && form.bundle === 'property') {
-      var address, position, delta;
-      var language = language_default();
       var elements = form.elements;
 
       if (module_exists('geofield')) {
@@ -69,26 +67,15 @@ function reiscout_address_form_alter(form, form_state, form_id) {
           if (elements.field_geo_position.type === 'geofield') {
             if (in_array(elements.field_geo_position.field_info_instance.widget.type, ['geofield_latlon', 'reiscout_geofield_latlon'])) {
               // Update standard 'Get location' button behaviour:
-              // after success geo coords retrieving it request the website for address (text) for the coords and
-              // put the address to field_address.
-              position = elements.field_geo_position;
-              position.field_info_instance.widget.module = 'reiscout_address';
-              position.field_info_instance.widget.type = 'reiscout_geofield_latlon';
-              position.reiscout_address_id = '';
+              // - get the current position of the device;
+              // - make a request to a Services 'geocoderapi/geocode_reverse.json' resource
+              // for reverse geocoding the current position to a formatted address;
+              // - put the formatted address in an address field.
+              elements.field_geo_position.field_info_instance.widget.module = 'reiscout_address';
+              elements.field_geo_position.field_info_instance.widget.type = 'reiscout_geofield_latlon';
 
-              address = elements.field_address;
-              if (address && typeof address[language] !== 'undefined') {
-                for (delta in address[language]) {
-                  if (address[language].hasOwnProperty(delta)) {
-                    position.reiscout_address_id = address[language][delta].id;
-                    break;
-                  }
-                }
-              }
-
-              if (!position.reiscout_address_id.length) {
-                console.log('WARNING: reiscout_address_form_alter() - address id not found');
-              }
+              // The ID of the address field to put a reverse geocoded formatted address in
+              elements.field_geo_position.address_autocomplete_field_id = drupalgap_form_get_element_id('field-address', form_id, 'und', 0) + '-autocomplete';
             }
             else {
               console.log('WARNING: reiscout_address_form_alter() - field field_geo_position has unsupported widget type: ' + elements.field_geo_position.field_info_instance.widget.type);
@@ -216,7 +203,7 @@ function reiscout_address_field_widget_form(form, form_state, field, instance, l
         type: 'button',
         options: {
           attributes: {
-            onclick: "_reiscout_address_getposition_click('" + items[delta].id + "', '" + element.reiscout_address_id + "')"
+            onclick: "_reiscout_address_getposition_click('" + items[delta].id + "', '" + element.address_autocomplete_field_id + "')"
           }
         }
       });
@@ -264,10 +251,10 @@ function reiscout_address_entity_post_render_field(entity, field_name, field, re
   }
 }
 
-function _reiscout_address_getposition_click(position_id, address_id) {
+function _reiscout_address_getposition_click(position_id, address_autocomplete_field_id) {
   try {
     if (Drupal.settings.debug) {
-      console.log(['_reiscout_address_getposition_click', position_id, address_id]);
+      console.log(['_reiscout_address_getposition_click', position_id, address_autocomplete_field_id]);
     }
 
     if (!navigator.geolocation) {
@@ -281,7 +268,7 @@ function _reiscout_address_getposition_click(position_id, address_id) {
       theme: 'b'
     });
 
-    var alertMessage = t('Could not detect your position.') + (address_id.length ? ' ' + t('Please, enter address manually.') : '');
+    var alertMessage = t('Could not detect your position. Please, enter address manually.');
 
     navigator.geolocation.getCurrentPosition(
       function (position) {
@@ -292,44 +279,50 @@ function _reiscout_address_getposition_click(position_id, address_id) {
         if (typeof position.coords.latitude !== 'undefined' && typeof position.coords.longitude !== 'undefined') {
           $('#' + position_id).val([position.coords.latitude, position.coords.longitude].join(','));
 
-          if (address_id.length) {
-            Drupal.services.call({
-              method: 'POST',
-              path: 'geocoderapi/geocode_reverse.json',
-              service: 'geocoderapi',
-              resource: 'geocode_reverse',
-              data: JSON.stringify({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-              }),
-              success: function(result) {
-                if (Drupal.settings.debug) {
-                  console.log(['_reiscout_address_getposition_click.geocode_reverse.success', result]);
-                }
-
-                $('#' + address_id).val(result.address);
-              },
-              error: function(xhr, status, message) {
-                if (Drupal.settings.debug) {
-                  console.log(['_reiscout_address_getposition_click.geocode_reverse.error', xhr, status, message]);
-                }
-
-                drupalgap_alert(alertMessage);
+          Drupal.services.call({
+            method: 'POST',
+            path: 'geocoderapi/geocode_reverse.json',
+            service: 'geocoderapi',
+            resource: 'geocode_reverse',
+            data: JSON.stringify({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            }),
+            success: function(result) {
+              if (Drupal.settings.debug) {
+                console.log(['_reiscout_address_getposition_click.geocode_reverse.success', result]);
               }
-            });
-          }
+
+              if ($('#' + address_autocomplete_field_id).length) {
+                $('#' + address_autocomplete_field_id).val(result.formatted_address).trigger('geocode');
+              }
+              else {
+                console.log('WARNING: _reiscout_address_getposition_click - address field to put a reverse geocoded formatted address in is not found');
+              }
+
+              drupalgap_loading_message_hide();
+            },
+            error: function(xhr, status, message) {
+              if (Drupal.settings.debug) {
+                console.log(['_reiscout_address_getposition_click.geocode_reverse.error', xhr, status, message]);
+              }
+
+              drupalgap_loading_message_hide();
+              drupalgap_alert(alertMessage);
+            }
+          });
         }
         else {
+          drupalgap_loading_message_hide();
           drupalgap_alert(alertMessage);
         }
       },
       function (error) {
-        drupalgap_loading_message_hide();
-
         if (Drupal.settings.debug) {
           console.log(['_reiscout_address_getposition_click.getCurrentPosition', error]);
         }
 
+        drupalgap_loading_message_hide();
         drupalgap_alert(alertMessage);
       },
       {
@@ -365,7 +358,7 @@ function _reiscout_address_field_autocomplete_enable(data) {
       .geocomplete(options)
       .bind("geocode:result", function(event, result) {
         // Set 'Address 1', 'Latitude' and 'Longitude' fields' values.
-        $('#' + widget_id + '-thoroughfare').val(result.name);
+        $('#' + widget_id + '-thoroughfare').val(result.formatted_address.split(',')[0]);
         $('#' + widget_id + '-latitude').val(result.geometry.location.lat());
         $('#' + widget_id + '-longitude').val(result.geometry.location.lng());
 
