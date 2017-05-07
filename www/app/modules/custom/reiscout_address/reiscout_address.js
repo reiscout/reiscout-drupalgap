@@ -332,7 +332,9 @@ function _reiscout_address_getposition_click(position_id, address_id) {
 
         drupalgap_alert(alertMessage);
       },
-      {enableHighAccuracy: true}
+      {
+        enableHighAccuracy: true
+      }
     );
   }
   catch (error) {
