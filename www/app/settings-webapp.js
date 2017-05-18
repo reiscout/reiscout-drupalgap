@@ -172,9 +172,8 @@ Drupal.modules.custom['reiscout_address'] = {
 };
 Drupal.modules.custom['reiscout_get_owner_info'] = {};
 Drupal.modules.custom['reiscont_buy_info_points'] = {};
-Drupal.modules.custom['reiscout_send_letters'] = {};
-Drupal.modules.custom['reiscont_buy_letters_points'] = {};
 Drupal.modules.custom['reiscout_property_commerce'] = {};
+Drupal.modules.custom['reiscout_mail'] = {};
 
 drupalgap.settings.stripe_api_key = 'pk_test_wbtsk9Um4YdkftiHOgfcPUWF';
 

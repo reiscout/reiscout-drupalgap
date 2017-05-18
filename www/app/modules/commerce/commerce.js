@@ -1059,10 +1059,9 @@ function _commerce_cart_field_formatter_view_pageshow(options) {
           var form_html = drupalgap_get_form('commerce_cart_add_to_cart_form', product_display);
 
           form_html += drupalgap_get_form('reiscout_get_owner_info_custom_form', product_display);
-          form_html += drupalgap_get_form('reiscout_send_letters_custom_form', product_display);
-
           form_html += drupalgap_get_form('reiscout_buy_info_points_custom_form', product_display);
-          form_html += drupalgap_get_form('reiscont_buy_letters_points_custom_form', product_display);
+          form_html += drupalgap_get_form('reiscout_mail_send_postcard_form', product_display);
+          form_html += drupalgap_get_form('reiscout_mail_buy_sending_points_form', product_display);
 
           $('#' + commerce_cart_container_id(entity_type, entity_id)).html(form_html).trigger('create');
         }
