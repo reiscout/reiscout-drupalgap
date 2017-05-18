@@ -374,6 +374,21 @@ drupalgap.settings.menus.regions['header'] = {
         mode: 'exclude'
       }
     },
+    /* Shopping Cart Button */
+    {
+      path: 'cart',
+      options: {
+        attributes: {
+          'data-icon': 'shopping-cart',
+          'data-iconpos': 'notext',
+          'class': 'ui-btn-right'
+        }
+      },
+      roles: {
+        value: ['authenticated user'],
+        mode: 'include'
+      }
+    },
     /* Anonymous User Popup Menu Button */
     {
       options: {
