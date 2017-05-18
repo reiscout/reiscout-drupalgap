@@ -21,6 +21,30 @@ function reiscout_property_commerce_services_postprocess(options, result) {
 }
 
 /**
+ * Implements hook_services_preprocess().
+ * @param {Object} options
+ */
+function reiscout_property_commerce_services_preprocess(options) {
+  try {
+    // This Services call is initiated by commerce_line_item_create().
+    // By default, _commerce_cart_add_to_cart_form_submit_success() is a function that
+    // will be called if the request succeeds. The function will redirect user to the
+    // 'Cart' page. But we do not want to redirect user. Instead, we want to reload
+    // the current page and show him a message.
+    if (options.service == 'line-item' && options.resource == 'create') {
+      options.success = function(result) {
+        var msg = '<em>' + result.line_item_title + '</em> ' + t('has been added to your') + ' ' + l('cart', 'cart', {reloadPage: true});
+        drupalgap_set_message(msg);
+        drupalgap_goto(drupalgap_path_get(), {reloadPage: true});
+      }
+    }
+  }
+  catch (error) {
+    console.log('reiscout_property_commerce_services_preprocess - ' + error);
+  }
+}
+
+/**
  * Implements hook_form_alter().
  */
 function reiscout_property_commerce_form_alter(form, form_state, form_id) {
