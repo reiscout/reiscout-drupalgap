@@ -382,7 +382,8 @@ drupalgap.settings.menus.regions['header'] = {
           'data-icon': 'shopping-cart',
           'data-iconpos': 'notext',
           'class': 'ui-btn-right'
-        }
+        },
+        reloadPage: true
       },
       roles: {
         value: ['authenticated user'],
