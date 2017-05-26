@@ -290,9 +290,14 @@ function _reiscout_property_user_can_view_property_owner_info(entity, uid) {
  */
 function _reiscout_property_node_edit_access(node) {
   try {
-    if (((node.uid == Drupal.user.uid && user_access('edit own ' + node.type + ' content'))
-      || user_access('edit any ' + node.type + ' content'))
-      && 1 != node.field_data_locked['und'][0].value)  {
+    // If the 'Lock data' field of the node is set to true
+    if ('undefined' !== typeof node.field_data_locked['und']
+     && 1 == node.field_data_locked['und'][0].value) {
+      return false;
+    }
+
+    if ((node.uid == Drupal.user.uid && user_access('edit own ' + node.type + ' content'))
+     || user_access('edit any ' + node.type + ' content')) {
       return true;
     }
     else {
@@ -300,6 +305,6 @@ function _reiscout_property_node_edit_access(node) {
     }
   }
   catch (error) {
-    console.log('node_access - ' + error);
+    console.log('_reiscout_property_node_edit_access - ' + error);
   }
 }
