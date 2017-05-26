@@ -46,6 +46,12 @@ function reiscout_property_form_alter(form, form_state, form_id) {
         }
       }
 
+      if ('undefined' !== typeof form.elements['field_data_locked']) {
+        if (!drupalgap_user_has_role('administrator')) {
+          form.elements['field_data_locked'].access = false;
+        }
+      }
+
       if (!Drupal.user.content_types_user_permissions.property.delete_own
        && !Drupal.user.content_types_user_permissions.property.delete_any) {
         if ('undefined' !== typeof form.buttons.delete) {
