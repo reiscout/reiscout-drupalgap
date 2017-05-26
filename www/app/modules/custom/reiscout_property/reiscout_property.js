@@ -1,4 +1,13 @@
 /**
+ * Implements hook_device_connected().
+ */
+function reiscout_property_device_connected() {
+  if ('undefined' !== typeof drupalgap.menu_links['node/%/edit']) {
+    drupalgap.menu_links['node/%/edit'].access_callback = '_reiscout_property_node_edit_access';
+  }
+}
+
+/**
  * Implements hook_page_build().
  */
 function reiscout_property_page_build(output) {
@@ -272,4 +281,25 @@ function _reiscout_property_user_can_view_property_owner_info(entity, uid) {
   }
 
   return false;
+}
+
+/**
+ * Determines if the current user has an access to edit the node given.
+ * @param {Object} node
+ * @return {Boolean}
+ */
+function _reiscout_property_node_edit_access(node) {
+  try {
+    if (((node.uid == Drupal.user.uid && user_access('edit own ' + node.type + ' content'))
+      || user_access('edit any ' + node.type + ' content'))
+      && 1 != node.field_data_locked['und'][0].value)  {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  catch (error) {
+    console.log('node_access - ' + error);
+  }
 }
