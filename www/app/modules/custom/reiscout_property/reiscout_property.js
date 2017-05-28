@@ -142,6 +142,12 @@ function reiscout_property_listing_row(view, row) {
       });
       row_html = '<div class="image">' + image + '</div>';
 
+      if ('undefined' != typeof row.data_verified && 1 == row.data_verified) {
+        row_html += '<div class="data-verified-container">';
+        row_html += '<i class="icon"></i><div class="text">Reiscout data</div>';
+        row_html += '</div>';
+      }
+
       if (row.address && row.address.length) {
         row_html += '<div class="address">' + row.address + '</div>';
       }

@@ -52,8 +52,15 @@ function reiscout_purchased_addresses_list_row(view, row) {
       alt: row.image.alt
     });
 
-    var html = '<div class="image">' + image + '</div>'
-             + '<div class="address">' + row.address + '</div>';
+    var html = '<div class="image">' + image + '</div>';
+
+    if ('undefined' != typeof row.data_verified && 1 == row.data_verified) {
+      html += '<div class="data-verified-container">';
+      html += '<i class="icon"></i><div class="text">Reiscout data</div>';
+      html += '</div>';
+    }
+
+    html += '<div class="address">' + row.address + '</div>';
 
     return '<div class="view-row">' + l(html, 'node/' + row.nid, {reloadPage: true}) + '</div>';
   }
