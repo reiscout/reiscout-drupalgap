@@ -15,7 +15,7 @@ Drupal.settings.debug = false;
 /* DRUPAL PATHS */
 
 // Site Path (do not use a trailing slash)
-Drupal.settings.site_path = 'https://reiscout.com'; // e.g. http://www.example.com
+Drupal.settings.site_path = 'https://reiscoutdev.com'; // e.g. http://www.example.com
 
 // Default Services Endpoint Path
 Drupal.settings.endpoint = 'drupalgap';
