@@ -434,7 +434,8 @@ drupalgap.settings.menus.regions['footer'] = {
           'data-iconpos': 'notext',
           'class': 'ui-btn-right',
           'onclick': 'javascript:drupalgap_back();'
-        }
+        },
+        reloadPage: true
       },
       pages: {
         value: [''],
