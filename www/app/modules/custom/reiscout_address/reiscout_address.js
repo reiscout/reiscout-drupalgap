@@ -236,7 +236,15 @@ function reiscout_address_entity_post_render_field(entity, field_name, field, re
 
       if (field_name == 'field_address') {
         if (!_reiscout_property_user_can_view_property_address(entity, Drupal.user.uid)) {
-          reference.content = '';
+          if ('undefined' !== typeof entity._address) {
+            reference.content = '<div class="field_address">'
+                              + '<h3>Address</h3>'
+                              + entity._address
+                              + '</div>';
+          }
+          else {
+            reference.content = '';
+          }
         }
       }
       else if (in_array(field_name, fields_owner_info)) {
