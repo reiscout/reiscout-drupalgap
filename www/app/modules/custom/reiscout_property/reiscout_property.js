@@ -173,7 +173,7 @@ function reiscout_property_filter_form(form, form_state) {
     };
 
     form.elements['zip'] = {
-      type: 'textfield',
+      type: 'number',
       title: 'ZIP Code',
       title_placeholder: true
     };
