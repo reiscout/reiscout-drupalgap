@@ -109,3 +109,34 @@ div[id^='commerce_checkout_complete_'] #link {
 .field_data_verified {
     margin-top: 5px;
 }
+
+#reiscout_property_filter_form .field-name-apply {
+    display: inline-block;
+    margin-left: 2%;
+    margin-top: -7px;
+    margin-bottom: 5px;
+    width: 43%;
+}
+
+#edit-reiscout-property-filter-form-apply {
+    display: inline-block;
+}
+
+#reiscout_property_filter_form #edit-reiscout-property-filter-form-reset {
+    display: inline-block;
+    margin-left: 8%;
+    margin-top: -7px;
+    margin-bottom: 5px;
+    width: 43%;
+}
+
+#reiscout_property_filter_form {
+    margin: 0 0 15px 0;
+    padding: 10px 15px 0 15px;
+    border: solid 1px #A9A9A9;
+    border-radius: 5px;
+}
+
+#views_exposed_form {
+    display: none;
+}
