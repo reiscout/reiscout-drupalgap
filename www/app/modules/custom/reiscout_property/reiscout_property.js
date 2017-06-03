@@ -140,12 +140,22 @@ function reiscout_property_listing_pageshow() {
   setTimeout(function() {
     // We want to set 'City' as a placeholder for an autocomplete field
     var city_form_element_id = drupalgap_form_get_element_id('city', 'reiscout_property_filter_form');
+    var zip_form_element_id = drupalgap_form_get_element_id('zip', 'reiscout_property_filter_form');
+    var apply_form_element_id = drupalgap_form_get_element_id('apply', 'reiscout_property_filter_form');
     var autocomplete_form_element_selector = _theme_autocomplete_input_selector[city_form_element_id];
     $(autocomplete_form_element_selector).attr('placeholder', 'City');
 
     // After 'Clear text' button was clicked we want to clear a hidden text field that holds the value
     $('.ui-input-clear').on('click', function() {
       $('#' + city_form_element_id).val('');
+    });
+
+    // Submit a form, when a user has pressed the 'Enter' button
+    $('#' + zip_form_element_id).on('keypress', function(e) {
+      if (13 === e.which) {
+        $('#' + apply_form_element_id).focus().click();
+        return false;
+      }
     });
   }, 300);
 
