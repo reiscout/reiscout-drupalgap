@@ -380,7 +380,7 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
       else if (field_name === 'field_data_verified') {
         // If the 'Reiscout data' field of the node is set to true
         if ('undefined' !== typeof entity.field_data_verified['und']
-          && 1 === entity.field_data_verified['und'][0].value) {
+          && "1" === entity.field_data_verified['und'][0].value) {
           reference.content = '<div class="field_data_verified">';
           reference.content += '<div class="data-verified-container">';
           reference.content += '<i class="icon"></i><div class="text">Reiscout data</div>';
