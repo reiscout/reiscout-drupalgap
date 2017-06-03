@@ -323,6 +323,9 @@ function reiscout_property_listing_row(view, row) {
       if (row.address && row.address.length) {
         row_html += '<div class="address">' + row.address + '</div>';
       }
+      else if ('undefined' != typeof row.city && 'undefined' != typeof row.zip) {
+        row_html += '<div class="address">' + row.city + ', ' + row.zip + '</div>';
+      }
 
       row_html = '<div class="view-row">' + l(row_html, 'node/' + row.nid, {reloadPage: true}) + '</div>';
     }
