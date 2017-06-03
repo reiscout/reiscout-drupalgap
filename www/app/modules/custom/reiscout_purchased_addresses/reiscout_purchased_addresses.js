@@ -7,7 +7,8 @@ function reiscout_purchased_addresses_menu() {
 
   items['purchased-addresses'] = {
     title: 'Purchased Addresses',
-    page_callback: 'reiscout_purchased_addresses_list_page',
+    page_callback: 'reiscout_property_listing_page',
+    pageshow: 'reiscout_property_listing_pageshow',
     // See go.inc.js, drupalgap_goto(), line 151
     options: {
       reloadPage: true
@@ -15,31 +16,6 @@ function reiscout_purchased_addresses_menu() {
   };
 
   return items;
-}
-
-/**
- * The page callback to display the view.
- */
-function reiscout_purchased_addresses_list_page() {
-  try {
-    var content = {};
-
-    content['address_list'] = {
-      theme: 'view',
-      format: 'unformatted_list',
-      path: 'drupalgap/views_datasource/purchased_address_list/' + Drupal.user.uid,
-      row_callback: 'reiscout_purchased_addresses_list_row',
-      empty_callback: 'reiscout_purchased_addresses_list_empty',
-      attributes: {
-        id: 'reiscout_purchased_addresses_list_view'
-      }
-    };
-
-    return content;
-  }
-  catch (error) {
-    console.log('reiscout_purchased_addresses_list_page - ' + error);
-  }
 }
 
 /**

@@ -8,6 +8,35 @@ function reiscout_property_device_connected() {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function reiscout_property_menu() {
+  var items = {};
+
+  items['property-listing'] = {
+    title: 'Reiscout',
+    page_callback: 'reiscout_property_listing_page',
+    pageshow: 'reiscout_property_listing_pageshow',
+    // See go.inc.js, drupalgap_goto(), line 151
+    options: {
+      reloadPage: true
+    }
+  };
+
+  items['my-properties'] = {
+    title: 'My Properties',
+    page_callback: 'reiscout_property_listing_page',
+    pageshow: 'reiscout_property_listing_pageshow',
+    // See go.inc.js, drupalgap_goto(), line 151
+    options: {
+      reloadPage: true
+    }
+  };
+
+  return items;
+}
+
+/**
  * Implements hook_page_build().
  */
 function reiscout_property_page_build(output) {
@@ -81,50 +110,170 @@ function reiscout_property_form_alter(form, form_state, form_id) {
 }
 
 /**
- * Implements hook_menu().
- */
-function reiscout_property_menu() {
-  var items = {};
-
-  items['property-listing'] = {
-    title: 'Reiscout',
-    page_callback: 'reiscout_property_listing_page'
-  };
-
-  items['my-properties'] = {
-    title: 'My Properties',
-    page_callback: 'reiscout_property_my_properties_view_page',
-    // See go.inc.js, drupalgap_goto(), line 151
-    options: {
-      reloadPage: true
-    }
-  };
-
-  return items;
-}
-
-/**
  * The page callback to display the view.
  */
 function reiscout_property_listing_page() {
   try {
     var content = {};
 
-    content['reiscout_property_listing'] = {
-      theme: 'view',
-      format: 'unformatted_list',
-      path: 'drupalgap/views_datasource/property-listing', /* the path to the view in Drupal */
-      row_callback: 'reiscout_property_listing_row',
-      empty_callback: 'reiscout_property_listing_empty',
-      attributes: {
-        id: 'reiscout_property_listing_view'
-      }
+    // A form with filters for filtering of a list of properties
+    content['filter_properties_form'] = {
+      markup: drupalgap_get_form('reiscout_property_filter_form')
+    };
+
+    // A list of properties
+    content['property_list'] = {
+      markup: '<div id="property-list"></div>'
     };
 
     return content;
   }
   catch (error) {
     console.log('reiscout_property_listing_page - ' + error);
+  }
+}
+
+/**
+ * A callback that is used during the pageshow event.
+ */
+function reiscout_property_listing_pageshow() {
+  setTimeout(function() {
+    // We want to set 'City' as a placeholder for an autocomplete field
+    var city_form_element_id = drupalgap_form_get_element_id('city', 'reiscout_property_filter_form');
+    var autocomplete_form_element_selector = _theme_autocomplete_input_selector[city_form_element_id];
+    $(autocomplete_form_element_selector).attr('placeholder', 'City');
+
+    // After 'Clear text' button was clicked we want to clear a hidden text field that holds the value
+    $('.ui-input-clear').on('click', function() {
+      $('#' + city_form_element_id).val('');
+    });
+  }, 300);
+
+  _reiscout_property_update_list();
+}
+
+/**
+ * Provides a form with filters for filtering of a list of properties.
+ *
+ * Provides filters that allows user to filter a list of properties
+ * by a city and by a ZIP code.
+ */
+function reiscout_property_filter_form(form, form_state) {
+  try {
+    form.prefix = t('Enter a city or a zip code to filter properties by');
+
+    form.elements['city'] = {
+      type: 'autocomplete',
+      remote: true,
+      custom: true,
+      handler: 'views',
+      path: 'reiscout_property/address_locality/drupalgap',
+      value: 'value',
+      filter: 'value'
+    };
+
+    form.elements['zip'] = {
+      type: 'textfield',
+      title: 'ZIP Code',
+      title_placeholder: true
+    };
+
+    form.elements['apply'] = {
+      type: 'submit',
+      value: 'Apply',
+      attributes: {
+        'data-mini': true
+      }
+    };
+
+    return form;
+  }
+  catch (error) {
+    console.log('reiscout_property_filter_form - ' + error);
+  }
+}
+
+/**
+ * Form submission handler for reiscout_property_filter_form().
+ */
+function reiscout_property_filter_form_submit(form, form_state) {
+  try {
+    _reiscout_property_update_list(form_state.values.city, form_state.values.zip);
+  }
+  catch (error) {
+    console.log('reiscout_property_filter_form_submit - ' + error);
+  }
+}
+
+/**
+ * Updates properties list.
+ *
+ * Makes a request to the server for getting a content of the views,
+ * renders the content and injects it in the 'property-list' container.
+ */
+function _reiscout_property_update_list(city, zip) {
+  try {
+    var params = '';
+
+    if (city) {
+      params += params ? '&' : '?';
+      params += 'city=' + city;
+    }
+
+    if (zip) {
+      params += params ? '&' : '?';
+      params += 'zip=' + zip;
+    }
+
+    var current_page_id = drupalgap_get_page_id();
+    switch (current_page_id) {
+      case 'property_listing':
+        var view = {
+          format: 'unformatted_list',
+          path: 'drupalgap/views_datasource/property-listing' + params,
+          row_callback: 'reiscout_property_listing_row',
+          empty_callback: 'reiscout_property_listing_empty',
+          attributes: {
+            id: current_page_id + ' #property-list'
+          }
+        };
+        break;
+      case 'my_properties':
+        var view = {
+          format: 'unformatted_list',
+          path: 'drupalgap/views_datasource/my-properties/' + Drupal.user.uid + params,
+          row_callback: 'reiscout_property_listing_row',
+          empty_callback: 'reiscout_property_my_properties_view_empty',
+          attributes: {
+            id: current_page_id + ' #property-list'
+          }
+        };
+        break;
+      case 'purchased_addresses':
+        var view = {
+          format: 'unformatted_list',
+          path: 'drupalgap/views_datasource/purchased_address_list/' + Drupal.user.uid + params,
+          row_callback: 'reiscout_purchased_addresses_list_row',
+          empty_callback: 'reiscout_purchased_addresses_list_empty',
+          attributes: {
+            id: current_page_id + ' #property-list'
+          }
+        };
+        break;
+      default:
+        throw t('There is no any view for the current page: ') + current_page_id;
+    }
+
+    // We need to set the value of the page_id key, because it will
+    // be used by views_embed_view() function.
+    view.page_id = drupalgap_get_page_id();
+
+    // Make a request to the server for getting a content of the views,
+    // render the content and inject it in the view.attributes.id container.
+    _theme_view(view);
+  }
+  catch (error) {
+    console.log('_reiscout_property_update_list - ' + error);
   }
 }
 
@@ -175,35 +324,11 @@ function reiscout_property_listing_empty(view) {
 }
 
 /**
- * The page callback to display the view.
- */
-function reiscout_property_my_properties_view_page() {
-  try {
-    var content = {};
-
-    content['reiscout_my_properties_listing'] = {
-      theme: 'view',
-      format: 'unformatted_list',
-      path: 'drupalgap/views_datasource/my-properties/' + Drupal.user.uid, /* the path to the view in Drupal */
-      row_callback: 'reiscout_property_listing_row',
-      empty_callback: 'reiscout_property_my_properties_view_empty',
-      attributes: {
-        id: 'reiscout_property_my_properties_view'
-      }
-    };
-    return content;
-  }
-  catch (error) {
-    console.log('reiscout_property_my_properties_view_page - ' + error);
-  }
-}
-
-/**
  * Shows empty view content
  */
 function reiscout_property_my_properties_view_empty(view) {
   try {
-    return t('You are not added any property objects yet.');
+    return t('You have not added any property objects yet.');
   }
   catch (error) {
     console.log('reiscout_property_my_properties_view_empty - ' + error);
