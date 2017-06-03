@@ -186,6 +186,14 @@ function reiscout_property_filter_form(form, form_state) {
       }
     };
 
+    form.buttons['reset'] = {
+      title: 'Reset',
+      attributes: {
+        'data-mini': true,
+        onclick: '_reiscout_property_reset_fiters()'
+      }
+    };
+
     return form;
   }
   catch (error) {
@@ -203,6 +211,21 @@ function reiscout_property_filter_form_submit(form, form_state) {
   catch (error) {
     console.log('reiscout_property_filter_form_submit - ' + error);
   }
+}
+
+/**
+ * Resets filters that is used for filtering of a list of properties.
+ */
+function _reiscout_property_reset_fiters() {
+  var city_form_element_id = drupalgap_form_get_element_id('city', 'reiscout_property_filter_form');
+  var zip_form_element_id = drupalgap_form_get_element_id('zip', 'reiscout_property_filter_form');
+  var autocomplete_form_element_selector = _theme_autocomplete_input_selector[city_form_element_id];
+
+  $('#' + city_form_element_id).val('');
+  $('#' + zip_form_element_id).val('');
+  $(autocomplete_form_element_selector).val('');
+
+  _reiscout_property_update_list();
 }
 
 /**
