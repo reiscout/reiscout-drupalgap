@@ -140,3 +140,20 @@ div[id^='commerce_checkout_complete_'] #link {
 #views_exposed_form {
     display: none;
 }
+
+#commerce_drupalgap_stripe_form .field-name-exp-month {
+    display: inline-block;
+    margin-right: 5px;
+    width: 65px;
+}
+
+#commerce_drupalgap_stripe_form .field-name-exp-year {
+    display: inline-block;
+    margin-left: 5px;
+    width: 85px;
+}
+
+#edit-commerce-drupalgap-stripe-form-exp-month,
+#edit-commerce-drupalgap-stripe-form-exp-year {
+    display: inline;
+}
