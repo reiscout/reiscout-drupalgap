@@ -53,6 +53,11 @@ function reiscout_property_commerce_form_alter(form, form_state, form_id) {
     if (form_id == 'commerce_cart_add_to_cart_form' && typeof form.bundle != undefined && form.bundle == 'property') {
       reiscout_property_commerce_form_commerce_cart_add_to_cart_form_alter(form, form_state);
     }
+    else if (form_id == 'commerce_drupalgap_stripe_form') {
+      form.elements['card_cvc']['type'] = 'number';
+      form.elements['exp_month']['type'] = 'number';
+      form.elements['exp_year']['type'] = 'number';
+    }
   }
   catch (error) {
     console.log('reiscout_property_commerce_form_alter - ' + error);
