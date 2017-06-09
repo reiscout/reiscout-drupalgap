@@ -418,6 +418,11 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
         if (!_reiscout_property_user_can_view_property_owner_info(entity, Drupal.user.uid)) {
           reference.content = '';
         }
+        else if ('undefined' !== typeof entity.field_owner_postal_address['und']
+              && entity.field_owner_postal_address['und'][0].thoroughfare) {
+          reference.content += drupalgap_get_form('reiscout_mail_send_postcard_form', entity.nid);
+          reference.content += drupalgap_get_form('reiscout_mail_buy_sending_points_form');
+        }
       }
       else if (field_name === 'field_owner_phone') {
         if (!_reiscout_property_user_can_view_property_owner_info(entity, Drupal.user.uid)) {

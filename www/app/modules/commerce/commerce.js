@@ -1060,8 +1060,6 @@ function _commerce_cart_field_formatter_view_pageshow(options) {
 
           form_html += drupalgap_get_form('reiscout_get_owner_info_custom_form', product_display);
           form_html += drupalgap_get_form('reiscout_buy_info_points_custom_form', product_display);
-          form_html += drupalgap_get_form('reiscout_mail_send_postcard_form', product_display);
-          form_html += drupalgap_get_form('reiscout_mail_buy_sending_points_form', product_display);
 
           $('#' + commerce_cart_container_id(entity_type, entity_id)).html(form_html).trigger('create');
         }
