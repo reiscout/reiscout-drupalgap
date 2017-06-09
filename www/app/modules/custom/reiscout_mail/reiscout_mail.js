@@ -13,7 +13,7 @@ function reiscout_mail_send_postcard_form(form, form_state, nid) {
       }),
       success: function(data) {
         if (data.send_postcard) {
-          $('#edit-reiscout-mail-send-postcard-form-submit').html(data.btn_send_postcard_title);
+          $('#points-info').html(data.mail_sending_points_info);
           $('#reiscout_mail_send_postcard_form').show();
         }
         if (data.buy_mail_sending_points) {
@@ -22,11 +22,21 @@ function reiscout_mail_send_postcard_form(form, form_state, nid) {
       }
     });
 
+    var sample_postcard_link_url = Drupal.settings.site_path
+                                 + Drupal.settings.base_path
+                                 + 'sites/all/modules/reiscout/reiscout_mail_postcard/pdf/sample_postcard.pdf';
+
+    var sample_postcard_link = '<div id="sample-postcard-link">'
+                             + l(t('Click here to view a sample postcard'), sample_postcard_link_url, {InAppBrowser: true})
+                             + '</div>';
+
+    var points_info = '<div id="points-info"></div>';
+
     form.options.attributes['style'] = 'display: none';
     form.elements['submit'] = {
       type: 'submit',
       value: 'Send a Postcard',
-      description: "Send a postcard to the property's owner using a template that is selected in your user profile."
+      description: sample_postcard_link + points_info
     };
     return form;
   }
