@@ -1,7 +1,7 @@
 /**
  * A form that allows user to send a postcard to an owner of a property.
  */
-function reiscout_mail_send_postcard_form(form, form_state, product_display) {
+function reiscout_mail_send_postcard_form(form, form_state, nid) {
   try {
     Drupal.services.call({
       method: 'POST',
@@ -9,7 +9,7 @@ function reiscout_mail_send_postcard_form(form, form_state, product_display) {
       service: 'reiscout_mail_postcard',
       resource: 'get_available_actions',
       data: JSON.stringify({
-        nid: product_display.nid
+        nid: nid
       }),
       success: function(data) {
         if (data.send_postcard) {
@@ -25,7 +25,7 @@ function reiscout_mail_send_postcard_form(form, form_state, product_display) {
     form.options.attributes['style'] = 'display: none';
     form.elements['submit'] = {
       type: 'submit',
-      value: 'Send a postcard to the property owner',
+      value: 'Send a Postcard',
       description: "Send a postcard to the property's owner using a template that is selected in your user profile."
     };
     return form;
@@ -46,7 +46,7 @@ function reiscout_mail_send_postcard_form_submit(form, form_state) {
       service: 'reiscout_mail_postcard',
       resource: 'send',
       data: JSON.stringify({
-        nid: form.arguments[0].nid
+        nid: form.arguments[0]
       }),
       success: function(data) {
         if (data.status) {
@@ -79,7 +79,7 @@ function reiscout_mail_buy_sending_points_form(form, form_state) {
     form.options.attributes['style'] = 'display: none';
     form.elements['submit'] = {
       type: 'submit',
-      value: 'Buy ability to send mail'
+      value: 'Buy Ability to Send Mail'
     };
     return form;
   }
