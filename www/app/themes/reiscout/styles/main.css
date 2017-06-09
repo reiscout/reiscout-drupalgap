@@ -67,10 +67,6 @@
     margin-top: 1.5em;
 }
 
-#edit-reiscout-mail-send-postcard-form-submit {
-    font-size: 12px;
-}
-
 div[id^='commerce_checkout_complete_'] #link {
     margin-top: 10px;
     text-align: center;
@@ -156,4 +152,18 @@ div[id^='commerce_checkout_complete_'] #link {
 #edit-commerce-drupalgap-stripe-form-exp-month,
 #edit-commerce-drupalgap-stripe-form-exp-year {
     display: inline;
+}
+
+#reiscout_mail_send_postcard_form .description {
+    margin-top: -3px;
+    font-size: 13px;
+    line-height: 17px;
+}
+
+#edit-reiscout-mail-send-postcard-form-submit {
+    width: 190px;
+}
+
+#edit-reiscout-mail-buy-sending-points-form-submit {
+    width: 250px;
 }
