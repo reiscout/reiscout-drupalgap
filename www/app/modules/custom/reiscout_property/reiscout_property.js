@@ -387,6 +387,19 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
           reference.content += 'This lead has been purchased: ' + (entity._purchased_counter == 1 ? '1 time' : entity._purchased_counter + ' times');
         }
       }
+      else if (field_name == 'field_address') {
+        if (!_reiscout_property_user_can_view_property_address(entity, Drupal.user.uid)) {
+          if ('undefined' !== typeof entity._address) {
+            reference.content = '<div class="field_address">'
+              + '<h3>Address</h3>'
+              + entity._address
+              + '</div>';
+          }
+          else {
+            reference.content = '';
+          }
+        }
+      }
       else if (field_name === 'field_data_verified') {
         // If the 'Reiscout data' field of the node is set to true
         if ('undefined' !== typeof entity.field_data_verified['und']
@@ -398,6 +411,16 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
           reference.content += '</div>';
         }
         else {
+          reference.content = '';
+        }
+      }
+      else if (field_name === 'field_owner_postal_address') {
+        if (!_reiscout_property_user_can_view_property_owner_info(entity, Drupal.user.uid)) {
+          reference.content = '';
+        }
+      }
+      else if (field_name === 'field_owner_phone') {
+        if (!_reiscout_property_user_can_view_property_owner_info(entity, Drupal.user.uid)) {
           reference.content = '';
         }
       }

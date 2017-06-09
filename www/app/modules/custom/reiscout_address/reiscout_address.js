@@ -221,44 +221,6 @@ function reiscout_address_field_widget_form(form, form_state, field, instance, l
   }
 }
 
-/**
- * Implements hook_entity_post_render_field().
- * Called after drupalgap_entity_render_field() assembles the field content
- * string. Use this to make modifications to the HTML output of the entity's
- * field before it is displayed. The field content will be inside of
- * reference.content, so to make modifications, change reference.content. For
- * more info: http://stackoverflow.com/questions/518000/is-javascript-a-pass-by-reference-or-pass-by-value-language
- */
-function reiscout_address_entity_post_render_field(entity, field_name, field, reference) {
-  try {
-    if (field.entity_type === 'node' && field.bundle === 'property') {
-      var fields_owner_info = ['field_owner_postal_address', 'field_owner_phone'];
-
-      if (field_name == 'field_address') {
-        if (!_reiscout_property_user_can_view_property_address(entity, Drupal.user.uid)) {
-          if ('undefined' !== typeof entity._address) {
-            reference.content = '<div class="field_address">'
-                              + '<h3>Address</h3>'
-                              + entity._address
-                              + '</div>';
-          }
-          else {
-            reference.content = '';
-          }
-        }
-      }
-      else if (in_array(field_name, fields_owner_info)) {
-        if (!_reiscout_property_user_can_view_property_owner_info(entity, Drupal.user.uid)) {
-          reference.content = '';
-        }
-      }
-    }
-  }
-  catch (error) {
-    console.log('reiscout_address_entity_post_render_field - ' + error);
-  }
-}
-
 function _reiscout_address_getposition_click(position_id, address_autocomplete_field_id) {
   try {
     if (Drupal.settings.debug) {
