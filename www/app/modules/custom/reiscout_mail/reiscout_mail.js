@@ -3,25 +3,6 @@
  */
 function reiscout_mail_send_postcard_form(form, form_state, nid) {
   try {
-    Drupal.services.call({
-      method: 'POST',
-      path: 'reiscout_mail_postcard/get_available_actions.json',
-      service: 'reiscout_mail_postcard',
-      resource: 'get_available_actions',
-      data: JSON.stringify({
-        nid: nid
-      }),
-      success: function(data) {
-        if (data.send_postcard) {
-          $('#points-info').html(data.mail_sending_points_info);
-          $('#reiscout_mail_send_postcard_form').show();
-        }
-        if (data.buy_mail_sending_points) {
-          $('#reiscout_mail_buy_sending_points_form').show();
-        }
-      }
-    });
-
     var sample_postcard_link_url = Drupal.settings.site_path
                                  + Drupal.settings.base_path
                                  + 'sites/all/modules/reiscout/reiscout_mail_postcard/pdf/sample_postcard.pdf';
@@ -150,4 +131,32 @@ function _reiscout_mail_commerce_line_item_add_to_order(options) {
     });
   }
   catch (error) { console.log('_reiscout_mail_commerce_line_item_add_to_order - ' + error); }
+}
+
+/**
+ * Displays a form that is available for the current user.
+ *
+ * Makes a request to Services resource to find out which
+ * action is available for the current user, and displays
+ * the corresponding form.
+ */
+function _reiscout_mail_display_available_form(nid) {
+  Drupal.services.call({
+    method: 'POST',
+    path: 'reiscout_mail_postcard/get_available_actions.json',
+    service: 'reiscout_mail_postcard',
+    resource: 'get_available_actions',
+    data: JSON.stringify({
+      nid: nid
+    }),
+    success: function(data) {
+      if (data.send_postcard) {
+        $('#points-info').html(data.mail_sending_points_info);
+        $('#reiscout_mail_send_postcard_form').show();
+      }
+      if (data.buy_mail_sending_points) {
+        $('#reiscout_mail_buy_sending_points_form').show();
+      }
+    }
+  });
 }
