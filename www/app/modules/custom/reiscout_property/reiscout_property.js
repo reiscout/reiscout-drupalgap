@@ -422,6 +422,13 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
               && entity.field_owner_postal_address['und'][0].thoroughfare) {
           reference.content += drupalgap_get_form('reiscout_mail_send_postcard_form', entity.nid);
           reference.content += drupalgap_get_form('reiscout_mail_buy_sending_points_form');
+
+          // Forms that we added above are not visible by default, so we need
+          // to display one of them. But we can do it only after all the node
+          // content will be rendered and injected in the node container.
+          $('#node_' + entity.nid + '_view_container').one('create', function() {
+            _reiscout_mail_display_available_form(entity.nid);
+          });
         }
       }
       else if (field_name === 'field_owner_phone') {
