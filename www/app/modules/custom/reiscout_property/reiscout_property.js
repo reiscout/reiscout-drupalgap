@@ -72,7 +72,7 @@ function reiscout_property_form_alter(form, form_state, form_id) {
         'field_address_access_product',
         // hide property info fields
         'field_under_contract', 'field_arv', 'field_repairs_price', 'field_mortgage_company', 'field_assessed_value',
-        'field_last_purchase_time', 'field_last_sale_price', 'field_bathrooms',
+        'field_last_sale_date', 'field_last_sale_price', 'field_bathrooms',
         'field_bedrooms', 'field_size', 'field_zillow_mls', 'field_zillow_status', 'field_zillow_zpid',
         // hide equity percentage fields
         'field_ep_calculated', 'field_ep_appraised'
