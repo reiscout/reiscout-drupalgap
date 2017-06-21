@@ -159,6 +159,7 @@ Drupal.modules.contrib['geofield'] = {};
 Drupal.modules.contrib['commerce'] = {};
 Drupal.modules.contrib['commerce_drupalgap_stripe'] = {};
 Drupal.modules.contrib['addressfield'] = {};
+Drupal.modules.contrib['date'] = {};
 
 //Drupal.modules.contrib['example'] = {};
 
