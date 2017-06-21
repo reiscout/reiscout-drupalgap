@@ -64,16 +64,17 @@ function reiscout_property_form_alter(form, form_state, form_id) {
       // The field value will be filled with real value on a server side on save.
       form.elements['title'].default_value = 'value placeholder';
 
-      // Hide some fields fro now
+      // Prevent user from editing fields
       var fields = [
-        // hide owner fields
-        'field_owner_postal_address', 'field_owner_phone',
         // hide product field
         'field_address_access_product',
+        // hide owner info fields
+        'field_owner_postal_address', 'field_owner_phone',
         // hide property info fields
-        'field_under_contract', 'field_arv', 'field_repairs_price', 'field_mortgage_company', 'field_assessed_value',
-        'field_last_sale_date', 'field_last_sale_price', 'field_full_baths', 'field_half_baths',
-        'field_bedrooms', 'field_gross_area', 'field_zillow_mls', 'field_zillow_status', 'field_zillow_zpid',
+        'field_assessed_value', 'field_last_sale_price', 'field_last_sale_date', 'field_mortgage_company',
+        'field_gross_area', 'field_bedrooms', 'field_full_baths', 'field_half_baths', 'field_year_built',
+        'field_effective_year_built', 'field_lot_area_acres', 'field_zoning', 'field_repairs_price',
+        'field_arv', 'field_under_contract',
         // hide equity percentage fields
         'field_ep_calculated', 'field_ep_appraised'
       ];
