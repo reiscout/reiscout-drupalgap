@@ -30,12 +30,6 @@ function reiscout_purchased_addresses_list_row(view, row) {
 
     var html = '<div class="image">' + image + '</div>';
 
-    if ('undefined' != typeof row.data_verified && 1 == row.data_verified) {
-      html += '<div class="data-verified-container">';
-      html += '<i class="icon"></i><div class="text">Reiscout data</div>';
-      html += '</div>';
-    }
-
     if (row.data_quality_tags) {
       html += _reiscout_property_build_data_quality_tags_html(row.data_quality_tags);
     }

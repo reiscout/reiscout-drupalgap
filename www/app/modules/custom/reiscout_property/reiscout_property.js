@@ -93,12 +93,6 @@ function reiscout_property_form_alter(form, form_state, form_id) {
         }
       }
 
-      if ('undefined' !== typeof form.elements['field_data_verified']) {
-        if (!drupalgap_user_has_role('administrator')) {
-          form.elements['field_data_verified'].access = false;
-        }
-      }
-
       if (!Drupal.user.content_types_user_permissions.property.delete_own
        && !Drupal.user.content_types_user_permissions.property.delete_any) {
         if ('undefined' !== typeof form.buttons.delete) {
@@ -327,12 +321,6 @@ function reiscout_property_listing_row(view, row) {
       });
       row_html = '<div class="image">' + image + '</div>';
 
-      if ('undefined' != typeof row.data_verified && 1 == row.data_verified) {
-        row_html += '<div class="data-verified-container">';
-        row_html += '<i class="icon"></i><div class="text">Reiscout data</div>';
-        row_html += '</div>';
-      }
-
       if (row.data_quality_tags) {
         row_html += _reiscout_property_build_data_quality_tags_html(row.data_quality_tags);
       }
@@ -405,20 +393,6 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
           else {
             reference.content = '';
           }
-        }
-      }
-      else if (field_name === 'field_data_verified') {
-        // If the 'Reiscout data' field of the node is set to true
-        if ('undefined' !== typeof entity.field_data_verified['und']
-          && "1" === entity.field_data_verified['und'][0].value) {
-          reference.content = '<div class="field_data_verified">';
-          reference.content += '<div class="data-verified-container">';
-          reference.content += '<i class="icon"></i><div class="text">Reiscout data</div>';
-          reference.content += '</div>';
-          reference.content += '</div>';
-        }
-        else {
-          reference.content = '';
         }
       }
       else if (field_name === 'field_owner_postal_address') {
