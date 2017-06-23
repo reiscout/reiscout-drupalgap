@@ -36,6 +36,10 @@ function reiscout_purchased_addresses_list_row(view, row) {
       html += '</div>';
     }
 
+    if (row.data_quality_tags) {
+      html += _reiscout_property_build_data_quality_tags_html(row.data_quality_tags);
+    }
+
     html += '<div class="address">' + row.address + '</div>';
 
     return '<div class="view-row">' + l(html, 'node/' + row.nid, {reloadPage: true}) + '</div>';

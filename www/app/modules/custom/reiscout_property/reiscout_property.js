@@ -331,6 +331,10 @@ function reiscout_property_listing_row(view, row) {
         row_html += '</div>';
       }
 
+      if (row.data_quality_tags) {
+        row_html += _reiscout_property_build_data_quality_tags_html(row.data_quality_tags);
+      }
+
       if (row.address && row.address.length) {
         row_html += '<div class="address">' + row.address + '</div>';
       }
@@ -530,4 +534,23 @@ function _reiscout_property_node_edit_access(node) {
   catch (error) {
     console.log('_reiscout_property_node_edit_access - ' + error);
   }
+}
+
+/**
+ * Builds HTML content to display data quality tags.
+ */
+function _reiscout_property_build_data_quality_tags_html(tags) {
+  var html = '<div class="data-quality-tags">';
+
+  tags = tags.split(',');
+  jQuery.each(tags, function(key, tag) {
+    var tag_class = tag.replace(' ', '-').toLowerCase();
+    html += '<div class="' + tag_class + ' data-quality-tag">';
+    html += '<span class="text">' + tag + '</span>';
+    html += '</div>';
+  });
+
+  html += '</div>';
+
+  return html;
 }
