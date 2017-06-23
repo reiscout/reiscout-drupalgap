@@ -106,6 +106,51 @@ div[id^='commerce_checkout_complete_'] #link {
     margin-top: 5px;
 }
 
+.field_data_quality_tags {
+    margin-top: 5px;
+}
+
+.data-quality-tag {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 0 5px 2px 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    color: #FFF;
+}
+
+.data-quality-tag:last-child {
+    margin-right: 0;
+}
+
+.owner-info {
+    background: dodgerblue;
+}
+
+.full-info {
+    background: #294bff;
+}
+
+.verified-data {
+    background: green;
+}
+
+.owner-info .text:before {
+    font-size: 14px;
+    content: '⛀ ';
+}
+
+.full-info .text:before {
+    font-size: 14px;
+    content: '⛁ ';
+}
+
+.verified-data .text:before {
+    font-size: 14px;
+    content: '✔ ';
+}
+
 #reiscout_property_filter_form .field-name-apply {
     display: inline-block;
     margin-left: 2%;
