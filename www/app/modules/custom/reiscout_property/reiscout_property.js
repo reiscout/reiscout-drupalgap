@@ -441,6 +441,26 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
           reference.content = '';
         }
       }
+      else if (field_name === 'field_data_quality_tags') {
+        // If the 'Data Quality Tags' field of the node is not empty
+        if ('undefined' !== typeof entity.field_data_quality_tags['und']) {
+          reference.content = '<div class="field_data_quality_tags">';
+          reference.content += '<div class="data-quality-tags">';
+
+          $.each(entity.field_data_quality_tags['und'], function(key, tag) {
+            var tag_class = tag.name.replace(' ', '-').toLowerCase();
+            reference.content += '<div class="' + tag_class + ' data-quality-tag">';
+            reference.content += '<span class="text">' + tag.name + '</span>';
+            reference.content += '</div>';
+          });
+
+          reference.content += '</div>';
+          reference.content += '</div>';
+        }
+        else {
+          reference.content = '';
+        }
+      }
     }
   }
   catch (error) {
