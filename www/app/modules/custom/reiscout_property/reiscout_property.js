@@ -76,7 +76,9 @@ function reiscout_property_form_alter(form, form_state, form_id) {
         'field_effective_year_built', 'field_lot_area_acres', 'field_zoning', 'field_repairs_price',
         'field_arv', 'field_under_contract',
         // hide equity percentage fields
-        'field_ep_calculated', 'field_ep_appraised'
+        'field_ep_calculated', 'field_ep_appraised',
+        // hide the 'Data Quality Tags' field
+        'field_data_quality_tags'
       ];
       for (var i in fields) {
         var fieldname = fields[i];
