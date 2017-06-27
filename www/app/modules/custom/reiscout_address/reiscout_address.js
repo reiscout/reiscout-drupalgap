@@ -51,7 +51,11 @@ function reiscout_address_form_alter(form, form_state, form_id) {
       if (typeof elements.field_user_postal_address !== 'undefined') {
         if (elements.field_user_postal_address.type === 'addressfield') {
           if (elements.field_user_postal_address.field_info_instance.widget.type == 'addressfield_autocomplete') {
-            _reiscout_address_enable_addressfield_autocomplete_widget_on_addressfield(form.id, elements, 'field_user_postal_address');
+            if ('undefined' === typeof field_user_postal_address_weight) {
+              field_user_postal_address_weight = elements.field_user_postal_address.field_info_instance.widget.weight;
+              elements.field_user_postal_address.field_info_instance.widget.weight = 0;
+            }
+            _reiscout_address_enable_addressfield_autocomplete_widget_on_addressfield(form.id, elements, 'field_user_postal_address', field_user_postal_address_weight);
           }
         }
       }
@@ -97,7 +101,11 @@ function reiscout_address_form_alter(form, form_state, form_id) {
       if (typeof elements.field_address !== 'undefined') {
         if (elements.field_address.type === 'addressfield') {
           if (elements.field_address.field_info_instance.widget.type == 'addressfield_autocomplete') {
-            _reiscout_address_enable_addressfield_autocomplete_widget_on_addressfield(form.id, elements, 'field_address');
+            if ('undefined' === typeof field_address_weight) {
+              field_address_weight = elements.field_address.field_info_instance.widget.weight;
+              elements.field_address.field_info_instance.widget.weight = 0;
+            }
+            _reiscout_address_enable_addressfield_autocomplete_widget_on_addressfield(form.id, elements, 'field_address', field_address_weight);
           }
         }
       }
@@ -111,7 +119,7 @@ function reiscout_address_form_alter(form, form_state, form_id) {
 /**
  * Provides support for addressfield field, whose widget is addressfield_autocomplete.
  */
-function _reiscout_address_enable_addressfield_autocomplete_widget_on_addressfield(form_id, elements, field_name) {
+function _reiscout_address_enable_addressfield_autocomplete_widget_on_addressfield(form_id, elements, field_name, weight) {
   // A value that is stored in field_info_instance.widget.module property defines what
   // module will provide a widget for the field. addressfield_autocomplete module is not
   // exists, so we set it to 'reiscout_address' and now _drupalgap_form_render_element()
@@ -137,7 +145,7 @@ function _reiscout_address_enable_addressfield_autocomplete_widget_on_addressfie
     type: 'textfield',
     title: 'Address*',
     default_value: (typeof data_json !== 'undefined') ? data_json['formatted_address'] : '',
-    weight: 7,
+    weight: weight,
     attributes: {
       id: widget_id + '-autocomplete',
       'data-clear-btn': true
