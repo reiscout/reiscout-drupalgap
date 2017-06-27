@@ -437,6 +437,34 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
           reference.content = '';
         }
       }
+      else if (field_name === 'field_full_baths') {
+        if ('undefined' !== typeof entity.field_full_baths.und && 'undefined' !== typeof entity.field_half_baths.und) {
+          reference.content = '<div class="field_baths">';
+          reference.content += '<h3>Baths (Full / Half)</h3>'
+                             + entity.field_full_baths.und[0].value
+                             + ' / '
+                             + entity.field_half_baths.und[0].value;
+          reference.content += '</div>';
+        }
+        else if ('undefined' !== typeof entity.field_full_baths.und) {
+          reference.content = '<div class="field_full_baths">';
+          reference.content += '<h3>Full Baths</h3>'
+                             + entity.field_full_baths.und[0].value
+          reference.content += '</div>';
+        }
+        else if ('undefined' !== typeof entity.field_half_baths.und) {
+          reference.content = '<div class="field_half_baths">';
+          reference.content += '<h3>Half Baths</h3>'
+                             + entity.field_half_baths.und[0].value
+          reference.content += '</div>';
+        }
+        else {
+          reference.content = '';
+        }
+      }
+      else if (field_name === 'field_half_baths') {
+        reference.content = '';
+      }
     }
   }
   catch (error) {
