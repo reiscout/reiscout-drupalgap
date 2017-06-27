@@ -465,6 +465,34 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
       else if (field_name === 'field_half_baths') {
         reference.content = '';
       }
+      else if (field_name === 'field_year_built') {
+        if ('undefined' !== typeof entity.field_year_built.und && 'undefined' !== typeof entity.field_effective_year_built.und) {
+          reference.content = '<div class="field_year_built">';
+          reference.content += '<h3>Year Built / Eff</h3>'
+            + entity.field_year_built.und[0].value
+            + ' / '
+            + entity.field_effective_year_built.und[0].value;
+          reference.content += '</div>';
+        }
+        else if ('undefined' !== typeof entity.field_year_built.und) {
+          reference.content = '<div class="field_year_built">';
+          reference.content += '<h3>Year Built</h3>'
+            + entity.field_year_built.und[0].value
+          reference.content += '</div>';
+        }
+        else if ('undefined' !== typeof entity.field_effective_year_built.und) {
+          reference.content = '<div class="field_effective_year_built">';
+          reference.content += '<h3>Effective Year Built</h3>'
+            + entity.field_effective_year_built.und[0].value
+          reference.content += '</div>';
+        }
+        else {
+          reference.content = '';
+        }
+      }
+      else if (field_name === 'field_effective_year_built') {
+        reference.content = '';
+      }
     }
   }
   catch (error) {
