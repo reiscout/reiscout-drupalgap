@@ -184,3 +184,7 @@ div[id^='commerce_checkout_complete_'] #link {
 #edit-reiscout-mail-buy-sending-points-form-submit {
     width: 250px;
 }
+
+.node-view .field_image img {
+    max-height: 220px;
+}
