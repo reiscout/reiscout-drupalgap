@@ -378,6 +378,16 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
   try {
     if (field.entity_type === 'node' && field.bundle === 'property') {
       if (field_name === 'field_image') {
+        // If an image was not uploaded for the 'Photo' field,
+        // use the default image if it is specified.
+        if (empty(entity.field_image) && 'undefined' !== typeof entity._default_field_image_uri) {
+          var image = theme('image', {
+            path: drupalgap_image_path(entity._default_field_image_uri)
+          });
+
+          reference.content = '<div class="field_image">' + image + '</div>';
+        }
+
         if (Drupal.user.uid != 0 && typeof entity._purchased_counter !== 'undefined') {
           reference.content += 'This lead has been purchased: ' + (entity._purchased_counter == 1 ? '1 time' : entity._purchased_counter + ' times');
         }
