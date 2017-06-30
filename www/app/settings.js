@@ -176,7 +176,7 @@ Drupal.modules.custom['reiscont_buy_info_points'] = {};
 Drupal.modules.custom['reiscout_property_commerce'] = {};
 Drupal.modules.custom['reiscout_mail'] = {};
 
-drupalgap.settings.stripe_api_key = 'pk_test_wbtsk9Um4YdkftiHOgfcPUWF';
+drupalgap.settings.stripe_api_key = 'pk_live_8uuohLVZsXZ0mHn0fzYdRXrB';
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |
