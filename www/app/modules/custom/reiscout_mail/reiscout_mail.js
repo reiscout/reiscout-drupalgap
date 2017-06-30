@@ -8,7 +8,7 @@ function reiscout_mail_send_postcard_form(form, form_state, nid) {
                                  + 'sites/all/modules/reiscout/reiscout_mail_postcard/pdf/sample_postcard.pdf';
 
     var sample_postcard_link = '<div id="sample-postcard-link">'
-                             + '<a href="' + sample_postcard_link_url + '" target="_blank">' + t('Click here to view a sample postcard') + '</a>'
+                             + '<a href="#" onclick="javascript:window.open(\'' + sample_postcard_link_url + '\', \'_system\');">' + t('Click here to view a sample postcard') + '</a>'
                              + '</div>';
 
     var points_info = '<div id="points-info"></div>';
