@@ -8,7 +8,14 @@
         By Boris Baeta, Vladyslav Bogatyrov, Vladymir Kolos and Denis Popov
     </author>
     <content src="index.html" />
-    <icon src="res/icon.png" />
+    <platform name="android">
+        <icon density="ldpi" src="res/android/ldpi.png" />
+        <icon density="mdpi" src="res/android/mdpi.png" />
+        <icon density="hdpi" src="res/android/hdpi.png" />
+        <icon density="xhdpi" src="res/android/xhdpi.png" />
+        <icon density="xxhdpi" src="res/android/xxhdpi.png" />
+        <icon density="xxxhdpi" src="res/android/xxxhdpi.png" />
+    </platform>
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
