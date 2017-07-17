@@ -50,11 +50,11 @@ function reiscout_get_owner_info_custom_form_submit(form, form_state) {
       success: function(data) {
         try {
           if (data.status) {
-            drupalgap_set_message("Information about the property's owner has been updated.");
+            drupalgap_set_message('Property data have been updated.');
             drupalgap_goto(drupalgap_path_get(), {reloadPage: true});
           }
           else {
-            drupalgap_set_message("Information about the property's owner cannot be updated. Please, try again later or contact technical support for assistance!", 'error');
+            drupalgap_set_message('Property data cannot be updated. Please, try again later or contact technical support for assistance!', 'error');
             drupalgap_goto(drupalgap_path_get(), {reloadPage: true});
           }
         }
