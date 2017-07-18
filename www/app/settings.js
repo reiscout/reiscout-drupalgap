@@ -183,6 +183,13 @@ drupalgap.settings.stripe_api_key = 'pk_live_8uuohLVZsXZ0mHn0fzYdRXrB';
  ***************************************/
 drupalgap.settings.menus = {}; // Do not remove this line.
 
+// Properties Menu
+drupalgap.settings.menus['properties_menu'] = {
+  options: menu_popup_get_default_options(),
+  links: [
+  ]
+};
+
 // User Menu Anonymous
 drupalgap.settings.menus['user_menu_anonymous'] = {
   options: menu_popup_get_default_options(),
@@ -308,6 +315,12 @@ drupalgap.settings.blocks = {}; // Do not remove this line.
 // Theme Blocks
 drupalgap.settings.blocks.reiscout = {
   header: {
+    properties_menu: {
+      roles: {
+        value: ['authenticated user'],
+        mode: 'include',
+      }
+    },
     user_menu_anonymous: {
       roles: {
         value: ['anonymous user'],
@@ -385,6 +398,21 @@ drupalgap.settings.menus.regions['header'] = {
           'class': 'ui-btn-right'
         },
         reloadPage: true
+      },
+      roles: {
+        value: ['authenticated user'],
+        mode: 'include'
+      }
+    },
+    /* Properties Popup Menu Button */
+    {
+      options: {
+        popup: true,
+        popup_delta: 'properties_menu',
+        attributes: {
+          'class': 'ui-btn-right',
+          'data-icon': 'building-o'
+        }
       },
       roles: {
         value: ['authenticated user'],
