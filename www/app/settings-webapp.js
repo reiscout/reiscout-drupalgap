@@ -272,6 +272,43 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
   ]
 };
 
+// Help Menu
+drupalgap.settings.menus['help_menu'] = {
+  options: menu_popup_get_default_options(),
+  links: [
+    {
+      title: 'Contact Us',
+      path: '#',
+      options: {
+        attributes: {
+          'data-icon': 'mail',
+          'class': 'ui-btn ui-btn-icon-right'
+        }
+      }
+    },
+    {
+      title: 'Tutorials',
+      path: '#',
+      options: {
+        attributes: {
+          'data-icon': 'video',
+          'class': 'ui-btn ui-btn-icon-right'
+        }
+      }
+    },
+    {
+      title: 'About Us',
+      path: '#',
+      options: {
+        attributes: {
+          'data-icon': 'info',
+          'class': 'ui-btn ui-btn-icon-right'
+        }
+      }
+    },
+  ]
+};
+
 // Main Menu
 /*drupalgap.settings.menus['main_menu'] = {
   options: menu_popup_get_default_options(),
@@ -333,6 +370,7 @@ drupalgap.settings.blocks.reiscout = {
         mode: 'include',
       }
     },
+    help_menu: {},
     //main_menu: { }
   },
   sub_header: {
@@ -448,6 +486,17 @@ drupalgap.settings.menus.regions['header'] = {
         value: ['authenticated user'],
         mode: 'include',
       }
+    },
+    /* Help Popup Menu Button */
+    {
+      options: {
+        popup: true,
+        popup_delta: 'help_menu',
+        attributes: {
+          'class': 'ui-btn-right',
+          'data-icon': 'help'
+        }
+      },
     }
   ]
 };
