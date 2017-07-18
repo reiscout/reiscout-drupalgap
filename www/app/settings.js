@@ -187,6 +187,36 @@ drupalgap.settings.menus = {}; // Do not remove this line.
 drupalgap.settings.menus['properties_menu'] = {
   options: menu_popup_get_default_options(),
   links: [
+    {
+      title: 'Add a Property',
+      path: 'node/add/property',
+      options: {
+        attributes: {
+          'data-icon': 'star',
+          'class': 'ui-btn ui-btn-icon-right'
+        }
+      }
+    },
+    {
+      title: 'My Properties',
+      path: 'my-properties',
+      options: {
+        attributes: {
+          'data-icon': 'grid',
+          'class': 'ui-btn ui-btn-icon-right'
+        }
+      }
+    },
+    {
+      title: 'Purchased Addresses',
+      path: 'purchased-addresses',
+      options: {
+        attributes: {
+          'data-icon': 'grid',
+          'class': 'ui-btn ui-btn-icon-right'
+        }
+      }
+    },
   ]
 };
 
@@ -236,36 +266,6 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
       options: {
         attributes: {
           'data-icon': 'delete'
-        }
-      }
-    },
-    {
-      title: 'Add Property',
-      path: 'node/add/property',
-      options: {
-        attributes: {
-          'data-icon': 'star',
-          'class': 'ui-btn ui-btn-icon-right'
-        }
-      }
-    },
-    {
-      title: 'My Properties',
-      path: 'my-properties',
-      options: {
-        attributes: {
-          'data-icon': 'grid',
-          'class': 'ui-btn ui-btn-icon-right'
-        }
-      }
-    },
-    {
-      title: 'Purchased Addresses',
-      path: 'purchased-addresses',
-      options: {
-        attributes: {
-          'data-icon': 'grid',
-          'class': 'ui-btn ui-btn-icon-right'
         }
       }
     },
