@@ -192,7 +192,7 @@ drupalgap.settings.menus['properties_menu'] = {
       path: 'node/add/property',
       options: {
         attributes: {
-          'data-icon': 'star',
+          'data-icon': 'plus',
           'class': 'ui-btn ui-btn-icon-right'
         }
       }
@@ -202,7 +202,7 @@ drupalgap.settings.menus['properties_menu'] = {
       path: 'my-properties',
       options: {
         attributes: {
-          'data-icon': 'grid',
+          'data-icon': 'properties-list',
           'class': 'ui-btn ui-btn-icon-right'
         }
       }
@@ -212,7 +212,7 @@ drupalgap.settings.menus['properties_menu'] = {
       path: 'purchased-addresses',
       options: {
         attributes: {
-          'data-icon': 'grid',
+          'data-icon': 'properties-list',
           'class': 'ui-btn ui-btn-icon-right'
         }
       }
@@ -255,7 +255,7 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
       path: 'user',
       options: {
         attributes: {
-          'data-icon': 'user',
+          'data-icon': 'user-info',
           'class': 'ui-btn ui-btn-icon-right'
         }
       }
