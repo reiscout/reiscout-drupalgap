@@ -176,6 +176,7 @@ Drupal.modules.custom['reiscont_buy_info_points'] = {};
 Drupal.modules.custom['reiscout_property_commerce'] = {};
 Drupal.modules.custom['reiscout_mail'] = {};
 Drupal.modules.custom['reiscout_about'] = {};
+Drupal.modules.custom['reiscout_misc'] = {};
 
 drupalgap.settings.stripe_api_key = 'pk_live_8uuohLVZsXZ0mHn0fzYdRXrB';
 
