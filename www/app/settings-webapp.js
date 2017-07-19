@@ -279,12 +279,13 @@ drupalgap.settings.menus['help_menu'] = {
   links: [
     {
       title: 'Contact Us',
-      path: '#',
+      path: 'contact',
       options: {
         attributes: {
           'data-icon': 'mail',
           'class': 'ui-btn ui-btn-icon-right'
-        }
+        },
+        reloadPage: true
       }
     },
     {
