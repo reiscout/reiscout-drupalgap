@@ -210,3 +210,20 @@ div[id^='commerce_checkout_complete_'] #link {
 .node-view .field_image img {
     max-height: 220px;
 }
+
+#about #title,
+#about #copyright,
+#about #url,
+#about #url_privacy,
+#about #url_terms {
+    padding: 15px 0 15px 0;
+    border-bottom: 1px solid grey;
+}
+
+#about #title {
+    padding-top: 5px;
+}
+
+#about #url_privacy, #about #url_terms {
+    font-size: 0.8em
+}
