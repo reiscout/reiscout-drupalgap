@@ -227,3 +227,13 @@ div[id^='commerce_checkout_complete_'] #link {
 #about #url_privacy, #about #url_terms {
     font-size: 0.8em
 }
+
+.tutorial {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgb(145, 158, 169);
+}
+
+.tutorial:last-of-type {
+    border-bottom: none;
+}

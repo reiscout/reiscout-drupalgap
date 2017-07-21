@@ -177,6 +177,7 @@ Drupal.modules.custom['reiscout_property_commerce'] = {};
 Drupal.modules.custom['reiscout_mail'] = {};
 Drupal.modules.custom['reiscout_about'] = {};
 Drupal.modules.custom['reiscout_misc'] = {};
+Drupal.modules.custom['reiscout_tutorial'] = {};
 
 drupalgap.settings.stripe_api_key = 'pk_live_8uuohLVZsXZ0mHn0fzYdRXrB';
 
@@ -291,7 +292,7 @@ drupalgap.settings.menus['help_menu'] = {
     },
     {
       title: 'Tutorials',
-      path: '#',
+      path: 'tutorials',
       options: {
         attributes: {
           'data-icon': 'video',
