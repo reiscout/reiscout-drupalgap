@@ -7,6 +7,8 @@ function reiscout_misc_form_alter(form, form_state, form_id) {
       form.elements.copy.access = false;
     }
     else if ('user_register_form' == form_id) {
+      form.elements.mail.description = t('The e-mail address is not made public and will only be used if you wish to receive a new password or wish to receive certain news or notifications by e-mail.');
+
       // Remove 'Confirm e-mail address' and 'Confirm password' fields
       delete form.elements.conf_mail;
       delete form.elements.pass2;
