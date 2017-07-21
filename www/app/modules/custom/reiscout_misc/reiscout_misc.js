@@ -6,6 +6,26 @@ function reiscout_misc_form_alter(form, form_state, form_id) {
     if ('contact_site_form' == form_id) {
       form.elements.copy.access = false;
     }
+    else if ('user_register_form' == form_id) {
+      // Remove 'Confirm e-mail address' and 'Confirm password' fields
+      delete form.elements.conf_mail;
+      delete form.elements.pass2;
+
+      // Do not use user_register_form_validate() to validate the form
+      if ('undefined' !== typeof form.validate) {
+        if (1 === form.validate.length && 'user_register_form_validate' === form.validate[0]) {
+          delete form.validate;
+        }
+        else {
+          for (var index in form.validate) {
+            if ('user_register_form_validate' === form.validate[index]) {
+              form.validate.splice(index, 1);
+              break;
+            }
+          }
+        }
+      }
+    }
   }
   catch (error) {
     console.log('reiscout_misc_form_alter - ' + error);
