@@ -9,6 +9,9 @@ function reiscout_misc_form_alter(form, form_state, form_id) {
     else if ('user_register_form' == form_id) {
       form.elements.mail.description = t('The e-mail address is not made public and will only be used if you wish to receive a new password or wish to receive certain news or notifications by e-mail.');
 
+      // Change the type of 'Password' field from 'password' to 'text'
+      form.elements.pass.type = 'textfield';
+
       // Remove 'Confirm e-mail address' and 'Confirm password' fields
       delete form.elements.conf_mail;
       delete form.elements.pass2;
