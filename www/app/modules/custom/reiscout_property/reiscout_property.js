@@ -93,6 +93,12 @@ function reiscout_property_form_alter(form, form_state, form_id) {
         }
       }
 
+      // Set the initial value of the 'field_place_on_marketplace' field to its default value
+      if (undefined === form.elements['field_place_on_marketplace']['und'][0].value) {
+        var default_value = form.elements['field_place_on_marketplace'].field_info_instance.default_value[0].value;
+        form.elements['field_place_on_marketplace']['und'][0].value = default_value;
+      }
+
       if (!Drupal.user.content_types_user_permissions.property.delete_own
        && !Drupal.user.content_types_user_permissions.property.delete_any) {
         if ('undefined' !== typeof form.buttons.delete) {
