@@ -64,3 +64,12 @@ function reiscout_misc_services_preprocess(options) {
     console.log('reiscout_misc_services_preprocess - ' + error);
   }
 }
+
+/**
+ * Implements hook_services_request_pre_postprocess_alter().
+ */
+function reiscout_misc_services_request_pre_postprocess_alter(options, result) {
+  if (options.service == 'user' && options.resource == 'login' && result.user.uid) {
+    ga('set', 'userId', result.user.uid);
+  }
+}
