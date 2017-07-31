@@ -76,8 +76,18 @@
         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
         ga('create', drupalgap.settings.google_analytics.id, 'auto');
+
+        ga(function(tracker) {
+          var originalBuildHitTask = tracker.get('buildHitTask');
+
+          tracker.set('buildHitTask', function(model) {
+            if (drupalgap_user_has_role('administrator')) {
+              throw 'Aborted tracking for the user.';
+            }
+            originalBuildHitTask(model);
+          });
+        });
       </script>
       <!-- End Google Analytics -->
     </body>
 </html>
-
