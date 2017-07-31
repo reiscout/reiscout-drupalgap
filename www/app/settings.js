@@ -160,6 +160,7 @@ Drupal.modules.contrib['commerce'] = {};
 Drupal.modules.contrib['commerce_drupalgap_stripe'] = {};
 Drupal.modules.contrib['addressfield'] = {};
 Drupal.modules.contrib['date'] = {};
+Drupal.modules.contrib['google_analytics'] = {};
 
 //Drupal.modules.contrib['example'] = {};
 
@@ -549,3 +550,6 @@ drupalgap.settings.cache = {}; // Do not remove this line.
 // Theme Registry - Set to true to load the page.tpl.html contents from cache.
 drupalgap.settings.cache.theme_registry = false;
 
+drupalgap.settings.google_analytics = {
+  id: 'UA-103664342-1'
+};
