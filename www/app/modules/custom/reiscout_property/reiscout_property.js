@@ -46,7 +46,7 @@ function reiscout_property_page_build(output) {
       if (!Drupal.user.uid) {
         var message = '<div class="messages status">'
                     + l('Log In', 'user/login?destination=node/' + output.node.nid)
-                    + ' to be available to get current property address and owner info'
+                    + ' to be able to get current property address and owner info'
                     + '</div>';
         output.content.markup = message + output.content.markup
       }
