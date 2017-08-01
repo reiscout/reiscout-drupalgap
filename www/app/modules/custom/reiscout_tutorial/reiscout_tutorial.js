@@ -20,14 +20,24 @@ function reiscout_tutorials_page() {
   try {
     var tutorials = [
       {
+        id: 'register-account',
         title: 'How to Register an Account',
-        href: '#',
-        src: drupalgap_get_path('module', 'reiscout_tutorial') + '/screenshots/how_to_register_an_account.jpg'
+        src: 'https://www.youtube.com/embed/TYHgQsTrbWY'
       },
       {
+        id: 'menu-overview',
+        title: 'Menu Items Overview',
+        src: 'https://www.youtube.com/embed/rv6Z2YWR6qk'
+      },
+      {
+        id: 'add-property',
         title: 'How to Add a Property',
-        href: '#',
-        src: drupalgap_get_path('module', 'reiscout_tutorial') + '/screenshots/how_to_add_a_property.jpg'
+        src: 'https://www.youtube.com/embed/s8DYiRFRHIw'
+      },
+      {
+        id: 'buy-property',
+        title: 'How to Buy a Property Lead',
+        src: 'https://www.youtube.com/embed/G6YRk9d2y74'
       }
     ];
 
@@ -36,12 +46,12 @@ function reiscout_tutorials_page() {
     for (i = 0; i < tutorials.length; ++i) {
       html += '<div class="tutorial">';
 
-      html += '<div class="screenshot">';
-      html += theme('image', {path: tutorials[i].src});
+      html += '<div id="' + tutorials[i].id + '" class="video">';
+      html += '<iframe src="' + tutorials[i].src + '" frameborder="0" allowfullscreen></iframe>';
       html += '</div>';
 
       html += '<div class="title">';
-      html += l(tutorials[i].title, tutorials[i].href);
+      html += tutorials[i].title;
       html += '</div>';
 
       html += '</div>';
