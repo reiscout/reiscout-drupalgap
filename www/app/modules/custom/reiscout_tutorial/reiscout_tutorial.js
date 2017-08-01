@@ -7,7 +7,12 @@ function reiscout_tutorial_menu() {
 
   items['tutorials'] = {
     title: 'Tutorials',
-    page_callback: 'reiscout_tutorials_page'
+    page_callback: 'reiscout_tutorials_page',
+    pageshow: 'reiscout_tutorials_page_pageshow',
+    // See go.inc.js, drupalgap_goto(), line 151
+    options: {
+      reloadPage: true
+    }
   };
 
   return items;
@@ -62,4 +67,17 @@ function reiscout_tutorials_page() {
   catch (error) {
     console.log('reiscout_tutorials_page - ' + error);
   }
+}
+
+/**
+ * A callback that is used during the pageshow event.
+ */
+function reiscout_tutorials_page_pageshow() {
+  setTimeout(function() {
+    // Scroll page to a video if ID of the video is provided in URL
+    if (_GET('vid')) {
+      var id = '#' + _GET('vid');
+      $(window).scrollTop($(id).offset().top - jQuery('#tutorials .region_header').height() - 10);
+    }
+  }, 1000);
 }
