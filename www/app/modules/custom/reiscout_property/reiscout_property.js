@@ -37,24 +37,6 @@ function reiscout_property_menu() {
 }
 
 /**
- * Implements hook_page_build().
- */
-function reiscout_property_page_build(output) {
-  if ('node/%' == drupalgap_router_path_get()) {
-    if ('undefined' !== typeof output.theme && 'node' == output.theme && 'property' == output.node.type) {
-      // If the user is not logged in, show a message to him
-      if (!Drupal.user.uid) {
-        var message = '<div class="messages status">'
-                    + l('Log In', 'user/login?destination=node/' + output.node.nid)
-                    + ' to be able to get current property address and owner info'
-                    + '</div>';
-        output.content.markup = message + output.content.markup
-      }
-    }
-  }
-}
-
-/**
  * Implements hook_form_alter().
  */
 function reiscout_property_form_alter(form, form_state, form_id) {

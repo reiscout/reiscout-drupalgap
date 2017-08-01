@@ -81,3 +81,21 @@ function reiscout_tutorials_page_pageshow() {
     }
   }, 1000);
 }
+
+/**
+ * Implements hook_page_build().
+ */
+function reiscout_tutorial_page_build(output) {
+  if ('node/%' == drupalgap_router_path_get()) {
+    if ('undefined' !== typeof output.theme && 'node' == output.theme && 'property' == output.node.type) {
+      // If the user is not logged in, show a message to him
+      if (!Drupal.user.uid) {
+        var message = '<div class="messages status">'
+          + l('Log In', 'user/login?destination=node/' + output.node.nid)
+          + ' to be able to get current property address and owner info'
+          + '</div>';
+        output.content.markup = message + output.content.markup
+      }
+    }
+  }
+}
