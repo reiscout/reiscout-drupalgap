@@ -83,19 +83,16 @@ function reiscout_tutorials_page_pageshow() {
 }
 
 /**
- * Implements hook_page_build().
+ * Implements hook_drupalgap_goto_preprocess().
  */
-function reiscout_tutorial_page_build(output) {
-  if ('node/%' == drupalgap_router_path_get()) {
-    if ('undefined' !== typeof output.theme && 'node' == output.theme && 'property' == output.node.type) {
-      // If the user is not logged in, show a message to him
-      if (!Drupal.user.uid) {
-        var message = '<div class="messages status">'
-          + l('Log In', 'user/login?destination=node/' + output.node.nid)
-          + ' to be able to get current property address and owner info'
-          + '</div>';
-        output.content.markup = message + output.content.markup
-      }
-    }
+function reiscout_tutorial_drupalgap_goto_preprocess(path) {
+  var menu_link_router_path = drupalgap_get_menu_link_router_path(path);
+
+  // If menu link router path for the current URL is 'node/%' and the current user is not logged in
+  if ('node/%' === menu_link_router_path && !Drupal.user.uid) {
+    var nid = arg(1, path);
+    var message = 'Please, ' + l('log in', 'user/login?destination=node/' + nid)
+                + ' to be able to see the property address and owner info!';
+    drupalgap_set_message(message);
   }
 }
