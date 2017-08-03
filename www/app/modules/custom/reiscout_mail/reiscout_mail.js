@@ -70,7 +70,7 @@ function reiscout_mail_buy_sending_points_form(form, form_state) {
     form.options.attributes['style'] = 'display: none';
     form.elements['submit'] = {
       type: 'submit',
-      value: 'Buy Ability to Send Mail'
+      value: 'Buy Mail Points'
     };
     return form;
   }

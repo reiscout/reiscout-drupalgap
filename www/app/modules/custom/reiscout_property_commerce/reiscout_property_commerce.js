@@ -93,7 +93,7 @@ function reiscout_property_commerce_form_commerce_cart_add_to_cart_form_alter(fo
     // Update cart submit button in depend of product type
     if (typeof node._reiscout_property_commerce_product_type != undefined) {
       if (node._reiscout_property_commerce_product_type == 'reiscout_property_address_access') {
-        form.elements.submit.value = 'Buy Property Address for ' + node._price_title;
+        form.elements.submit.value = 'Buy Property Lead for ' + node._price_title;
         form.elements.submit.access = true;
       }
     }

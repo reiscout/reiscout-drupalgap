@@ -26,7 +26,7 @@ function reiscout_get_owner_info_custom_form(form, form_state, product_display) 
     form.options.attributes['style'] = 'display: none';
     form.elements['submit'] = {
       type: 'submit',
-      value: 'Get Property Owner'
+      value: 'Pull Property Data'
     };
     return form;
   }
