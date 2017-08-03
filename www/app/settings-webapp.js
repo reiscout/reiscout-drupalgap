@@ -212,8 +212,8 @@ drupalgap.settings.menus['properties_menu'] = {
       }
     },
     {
-      title: 'Purchased Addresses',
-      path: 'purchased-addresses',
+      title: 'Purchased Leads',
+      path: 'purchased-leads',
       options: {
         attributes: {
           'data-icon': 'properties-list',

@@ -5,8 +5,8 @@
 function reiscout_purchased_addresses_menu() {
   var items = {};
 
-  items['purchased-addresses'] = {
-    title: 'Purchased Addresses',
+  items['purchased-leads'] = {
+    title: 'Purchased Leads',
     page_callback: 'reiscout_property_listing_page',
     pageshow: 'reiscout_property_listing_pageshow',
     // See go.inc.js, drupalgap_goto(), line 151
