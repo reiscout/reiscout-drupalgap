@@ -136,6 +136,50 @@ function reiscout_tutorial_drupalgap_goto_preprocess(path) {
 }
 
 /**
+ * Implements hook_page_build().
+ */
+function reiscout_tutorial_page_build(output) {
+  var closed_hints = JSON.parse(window.localStorage.getItem('closed_hints')) || [];
+
+  // If menu link router path for the current URL is 'node/%'
+  // and the current user is the author of the current property
+  if ('node/%' === drupalgap_router_path_get()
+   && 'undefined' !== typeof output.theme && 'node' === output.theme && 'property' === output.node.type
+   && Drupal.user.uid === output.node.uid) {
+    // If the 'Full info' tag has not been attached to the property
+    if (!_reiscout_tutorial_is_tag_attached_to_property(output.node, 'Full info')) {
+      // If the user does not have Property Data points
+      // and he has not closed the 'buy-property-data-points' hint
+      if (0 >= Drupal.user._amount_of_property_data_points
+       && !in_array('buy-property-data-points', closed_hints)) {
+        var message = '<div class="messages status">'
+                    + '<div>' + 'Hi ' + Drupal.user.name + ',' + '</div>'
+                    + '<div>We provide property data for all 50 states.</div>'
+                    + '<div>To autofill your property listing you must <strong>purchase Property Data points<strong>.</div>'
+                    + '<div>' + l('Watch our video tutorial', 'tutorials?vid=buy-property-data-points') + ' on How to Buy Property Data Points.' + '</div>'
+                    + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'buy-property-data-points\')">Do not show this message again</a></div>'
+                    + '</div>';
+        output.content.markup = message + output.content.markup
+      }
+
+      // If the user has Property Data points
+      // and he has not closed the 'pull-property-data' hint
+      if (0 < Drupal.user._amount_of_property_data_points
+       && !in_array('pull-property-data', closed_hints)) {
+        var message = '<div class="messages status">'
+                    + '<div>' + 'Hi ' + Drupal.user.name + ',' + '</div>'
+                    + '<div>We provide property data for all 50 states.</div>'
+                    + '<div>Click the <strong>Pull Property Data</strong> button to autofill your property listing!</div>'
+                    + '<div>' + l('Watch our video tutorial', 'tutorials?vid=pull-property-data') + ' on How to Pull a Property Data.' + '</div>'
+                    + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'pull-property-data\')">Do not show this message again</a></div>'
+                    + '</div>';
+        output.content.markup = message + output.content.markup
+      }
+    }
+  }
+}
+
+/**
  * Adds a hint ID into an array of hints that were closed
  * and hides messages.
  */
