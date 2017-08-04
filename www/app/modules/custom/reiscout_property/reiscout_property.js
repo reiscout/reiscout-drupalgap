@@ -267,7 +267,7 @@ function _reiscout_property_update_list(city, zip) {
           }
         };
         break;
-      case 'purchased_addresses':
+      case 'purchased_leads':
         var view = {
           format: 'unformatted_list',
           path: 'drupalgap/views_datasource/purchased_address_list/' + Drupal.user.uid + params,
