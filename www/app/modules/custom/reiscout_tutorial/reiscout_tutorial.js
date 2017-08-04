@@ -87,12 +87,47 @@ function reiscout_tutorials_page_pageshow() {
  */
 function reiscout_tutorial_drupalgap_goto_preprocess(path) {
   var menu_link_router_path = drupalgap_get_menu_link_router_path(path);
+  var closed_hints = JSON.parse(window.localStorage.getItem('closed_hints')) || [];
 
-  // If menu link router path for the current URL is 'node/%' and the current user is not logged in
-  if ('node/%' === menu_link_router_path && !Drupal.user.uid) {
+  // If menu link router path for the current URL is one of:
+  // - 'property-listing'
+  // - 'node/%'
+  // and the current user is not logged in
+  // and the user has not closed the 'register-account' hint
+  if (in_array(menu_link_router_path, ['property-listing', 'node/%'])
+   && !Drupal.user.uid
+   && !in_array('register-account', closed_hints)) {
+    var message = '<div>' + 'Please, ' + l('log in', 'user/login') + ' to get access to all the features of our app.' + '</div>'
+                + '<div>' + 'If you have not created your personal account yet, please ' + l('do it', 'user/register') + ' now!' + '</div>'
+                + '<div>' + l('Watch our video tutorial', 'tutorials') + ' on How to Register Your Account.' + '</div>'
+                + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'register-account\')">Do not show this message again</a></div>';
+    drupalgap_set_message(message);
+  }
+
+  // If menu link router path for the current URL is 'node/%'
+  // and the current user is not logged in
+  // and the user has closed the 'register-account' hint
+  if ('node/%' === menu_link_router_path
+   && !Drupal.user.uid
+   && in_array('register-account', closed_hints)) {
     var nid = arg(1, path);
     var message = 'Please, ' + l('log in', 'user/login?destination=node/' + nid)
                 + ' to be able to see the property address and owner info!';
     drupalgap_set_message(message);
   }
+}
+
+/**
+ * Adds a hint ID into an array of hints that were closed
+ * and hides messages.
+ */
+function _reiscout_tutorial_close_hint(id) {
+  var closed_hints = JSON.parse(window.localStorage.getItem('closed_hints')) || [];
+
+  if (!in_array(id, closed_hints)) {
+    closed_hints.push(id);
+    window.localStorage.setItem('closed_hints', JSON.stringify(closed_hints));
+  }
+
+  $('.messages').hide();
 }
