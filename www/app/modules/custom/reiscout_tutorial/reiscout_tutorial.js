@@ -142,12 +142,12 @@ function reiscout_tutorial_page_build(output) {
   var closed_hints = JSON.parse(window.localStorage.getItem('closed_hints')) || [];
 
   // If menu link router path for the current URL is 'node/%'
-  // and the current user is the author of the current property
   if ('node/%' === drupalgap_router_path_get()
-   && 'undefined' !== typeof output.theme && 'node' === output.theme && 'property' === output.node.type
-   && Drupal.user.uid === output.node.uid) {
-    // If the 'Full info' tag has not been attached to the property
-    if (!_reiscout_tutorial_is_tag_attached_to_property(output.node, 'Full info')) {
+   && 'undefined' !== typeof output.theme && 'node' === output.theme && 'property' === output.node.type) {
+    // If the current user is the author of the current property
+    // and the 'Full info' tag has not been attached to the property
+    if (Drupal.user.uid === output.node.uid
+     && !_reiscout_tutorial_is_tag_attached_to_property(output.node, 'Full info')) {
       // If the user does not have Property Data points
       // and he has not closed the 'buy-property-data-points' hint
       if (0 >= Drupal.user._amount_of_property_data_points
@@ -172,6 +172,40 @@ function reiscout_tutorial_page_build(output) {
                     + '<div>Click the <strong>Pull Property Data</strong> button to autofill your property listing!</div>'
                     + '<div>' + l('Watch our video tutorial', 'tutorials?vid=pull-property-data') + ' on How to Pull a Property Data.' + '</div>'
                     + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'pull-property-data\')">Do not show this message again</a></div>'
+                    + '</div>';
+        output.content.markup = message + output.content.markup
+      }
+    }
+
+    // If the current user is the author of the current property
+    // or the user bought the property lead
+    // and the 'Owner info' tag has been attached to the property
+    if ((Drupal.user.uid === output.node.uid
+     || output.node._user_bought_address_access_product)
+     && _reiscout_tutorial_is_tag_attached_to_property(output.node, 'Owner info')) {
+      // If the user does not have Mail points
+      // and he has not closed the 'buy-mail-points' hint
+      if (0 >= Drupal.user._amount_of_mail_points
+       && !in_array('buy-mail-points', closed_hints)) {
+        var message = '<div class="messages status">'
+                    + '<div>' + 'Hi ' + Drupal.user.name + ',' + '</div>'
+                    + '<div>Send a physical postcard to the property owner!</div>'
+                    + '<div>To be able to do it you must <strong>purchase Mail points<strong>.</div>'
+                    + '<div>' + l('Watch our video tutorial', 'tutorials?vid=buy-mail-points') + ' on How to Buy Mail Points.' + '</div>'
+                    + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'buy-mail-points\')">Do not show this message again</a></div>'
+                    + '</div>';
+        output.content.markup = message + output.content.markup
+      }
+
+      // If the user has Mail points
+      // and he has not closed the 'send-postcard' hint
+      if (0 < Drupal.user._amount_of_mail_points
+       && !in_array('send-postcard', closed_hints)) {
+        var message = '<div class="messages status">'
+                    + '<div>' + 'Hi ' + Drupal.user.name + ',' + '</div>'
+                    + '<div>Click the <strong>Send a Postcard</strong> button to send a physical postcard to the property owner!</div>'
+                    + '<div>' + l('Watch our video tutorial', 'tutorials?vid=send-postcard') + ' on How to Send a Postcard.' + '</div>'
+                    + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'send-postcard\')">Do not show this message again</a></div>'
                     + '</div>';
         output.content.markup = message + output.content.markup
       }
