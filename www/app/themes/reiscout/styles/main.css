@@ -237,3 +237,23 @@ div[id^='commerce_checkout_complete_'] #link {
 .tutorial:last-of-type {
     border-bottom: none;
 }
+
+.tutorial iframe {
+    width: 92vw;
+    height: calc(100vw/1.77777777778);
+}
+
+.tutorial .title {
+    margin-top: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.messages div:not(:last-child) {
+    margin-bottom: 7px;
+}
+
+.messages .close {
+    text-align: right;
+    font-size: 0.8em;
+}
