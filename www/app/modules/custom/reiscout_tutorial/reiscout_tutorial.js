@@ -115,6 +115,24 @@ function reiscout_tutorial_drupalgap_goto_preprocess(path) {
                 + ' to be able to see the property address and owner info!';
     drupalgap_set_message(message);
   }
+
+  // If menu link router path for the current URL is one of:
+  // - 'property-listing'
+  // - 'node/%'
+  // - 'my-properties'
+  // and the current user is logged in
+  // and the user has not created any properties yet
+  // and the user has not closed the 'add-property' hint
+  if (in_array(menu_link_router_path, ['property-listing', 'node/%', 'my-properties'])
+   && Drupal.user.uid
+   && !Drupal.user._amount_of_added_properties
+   && !in_array('add-property', closed_hints)) {
+    var message = '<div>' + 'Hi ' + Drupal.user.name + ',' + '</div>'
+                + '<div>' + 'You have not added any properties yet. You can ' + l('do it', 'node/add/property') + ' now.' + '</div>'
+                + '<div>' + l('Watch our video tutorial', 'tutorials?vid=add-property') + ' on How to Add a Property.' + '</div>'
+                + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'add-property\')">Do not show this message again</a></div>';
+    drupalgap_set_message(message);
+  }
 }
 
 /**
