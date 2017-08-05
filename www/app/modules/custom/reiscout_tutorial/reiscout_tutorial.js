@@ -214,6 +214,29 @@ function reiscout_tutorial_page_build(output) {
 }
 
 /**
+ * Implements hook_services_request_pre_postprocess_alter().
+ */
+function reiscout_tutorial_services_request_pre_postprocess_alter(options, result) {
+  try {
+    // If a postcard has been sent successfully, decrease a value of _amount_of_mail_points
+    if ('reiscout_mail_postcard' === options.service && 'send' === options.resource) {
+      if (result.status) {
+        --Drupal.user._amount_of_mail_points;
+      }
+    }
+    // If property data have been pulled successfully, decrease a value of _amount_of_property_data_points
+    else if ('ownerinfo' === options.service && 'getinfo' === options.resource) {
+      if (result.status) {
+        --Drupal.user._amount_of_property_data_points;
+      }
+    }
+  }
+  catch (error) {
+    console.log('reiscout_tutorial_services_request_pre_postprocess_alter - ' + error);
+  }
+}
+
+/**
  * Adds a hint ID into an array of hints that were closed
  * and hides messages.
  */
