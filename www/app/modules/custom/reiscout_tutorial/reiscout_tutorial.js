@@ -237,6 +237,37 @@ function reiscout_tutorial_services_request_pre_postprocess_alter(options, resul
 }
 
 /**
+ * Implements hook_services_postprocess().
+ */
+function reiscout_tutorial_services_postprocess(options, result) {
+  try {
+    // If checkout has been completed successfully, check which products have been purchased
+    if ('checkout_complete' === options.service && 'create' === options.resource) {
+      if (result[0]) {
+        var order_id = arg(2);
+        var order = _commerce_order[order_id];
+
+        $.each(order.commerce_line_items_entities, function(line_item_id, line_item) {
+          // If the 'Property Data points' product has been purchased,
+          // increase a value of _amount_of_property_data_points
+          if ('596' === line_item.commerce_product) {
+            Drupal.user._amount_of_property_data_points += line_item.product_points_amount;
+          }
+          // If the 'Mail points' product has been purchased,
+          // increase a value of _amount_of_mail_points
+          else if ('597' === line_item.commerce_product) {
+            Drupal.user._amount_of_mail_points += line_item.product_points_amount;
+          }
+        });
+      }
+    }
+  }
+  catch (error) {
+    console.log('reiscout_tutorial_services_postprocess - ' + error);
+  }
+}
+
+/**
  * Adds a hint ID into an array of hints that were closed
  * and hides messages.
  */
