@@ -230,6 +230,12 @@ function reiscout_tutorial_services_request_pre_postprocess_alter(options, resul
         --Drupal.user._amount_of_property_data_points;
       }
     }
+    // If a property has been created successfully, increase a value of _amount_of_added_properties
+    else if ('node' === options.service && 'create' === options.resource) {
+      if (result.nid) {
+        ++Drupal.user._amount_of_added_properties;
+      }
+    }
   }
   catch (error) {
     console.log('reiscout_tutorial_services_request_pre_postprocess_alter - ' + error);
