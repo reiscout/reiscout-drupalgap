@@ -21,17 +21,59 @@ function reiscout_property_commerce_services_postprocess(options, result) {
 }
 
 /**
+ * Alter the result data of a service call, before its success function.
+ * @param {object} options
+ * @param {Object} result
+ */
+function reiscout_property_commerce_services_request_pre_postprocess_alter(options, result) {
+  if (options.service === 'cart' && options.resource === 'index') {
+    if (Object.keys(result).length) {
+      $.each(result, function(order_id, order) {
+        // Set the _commerce_order variable, so we will be able to use it
+        // in reiscout_property_commerce_services_preprocess()
+        _commerce_order[order_id] = order;
+        // Process only one cart
+        return false;
+      });
+    }
+  }
+}
+
+/**
  * Implements hook_services_preprocess().
  * @param {Object} options
  */
 function reiscout_property_commerce_services_preprocess(options) {
   try {
     // This Services call is initiated by commerce_line_item_create().
-    // By default, _commerce_cart_add_to_cart_form_submit_success() is a function that
-    // will be called if the request succeeds. The function will redirect user to the
-    // 'Cart' page. But we do not want to redirect user. Instead, we want to reload
-    // the current page and show him a message.
-    if (options.service == 'line-item' && options.resource == 'create') {
+    if (options.service === 'line-item' && options.resource === 'create') {
+      var data = options.data.match(/order_id=([\d]+).+commerce_product=([\d]+)/);
+      var order_id = data[1];
+      var product_id = data[2];
+      var order = _commerce_order[order_id];
+
+      // If there is at least one item in the cart
+      if (order.commerce_line_items.length) {
+        $.each(order.commerce_line_items_entities, function(line_item_id, line_item) {
+          // If the product has been already added to the cart
+          if (line_item.commerce_product === product_id) {
+            var msg = '<div>' + t('You have already added the') + ' <em>' + line_item.line_item_title + '</em> ' +  t('product to the') + ' ' + l('cart', 'cart', {reloadPage: true}) + '.</div>'
+                    + '<div>' + t('Add another product or go to') + ' ' + l('checkout', 'cart', {reloadPage: true}) + '!</div>';
+            drupalgap_set_message(msg, 'warning');
+            drupalgap_goto(drupalgap_path_get(), {reloadPage: true});
+            // We don't want a request to the 'create' method of the 'line-item'
+            // Services resource to be processed successfully
+            // @todo: is there the right way to do it?
+            options.data = '';
+            return false;
+          }
+        });
+      }
+
+      // By default, _commerce_cart_add_to_cart_form_submit_success() is a function that
+      // will be called if the request succeeds. The function will redirect user to the
+      // 'Cart' page. But we do not want to redirect user. Instead, we want to reload
+      // the current page and show him a message.
       options.success = function(result) {
         var msg = '<em>' + result.line_item_title + '</em> ' + t('has been added to your') + ' ' + l('cart', 'cart', {reloadPage: true});
         drupalgap_set_message(msg);
