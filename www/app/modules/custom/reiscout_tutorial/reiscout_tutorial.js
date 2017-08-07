@@ -86,6 +86,11 @@ function reiscout_tutorials_page_pageshow() {
  * Implements hook_drupalgap_goto_preprocess().
  */
 function reiscout_tutorial_drupalgap_goto_preprocess(path) {
+  // We don't want to process a redirect from the system _reload page
+  if ('_reload' === drupalgap_path_get()) {
+    return;
+  }
+
   var menu_link_router_path = drupalgap_get_menu_link_router_path(path);
   var closed_hints = JSON.parse(window.localStorage.getItem('closed_hints')) || [];
 
