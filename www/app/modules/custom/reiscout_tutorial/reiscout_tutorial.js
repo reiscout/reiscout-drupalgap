@@ -27,22 +27,32 @@ function reiscout_tutorials_page() {
       {
         id: 'register-account',
         title: 'How to Register an Account',
-        src: 'https://www.youtube.com/embed/TYHgQsTrbWY'
+        src: 'https://www.youtube.com/embed/nvEQ1qbZ-hM'
       },
       {
         id: 'menu-overview',
         title: 'Menu Items Overview',
-        src: 'https://www.youtube.com/embed/rv6Z2YWR6qk'
+        src: 'https://www.youtube.com/embed/0gdRyTPySVI'
       },
       {
         id: 'add-property',
         title: 'How to Add a Property',
-        src: 'https://www.youtube.com/embed/s8DYiRFRHIw'
+        src: 'https://www.youtube.com/embed/cOT_RdMvzRA'
+      },
+      {
+        id: 'pull-property-data',
+        title: 'How to Pull a Property Data',
+        src: 'https://www.youtube.com/embed/ipuLMweN9Vk'
+      },
+      {
+        id: 'send-postcard',
+        title: 'How to Send a Postcard',
+        src: 'https://www.youtube.com/embed/RscDcfGuWKg'
       },
       {
         id: 'buy-property',
         title: 'How to Buy a Property Lead',
-        src: 'https://www.youtube.com/embed/G6YRk9d2y74'
+        src: 'https://www.youtube.com/embed/KcD4KfZVnNA'
       }
     ];
 
