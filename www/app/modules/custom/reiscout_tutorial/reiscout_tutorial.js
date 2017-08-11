@@ -171,7 +171,7 @@ function reiscout_tutorial_page_build(output) {
                     + '<div>' + 'Hi ' + Drupal.user.name + ',' + '</div>'
                     + '<div>We provide property data for all 50 states.</div>'
                     + '<div>To autofill your property listing you must <strong>purchase Property Data points<strong>.</div>'
-                    + '<div>' + l('Watch our video tutorial', 'tutorials?vid=buy-property-data-points') + ' on How to Buy Property Data Points.' + '</div>'
+                    + '<div>' + l('Watch our video tutorial', 'tutorials?vid=pull-property-data') + ' on How to Buy Property Data Points.' + '</div>'
                     + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'buy-property-data-points\')">Do not show this message again</a></div>'
                     + '</div>';
         output.content.markup = message + output.content.markup
@@ -206,7 +206,7 @@ function reiscout_tutorial_page_build(output) {
                     + '<div>' + 'Hi ' + Drupal.user.name + ',' + '</div>'
                     + '<div>Send a physical postcard to the property owner!</div>'
                     + '<div>To be able to do it you must <strong>purchase Mail points<strong>.</div>'
-                    + '<div>' + l('Watch our video tutorial', 'tutorials?vid=buy-mail-points') + ' on How to Buy Mail Points.' + '</div>'
+                    + '<div>' + l('Watch our video tutorial', 'tutorials?vid=send-postcard') + ' on How to Buy Mail Points.' + '</div>'
                     + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'buy-mail-points\')">Do not show this message again</a></div>'
                     + '</div>';
         output.content.markup = message + output.content.markup
