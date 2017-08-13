@@ -112,7 +112,7 @@ function reiscout_tutorial_drupalgap_goto_preprocess(path) {
   if (in_array(menu_link_router_path, ['property-listing', 'node/%'])
    && !Drupal.user.uid
    && !in_array('register-account', closed_hints)) {
-    var message = '<div>' + 'Please, ' + l('log in', 'user/login') + ' to get access to all the features of our app.' + '</div>'
+    var message = '<div>' + 'Please, ' + l('log in', 'user/login') + ' for access to all of the features of our app.' + '</div>'
                 + '<div>' + 'If you have not created your personal account yet, please ' + l('do it', 'user/register') + ' now!' + '</div>'
                 + '<div>' + l('Watch our video tutorial', 'tutorials') + ' on How to Register Your Account.' + '</div>'
                 + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'register-account\')">Do not show this message again</a></div>';
@@ -205,7 +205,7 @@ function reiscout_tutorial_page_build(output) {
         var message = '<div class="messages status">'
                     + '<div>' + 'Hi ' + Drupal.user.name + ',' + '</div>'
                     + '<div>Send a physical postcard to the property owner!</div>'
-                    + '<div>To be able to do it you must <strong>purchase Mail points<strong>.</div>'
+                    + '<div>To start sending mail you must <strong>purchase Mail points<strong>.</div>'
                     + '<div>' + l('Watch our video tutorial', 'tutorials?vid=send-postcard') + ' on How to Buy Mail Points.' + '</div>'
                     + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'buy-mail-points\')">Do not show this message again</a></div>'
                     + '</div>';
