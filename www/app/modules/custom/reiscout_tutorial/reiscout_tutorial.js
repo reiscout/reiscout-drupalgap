@@ -107,6 +107,13 @@ function reiscout_tutorials_page_pageshow() {
         eventLabel: this.dataset.title
       });
     });
+
+    // When the 'Back' button is clicked, stop all the videos
+    $('.region_footer a.ui-icon-back').on('click', function() {
+      $('#video_tutorials_list_view video').each(function(i) {
+        this.pause();
+      });
+    });
   }, 1000);
 }
 
@@ -165,6 +172,14 @@ function reiscout_tutorial_drupalgap_goto_preprocess(path) {
                 + '<div>' + l('Watch our video tutorial', 'tutorials?vid=add-property') + ' on How to Add a Property.' + '</div>'
                 + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'add-property\')">Do not show this message again</a></div>';
     drupalgap_set_message(message);
+  }
+
+  // If the current page is 'Tutorials' and some another page
+  // is going to be opened, stop all the videos
+  if ('tutorials' === drupalgap_path_get()) {
+    $('#video_tutorials_list_view video').each(function(i) {
+      this.pause();
+    });
   }
 }
 
