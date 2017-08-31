@@ -238,7 +238,7 @@ div[id^='commerce_checkout_complete_'] #link {
     border-bottom: none;
 }
 
-.tutorial iframe {
+.tutorial video {
     width: 92vw;
     height: calc(100vw/1.77777777778);
 }
