@@ -23,59 +23,57 @@ function reiscout_tutorial_menu() {
  */
 function reiscout_tutorials_page() {
   try {
-    var tutorials = [
-      {
-        id: 'register-account',
-        title: 'How to Register an Account',
-        src: 'https://www.youtube.com/embed/nvEQ1qbZ-hM'
-      },
-      {
-        id: 'menu-overview',
-        title: 'Menu Items Overview',
-        src: 'https://www.youtube.com/embed/0gdRyTPySVI'
-      },
-      {
-        id: 'add-property',
-        title: 'How to Add a Property',
-        src: 'https://www.youtube.com/embed/cOT_RdMvzRA'
-      },
-      {
-        id: 'pull-property-data',
-        title: 'How to Pull a Property Data',
-        src: 'https://www.youtube.com/embed/ipuLMweN9Vk'
-      },
-      {
-        id: 'send-postcard',
-        title: 'How to Send a Postcard',
-        src: 'https://www.youtube.com/embed/RscDcfGuWKg'
-      },
-      {
-        id: 'buy-property',
-        title: 'How to Buy a Property Lead',
-        src: 'https://www.youtube.com/embed/KcD4KfZVnNA'
+    var content = {};
+
+    content['video_tutorials_list'] = {
+      theme: 'view',
+      format: 'unformatted-list',
+      path: 'drupalgap/views_datasource/video_tutorials',
+      row_callback: 'reiscout_tutorials_listing_row',
+      empty_callback: 'reiscout_tutorials_listing_empty',
+      attributes: {
+        id: 'video_tutorials_list_view'
       }
-    ];
+    };
 
-    var html = '';
-
-    for (i = 0; i < tutorials.length; ++i) {
-      html += '<div class="tutorial">';
-
-      html += '<div id="' + tutorials[i].id + '" class="video">';
-      html += '<iframe src="' + tutorials[i].src + '" frameborder="0" allowfullscreen></iframe>';
-      html += '</div>';
-
-      html += '<div class="title">';
-      html += tutorials[i].title;
-      html += '</div>';
-
-      html += '</div>';
-    }
-
-    return html;
+    return content;
   }
   catch (error) {
     console.log('reiscout_tutorials_page - ' + error);
+  }
+}
+
+/**
+ * The callback to render a single video tutorial.
+ */
+function reiscout_tutorials_listing_row(view, row) {
+  try {
+    var row_html = '<div id="' + row.id +  '" class="tutorial">';
+
+    row_html += '<div class="video">';
+    row_html += '<video src="' + row.video_src + '" poster="' + row.poster.src + '" preload="metadata" controls data-title="' + row.title + '"></video>';
+    row_html += '</div>';
+
+    row_html += '<div class="title">' + row.title + '</div>';
+
+    row_html += '</div>';
+
+    return row_html;
+  }
+  catch (error) {
+    console.log('reiscout_tutorials_listing_row - ' + error);
+  }
+}
+
+/**
+ * Displays a message if the view is empty.
+ */
+function reiscout_tutorials_listing_empty(view) {
+  try {
+    return t('Sorry, there are no any tutorials yet.');
+  }
+  catch (error) {
+    console.log('reiscout_tutorials_listing_empty - ' + error);
   }
 }
 
