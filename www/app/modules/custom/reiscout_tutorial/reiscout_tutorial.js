@@ -98,6 +98,14 @@ function reiscout_tutorials_page_pageshow() {
           this.pause();
         }
       });
+
+      // and send GA the current video tutorial's play event
+      ga('send', {
+        hitType: 'event',
+        eventCategory: 'Video tutorial',
+        eventAction: 'play',
+        eventLabel: this.dataset.title
+      });
     });
   }, 1000);
 }
