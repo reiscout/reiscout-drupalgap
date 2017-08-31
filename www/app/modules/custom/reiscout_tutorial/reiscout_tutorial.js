@@ -87,6 +87,18 @@ function reiscout_tutorials_page_pageshow() {
       var id = '#' + _GET('vid');
       $(window).scrollTop($(id).offset().top - jQuery('#tutorials .region_header').height() - 10);
     }
+
+    // When a video is started playing
+    $('#video_tutorials_list_view video').on('play', function() {
+      var video_is_played = this;
+
+      // pause all the other videos
+      $('#video_tutorials_list_view video').each(function(i) {
+        if (video_is_played != this) {
+          this.pause();
+        }
+      });
+    });
   }, 1000);
 }
 
