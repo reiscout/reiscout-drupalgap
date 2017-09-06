@@ -93,6 +93,10 @@ function reiscout_property_form_alter(form, form_state, form_id) {
             form.elements['field_place_on_marketplace'].access = false;
           }
         }
+
+        if ('undefined' !== typeof form.buttons.delete) {
+          delete form.buttons.delete;
+        }
       }
       // If the 'Lock data' field of the node is set to true
       else if ('undefined' !== typeof node.field_data_locked['und']
@@ -107,13 +111,6 @@ function reiscout_property_form_alter(form, form_state, form_id) {
           if (!drupalgap_user_has_role('administrator')) {
             delete form.elements['field_address'];
           }
-        }
-      }
-
-      if (!Drupal.user.content_types_user_permissions.property.delete_own
-       && !Drupal.user.content_types_user_permissions.property.delete_any) {
-        if ('undefined' !== typeof form.buttons.delete) {
-          delete form.buttons.delete;
         }
       }
     }
