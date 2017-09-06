@@ -1,13 +1,4 @@
 /**
- * Implements hook_device_connected().
- */
-function reiscout_property_device_connected() {
-  if ('undefined' !== typeof drupalgap.menu_links['node/%/edit']) {
-    drupalgap.menu_links['node/%/edit'].access_callback = '_reiscout_property_node_edit_access';
-  }
-}
-
-/**
  * Implements hook_menu().
  */
 function reiscout_property_menu() {
@@ -42,6 +33,8 @@ function reiscout_property_menu() {
 function reiscout_property_form_alter(form, form_state, form_id) {
   try {
     if (form_id == 'node_edit' && form.bundle == 'property') {
+      var node = form.arguments[0];
+
       // The title field is hidden using CSS. Here we set its value to some text.
       // The field value will be filled with real value on a server side on save.
       form.elements['title'].default_value = 'value placeholder';
@@ -79,6 +72,42 @@ function reiscout_property_form_alter(form, form_state, form_id) {
       if (undefined === form.elements['field_place_on_marketplace']['und'][0].value) {
         var default_value = form.elements['field_place_on_marketplace'].field_info_instance.default_value[0].value;
         form.elements['field_place_on_marketplace']['und'][0].value = default_value;
+      }
+
+      // If a node's 'Address Access' product has been purchased
+      if (node._purchased_counter) {
+        if ('undefined' !== typeof form.elements['field_geo_position']) {
+          if (!drupalgap_user_has_role('administrator')) {
+            form.elements['field_geo_position'].access = false;
+          }
+        }
+
+        if ('undefined' !== typeof form.elements['field_address']) {
+          if (!drupalgap_user_has_role('administrator')) {
+            delete form.elements['field_address'];
+          }
+        }
+
+        if ('undefined' !== typeof form.elements['field_place_on_marketplace']) {
+          if (!drupalgap_user_has_role('administrator')) {
+            form.elements['field_place_on_marketplace'].access = false;
+          }
+        }
+      }
+      // If the 'Lock data' field of the node is set to true
+      else if ('undefined' !== typeof node.field_data_locked['und']
+        && 1 == node.field_data_locked['und'][0].value) {
+        if ('undefined' !== typeof form.elements['field_geo_position']) {
+          if (!drupalgap_user_has_role('administrator')) {
+            form.elements['field_geo_position'].access = false;
+          }
+        }
+
+        if ('undefined' !== typeof form.elements['field_address']) {
+          if (!drupalgap_user_has_role('administrator')) {
+            delete form.elements['field_address'];
+          }
+        }
       }
 
       if (!Drupal.user.content_types_user_permissions.property.delete_own
@@ -558,32 +587,6 @@ function _reiscout_property_user_can_view_property_owner_info(entity, uid) {
   }
 
   return false;
-}
-
-/**
- * Determines if the current user has an access to edit the node given.
- * @param {Object} node
- * @return {Boolean}
- */
-function _reiscout_property_node_edit_access(node) {
-  try {
-    // If the 'Lock data' field of the node is set to true
-    if ('undefined' !== typeof node.field_data_locked['und']
-     && 1 == node.field_data_locked['und'][0].value) {
-      return false;
-    }
-
-    if ((node.uid == Drupal.user.uid && user_access('edit own ' + node.type + ' content'))
-     || user_access('edit any ' + node.type + ' content')) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-  catch (error) {
-    console.log('_reiscout_property_node_edit_access - ' + error);
-  }
 }
 
 /**
