@@ -165,7 +165,7 @@ Drupal.modules.contrib['google_analytics'] = {};
 //Drupal.modules.contrib['example'] = {};
 
 /** Custom Modules - www/app/modules/custom **/
-Drupal.modules.custom['reiscout_property'] = {};
+Drupal.modules.custom['reiscout_property'] = {}; // This module must be included before the 'reiscout_address' one
 Drupal.modules.custom['reiscout_purchased_addresses'] = {};
 Drupal.modules.custom['reiscout_address'] = {
   includes: [
