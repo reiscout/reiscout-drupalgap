@@ -21,3 +21,25 @@ function reiscout_property_commerce_form_alter(form, form_state, form_id) {
     console.log('reiscout_property_commerce_form_alter - ' + error);
   }
 }
+
+/**
+ * Implements hook_entity_post_render_field().
+ */
+function reiscout_property_commerce_entity_post_render_field(entity, field_name, field, reference) {
+  try {
+    if ('node' === field.entity_type && 'property' === field.bundle) {
+      if ('field_image' === field_name) {
+        if (entity._number_of_property_lead_sales) {
+          reference.content += drupalgap_format_plural(
+            entity._number_of_property_lead_sales,
+            t('This lead has been purchased 1 time'),
+            t('This lead has been purchased') + ' ' + entity._number_of_property_lead_sales + ' ' + t('times')
+          );
+        }
+      }
+    }
+  }
+  catch (error) {
+    console.log('reiscout_property_commerce_entity_post_render_field - ' + error);
+  }
+}
