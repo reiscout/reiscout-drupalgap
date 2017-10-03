@@ -172,10 +172,8 @@ Drupal.modules.custom['reiscout_address'] = {
     {name: 'reiscout_address.forms'}
   ]
 };
-Drupal.modules.custom['reiscout_get_owner_info'] = {};
-Drupal.modules.custom['reiscont_buy_info_points'] = {};
 Drupal.modules.custom['reiscout_property_commerce'] = {};
-Drupal.modules.custom['reiscout_mail'] = {};
+Drupal.modules.custom['reiscout_points'] = {};
 Drupal.modules.custom['reiscout_about'] = {};
 Drupal.modules.custom['reiscout_misc'] = {};
 Drupal.modules.custom['reiscout_tutorial'] = {};
@@ -260,6 +258,16 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
       options: {
         attributes: {
           'data-icon': 'user-info',
+          'class': 'ui-btn ui-btn-icon-right'
+        }
+      }
+    },
+    {
+      title: 'My Balance',
+      path: 'reiscout-points-balance',
+      options: {
+        attributes: {
+          'data-icon': 'user-balance',
           'class': 'ui-btn ui-btn-icon-right'
         }
       }
