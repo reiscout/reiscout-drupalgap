@@ -296,56 +296,8 @@ function commerce_checkout_view(form, form_state, order_id) {
       title: 'State',
       type: 'select',
       options: {
-        'AL':'Alabama',
-        'AK':'Alaska',
-        'AZ':'Arizona',
-        'AR':'Arkansas',
-        'CA':'California',
-        'CO':'Colorado',
-        'CT':'Connecticut',
-        'DE':'Delaware',
-        'FL':'Florida',
-        'GA':'Georgia',
-        'HI':'Hawaii',
-        'ID':'Idaho',
-        'IL':'Illinois',
-        'IN':'Indiana',
-        'IA':'Iowa',
-        'KS':'Kansas',
-        'KY':'Kentucky',
-        'LA':'Louisiana',
-        'ME':'Maine',
-        'MD':'Maryland',
-        'MA':'Massachusetts',
-        'MI':'Michigan',
-        'MN':'Minnesota',
-        'MS':'Mississippi',
-        'MO':'Missouri',
-        'MT':'Montana',
-        'NE':'Nebraska',
-        'NV':'Nevada',
-        'NH':'New Hampshire',
-        'NJ':'New Jersey',
-        'NM':'New Mexico',
-        'NY':'New York',
-        'NC':'North Carolina',
-        'ND':'North Dakota',
-        'OH':'Ohio',
-        'OK':'Oklahoma',
-        'OR':'Oregon',
-        'PA':'Pennsylvania',
-        'RI':'Rhode Island',
-        'SC':'South Carolina',
-        'SD':'South Dakota',
-        'TN':'Tennessee',
-        'TX':'Texas',
-        'UT':'Utah',
-        'VT':'Vermont',
-        'VA':'Virginia',
-        'WA':'Washington',
-        'WV':'West Virginia',
-        'WI':'Wisconsin',
-        'WY':'Wyoming'
+        'MI': 'Michigan',
+        'TX': 'Texas'
       },
       default_value: 'MI',
       required: true
@@ -406,56 +358,7 @@ function commerce_checkout_view(form, form_state, order_id) {
       title: 'State',
       type: 'select',
       options: {
-        'AL':'Alabama',
-        'AK':'Alaska',
-        'AZ':'Arizona',
-        'AR':'Arkansas',
-        'CA':'California',
-        'CO':'Colorado',
-        'CT':'Connecticut',
-        'DE':'Delaware',
-        'FL':'Florida',
-        'GA':'Georgia',
-        'HI':'Hawaii',
-        'ID':'Idaho',
-        'IL':'Illinois',
-        'IN':'Indiana',
-        'IA':'Iowa',
-        'KS':'Kansas',
-        'KY':'Kentucky',
-        'LA':'Louisiana',
-        'ME':'Maine',
-        'MD':'Maryland',
-        'MA':'Massachusetts',
-        'MI':'Michigan',
-        'MN':'Minnesota',
-        'MS':'Mississippi',
-        'MO':'Missouri',
-        'MT':'Montana',
-        'NE':'Nebraska',
-        'NV':'Nevada',
-        'NH':'New Hampshire',
-        'NJ':'New Jersey',
-        'NM':'New Mexico',
-        'NY':'New York',
-        'NC':'North Carolina',
-        'ND':'North Dakota',
-        'OH':'Ohio',
-        'OK':'Oklahoma',
-        'OR':'Oregon',
-        'PA':'Pennsylvania',
-        'RI':'Rhode Island',
-        'SC':'South Carolina',
-        'SD':'South Dakota',
-        'TN':'Tennessee',
-        'TX':'Texas',
-        'UT':'Utah',
-        'VT':'Vermont',
-        'VA':'Virginia',
-        'WA':'Washington',
-        'WV':'West Virginia',
-        'WI':'Wisconsin',
-        'WY':'Wyoming'
+        'TX': 'Texas'
       },
       default_value: 'TX',
       required: true
@@ -722,7 +625,9 @@ function commerce_checkout_customer_profile_copy_toggle() {
  */
 function commerce_cart_add_to_cart_form(form, form_state, product_display) {
   try {
-
+    //dpm('commerce_cart_add_to_cart_form');
+    //dpm(product_display);
+    
     // Set the global product display variable so we have access to it later.
     _commerce_product_display = product_display;
     
@@ -742,12 +647,15 @@ function commerce_cart_add_to_cart_form(form, form_state, product_display) {
     // type.
 
     // @TODO - is this dynamic, or is it a static name chosen by the site builder?
-    var product_entities_field_name = 'field_address_access_product';
+    var product_entities_field_name = 'field_product_entities';
+    //dpm('commerce_cart_add_to_cart_form');
+    //dpm(product_display);
     
     // If there are any product entities...
     if (product_display[product_entities_field_name]) {
-
-      var field_info_instances = drupalgap_field_info_instances('node', product_display.type);
+      
+      //dpm('commerce_product field_info_instances');
+      var field_info_instances = drupalgap_field_info_instances('commerce_product', product_display.type);
       if (!field_info_instances) {
         // Failed to load the instances, throw some informative warnings.
         dpm('WARNING: commerce_cart_add_to_cart_form() - no field instances were located for ' + product_display.type + '');
@@ -926,9 +834,6 @@ function _commerce_cart_attribute_change() {
  */
 function _commerce_product_display_get_current_product_id() {
   try {
-    // Hotfix for reiscout, Can handle only single product.
-    return _commerce_product_display_product_id;
-
     // Iterate over each attribute on the page, pull out the field_name and
     // value, and set them aside, so they can later be used to determine which
     // product is currently selected.
@@ -943,7 +848,7 @@ function _commerce_product_display_get_current_product_id() {
     // the the referenced product entities on the current product display.
     var product_id = null;
     // @TODO - this field name is dynamic, we can't use a static string here!
-    $.each(_commerce_product_display['field_address_access_product'], function(pid, product) {
+    $.each(_commerce_product_display['field_product_entities'], function(pid, product) {
         var match = true;
         $.each(_commerce_product_attribute_field_names, function(index, field_name) {
             if (product[field_name] != attributes[field_name]) {
@@ -1057,10 +962,6 @@ function _commerce_cart_field_formatter_view_pageshow(options) {
         success: function(product_display) {
           // Inject the add to cart form html into the container.
           var form_html = drupalgap_get_form('commerce_cart_add_to_cart_form', product_display);
-
-          form_html += drupalgap_get_form('reiscout_get_owner_info_custom_form', product_display);
-          form_html += drupalgap_get_form('reiscout_buy_info_points_custom_form', product_display);
-
           $('#' + commerce_cart_container_id(entity_type, entity_id)).html(form_html).trigger('create');
         }
     });
@@ -1680,7 +1581,7 @@ function theme_commerce_cart_buttons(variables) {
  */
 function theme_commerce_cart_line_item(variables) {
   try {
-    var html = '<h2>' + variables.line_item.line_item_title + '</h2>' +
+    var html = '<h2>' + variables.line_item.line_item_label + '</h2>' +
     '<p><strong>Price</strong>: ' + variables.line_item.commerce_unit_price_formatted + '</p>';
     if (variables.line_item.type != 'shipping') {
       html += theme('commerce_cart_line_item_quantity', {
