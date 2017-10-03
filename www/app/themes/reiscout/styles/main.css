@@ -89,6 +89,11 @@ div[id^='commerce_checkout_complete_'] #link {
     background-size: 16px 16px;
 }
 
+.ui-icon-user-balance:after {
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB3aWR0aD0iMTc5MiIgaGVpZ2h0PSIxNzkyIiB2aWV3Qm94PSIwIDAgMTc5MiAxNzkyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTM2MiAxMTg1cTAgMTUzLTk5LjUgMjYzLjV0LTI1OC41IDEzNi41djE3NXEwIDE0LTkgMjN0LTIzIDloLTEzNXEtMTMgMC0yMi41LTkuNXQtOS41LTIyLjV2LTE3NXEtNjYtOS0xMjcuNS0zMXQtMTAxLjUtNDQuNS03NC00OC00Ni41LTM3LjUtMTcuNS0xOHEtMTctMjEtMi00MWwxMDMtMTM1cTctMTAgMjMtMTIgMTUtMiAyNCA5bDIgMnExMTMgOTkgMjQzIDEyNSAzNyA4IDc0IDggODEgMCAxNDIuNS00M3Q2MS41LTEyMnEwLTI4LTE1LTUzdC0zMy41LTQyLTU4LjUtMzcuNS02Ni0zMi04MC0zMi41cS0zOS0xNi02MS41LTI1dC02MS41LTI2LjUtNjIuNS0zMS01Ni41LTM1LjUtNTMuNS00Mi41LTQzLjUtNDktMzUuNS01OC0yMS02Ni41LTguNS03OHEwLTEzOCA5OC0yNDJ0MjU1LTEzNHYtMTgwcTAtMTMgOS41LTIyLjV0MjIuNS05LjVoMTM1cTE0IDAgMjMgOXQ5IDIzdjE3NnE1NyA2IDExMC41IDIzdDg3IDMzLjUgNjMuNSAzNy41IDM5IDI5IDE1IDE0cTE3IDE4IDUgMzhsLTgxIDE0NnEtOCAxNS0yMyAxNi0xNCAzLTI3LTctMy0zLTE0LjUtMTJ0LTM5LTI2LjUtNTguNS0zMi03NC41LTI2LTg1LjUtMTEuNXEtOTUgMC0xNTUgNDN0LTYwIDExMXEwIDI2IDguNSA0OHQyOS41IDQxLjUgMzkuNSAzMyA1NiAzMSA2MC41IDI3IDcwIDI3LjVxNTMgMjAgODEgMzEuNXQ3NiAzNSA3NS41IDQyLjUgNjIgNTAgNTMgNjMuNSAzMS41IDc2LjUgMTMgOTR6IiBjb2xvcj0iI0ZGRiIgZmlsbD0iI0ZGRiIgLz48L3N2Zz4=');
+    background-size: 16px 16px;
+}
+
 .ui-icon-properties-list:after {
     background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMSBUaW55Ly9FTicgICdodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS10aW55LmR0ZCc+DQo8c3ZnIGlkPSJMYXllcl8xIiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiBiYXNlUHJvZmlsZT0idGlueSIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNTAwIDUwMCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4gPHBhdGggZD0ibTIxNC4yOSAyODUuNzF2MTA3LjE0cTAgMTQuNTA5LTEwLjYwMyAyNS4xMTJ0LTI1LjExMiAxMC42MDNoLTE0Mi44NnEtMTQuNTA5IDAtMjUuMTEyLTEwLjYwM3QtMTAuNjAzLTI1LjExMnYtMTA3LjE0cTAtMTQuNTA5IDEwLjYwMy0yNS4xMTJ0MjUuMTEyLTEwLjYwM2gxNDIuODZxMTQuNTA5IDAgMjUuMTEyIDEwLjYwM3QxMC42MDMgMjUuMTEyem0wLTIxNC4yOHYxMDcuMTRxMCAxNC41MDktMTAuNjAzIDI1LjExMnQtMjUuMTEyIDEwLjYwM2gtMTQyLjg2cS0xNC41MDkgMC0yNS4xMTItMTAuNjAzdC0xMC42MDMtMjUuMTEydi0xMDcuMTRxMC0xNC41MDkgMTAuNjAzLTI1LjExMnQyNS4xMTItMTAuNjAzaDE0Mi44NnExNC41MDkgMCAyNS4xMTIgMTAuNjAzdDEwLjYwMyAyNS4xMTJ6bTI1MCAyMTQuMjh2MTA3LjE0cTAgMTQuNTA5LTEwLjYwMyAyNS4xMTJ0LTI1LjExMiAxMC42MDNoLTE0Mi44NnEtMTQuNTA5IDAtMjUuMTEyLTEwLjYwM3QtMTAuNjAzLTI1LjExMnYtMTA3LjE0cTAtMTQuNTA5IDEwLjYwMy0yNS4xMTJ0MjUuMTEyLTEwLjYwM2gxNDIuODZxMTQuNTA5IDAgMjUuMTEyIDEwLjYwM3QxMC42MDMgMjUuMTEyem0wLTIxNC4yOHYxMDcuMTRxMCAxNC41MDktMTAuNjAzIDI1LjExMnQtMjUuMTEyIDEwLjYwM2gtMTQyLjg2cS0xNC41MDkgMC0yNS4xMTItMTAuNjAzdC0xMC42MDMtMjUuMTEydi0xMDcuMTRxMC0xNC41MDkgMTAuNjAzLTI1LjExMnQyNS4xMTItMTAuNjAzaDE0Mi44NnExNC41MDkgMCAyNS4xMTIgMTAuNjAzdDEwLjYwMyAyNS4xMTJ6IiBmaWxsPSIjZmZmIi8+PC9zdmc+DQo=');
     background-position: 4px 4px;
@@ -193,18 +198,21 @@ div[id^='commerce_checkout_complete_'] #link {
     display: inline;
 }
 
-#reiscout_mail_send_postcard_form .description {
+.send_postcard #edit-reiscout-points-buy-product-form-submit,
+.send_postcard #edit-reiscout-points-buy-product-form-button.ui-disabled {
+    box-sizing: border-box;
+    width: 258px;
+}
+
+#edit-reiscout-points-buy-product-form-button.ui-disabled {
+    opacity: 0.55;
+    background-color: #F0F0F0;
+}
+
+#reiscout_points_buy_product_form .description {
     margin-top: -3px;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 17px;
-}
-
-#edit-reiscout-mail-send-postcard-form-submit {
-    width: 190px;
-}
-
-#edit-reiscout-mail-buy-sending-points-form-submit {
-    width: 180px;
 }
 
 .node-view .field_image img {
@@ -256,4 +264,21 @@ div[id^='commerce_checkout_complete_'] #link {
 .messages .close {
     text-align: right;
     font-size: 0.8em;
+}
+
+#reiscout-points-user-balance .current-state,
+#reiscout-points-user-balance .description,
+#reiscout-points-user-balance .buy-points-link {
+    padding: 15px 0;
+    border-bottom: 1px solid grey;
+}
+
+#reiscout-points-user-balance .description {
+    font-size: 90%;
+}
+
+#reiscout_points_buy_package_form .field-name-product-id label div {
+    margin-left: 2px;
+    font-size: 14px;
+    color: #707070;
 }
