@@ -16,6 +16,12 @@ function reiscout_property_commerce_form_alter(form, form_state, form_id) {
       form.elements['exp_year']['title'] = '';
       form.elements['exp_year']['options']['attributes']['placeholder'] = t('YYYY');
     }
+    else if (form_id == 'commerce_checkout_view') {
+      form.elements['billing_administrative_area']['options'] = _reiscout_misc_get_us_states_options();
+      form.elements['billing_administrative_area']['default_value'] = 'GA';
+      form.elements['shipping_administrative_area']['options'] = _reiscout_misc_get_us_states_options();
+      form.elements['shipping_administrative_area']['default_value'] = 'GA';
+    }
   }
   catch (error) {
     console.log('reiscout_property_commerce_form_alter - ' + error);
