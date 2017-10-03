@@ -43,3 +43,17 @@ function reiscout_property_commerce_entity_post_render_field(entity, field_name,
     console.log('reiscout_property_commerce_entity_post_render_field - ' + error);
   }
 }
+
+/**
+ * Checks if a user has purchased a property's address.
+ */
+function _reiscout_property_commerce_user_purchased_address_access(node) {
+  return node._user_purchased_address_access_product;
+}
+
+/**
+ * Checks if a property's address has been purchased by someone.
+ */
+function _reiscout_property_commerce_address_access_purchased(node) {
+  return node._number_of_property_lead_sales;
+}
