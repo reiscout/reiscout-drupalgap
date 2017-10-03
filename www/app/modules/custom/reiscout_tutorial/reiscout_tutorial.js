@@ -195,24 +195,24 @@ function reiscout_tutorial_page_build(output) {
     // If the current user is the author of the current property
     // and the 'Full info' tag has not been attached to the property
     if (Drupal.user.uid === output.node.uid
-     && !_reiscout_tutorial_is_tag_attached_to_property(output.node, 'Full info')) {
-      // If the user does not have Property Data points
-      // and he has not closed the 'buy-property-data-points' hint
-      if (0 >= Drupal.user._amount_of_property_data_points
-       && !in_array('buy-property-data-points', closed_hints)) {
+     && !_reiscout_property_is_data_quality_tag_attached(output.node, 'Full info')) {
+      // If the user does not have points
+      // and he has not closed the 'buy-points-property-data' hint
+      if (0 >= Drupal.user._points
+       && !in_array('buy-points-property-data', closed_hints)) {
         var message = '<div class="messages status">'
                     + '<div>' + 'Hi ' + Drupal.user.name + ',' + '</div>'
                     + '<div>We provide property data for all 50 states.</div>'
-                    + '<div>To autofill your property listing you must <strong>purchase Property Data points<strong>.</div>'
-                    + '<div>' + l('Watch our video tutorial', 'tutorials?vid=pull-property-data') + ' on How to Buy Property Data Points.' + '</div>'
-                    + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'buy-property-data-points\')">Do not show this message again</a></div>'
+                    + '<div>To autofill your property listing you must <strong>purchase points</strong>.</div>'
+                    + '<div>' + l('Watch our video tutorial', 'tutorials?vid=pull-property-data') + ' on How to Buy Points.' + '</div>'
+                    + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'buy-points-property-data\')">Do not show this message again</a></div>'
                     + '</div>';
         output.content.markup = message + output.content.markup
       }
 
-      // If the user has Property Data points
+      // If the user has points
       // and he has not closed the 'pull-property-data' hint
-      if (0 < Drupal.user._amount_of_property_data_points
+      if (0 < Drupal.user._points
        && !in_array('pull-property-data', closed_hints)) {
         var message = '<div class="messages status">'
                     + '<div>' + 'Hi ' + Drupal.user.name + ',' + '</div>'
@@ -229,25 +229,25 @@ function reiscout_tutorial_page_build(output) {
     // or the user bought the property lead
     // and the 'Owner info' tag has been attached to the property
     if ((Drupal.user.uid === output.node.uid
-     || output.node._user_bought_address_access_product)
-     && _reiscout_tutorial_is_tag_attached_to_property(output.node, 'Owner info')) {
-      // If the user does not have Mail points
-      // and he has not closed the 'buy-mail-points' hint
-      if (0 >= Drupal.user._amount_of_mail_points
-       && !in_array('buy-mail-points', closed_hints)) {
+     || _reiscout_property_commerce_user_purchased_address_access(output.node))
+     && _reiscout_property_is_data_quality_tag_attached(output.node, 'Owner info')) {
+      // If the user does not have points
+      // and he has not closed the 'buy-points-send-postcard' hint
+      if (0 >= Drupal.user._points
+       && !in_array('buy-points-send-postcard', closed_hints)) {
         var message = '<div class="messages status">'
                     + '<div>' + 'Hi ' + Drupal.user.name + ',' + '</div>'
                     + '<div>Send a physical postcard to the property owner!</div>'
-                    + '<div>To start sending mail you must <strong>purchase Mail points<strong>.</div>'
-                    + '<div>' + l('Watch our video tutorial', 'tutorials?vid=send-postcard') + ' on How to Buy Mail Points.' + '</div>'
-                    + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'buy-mail-points\')">Do not show this message again</a></div>'
+                    + '<div>To start sending mail you must <strong>purchase points</strong>.</div>'
+                    + '<div>' + l('Watch our video tutorial', 'tutorials?vid=send-postcard') + ' on How to Buy Points.' + '</div>'
+                    + '<div class="close"><a href="#" onclick="javascript:_reiscout_tutorial_close_hint(\'buy-points-send-postcard\')">Do not show this message again</a></div>'
                     + '</div>';
         output.content.markup = message + output.content.markup
       }
 
-      // If the user has Mail points
+      // If the user has points
       // and he has not closed the 'send-postcard' hint
-      if (0 < Drupal.user._amount_of_mail_points
+      if (0 < Drupal.user._points
        && !in_array('send-postcard', closed_hints)) {
         var message = '<div class="messages status">'
                     + '<div>' + 'Hi ' + Drupal.user.name + ',' + '</div>'
@@ -258,66 +258,6 @@ function reiscout_tutorial_page_build(output) {
         output.content.markup = message + output.content.markup
       }
     }
-  }
-}
-
-/**
- * Implements hook_services_request_pre_postprocess_alter().
- */
-function reiscout_tutorial_services_request_pre_postprocess_alter(options, result) {
-  try {
-    // If a postcard has been sent successfully, decrease a value of _amount_of_mail_points
-    if ('reiscout_mail_postcard' === options.service && 'send' === options.resource) {
-      if (result.status) {
-        --Drupal.user._amount_of_mail_points;
-      }
-    }
-    // If property data have been pulled successfully, decrease a value of _amount_of_property_data_points
-    else if ('ownerinfo' === options.service && 'getinfo' === options.resource) {
-      if (result.status) {
-        --Drupal.user._amount_of_property_data_points;
-      }
-    }
-    // If a property has been created successfully, increase a value of _amount_of_added_properties
-    else if ('node' === options.service && 'create' === options.resource) {
-      if (result.nid) {
-        ++Drupal.user._amount_of_added_properties;
-      }
-    }
-  }
-  catch (error) {
-    console.log('reiscout_tutorial_services_request_pre_postprocess_alter - ' + error);
-  }
-}
-
-/**
- * Implements hook_services_postprocess().
- */
-function reiscout_tutorial_services_postprocess(options, result) {
-  try {
-    // If checkout has been completed successfully, check which products have been purchased
-    if ('checkout_complete' === options.service && 'create' === options.resource) {
-      if (result[0]) {
-        var order_id = arg(2);
-        var order = _commerce_order[order_id];
-
-        $.each(order.commerce_line_items_entities, function(line_item_id, line_item) {
-          // If the 'Property Data points' product has been purchased,
-          // increase a value of _amount_of_property_data_points
-          if ('596' === line_item.commerce_product) {
-            Drupal.user._amount_of_property_data_points += line_item.product_points_amount;
-          }
-          // If the 'Mail points' product has been purchased,
-          // increase a value of _amount_of_mail_points
-          else if ('597' === line_item.commerce_product) {
-            Drupal.user._amount_of_mail_points += line_item.product_points_amount;
-          }
-        });
-      }
-    }
-  }
-  catch (error) {
-    console.log('reiscout_tutorial_services_postprocess - ' + error);
   }
 }
 
@@ -334,20 +274,4 @@ function _reiscout_tutorial_close_hint(id) {
   }
 
   $('.messages').hide();
-}
-
-/**
- * Given a tag name, checks if the tag has been attached to a property.
- */
-function _reiscout_tutorial_is_tag_attached_to_property(node, tag_name) {
-  if ('undefined' !== typeof node.field_data_quality_tags['und']) {
-    var tags = node.field_data_quality_tags['und'];
-    for (var tag in tags) {
-      if (tag_name === tags[tag].name) {
-        return true;
-      }
-    }
-  }
-
-  return false;
 }
