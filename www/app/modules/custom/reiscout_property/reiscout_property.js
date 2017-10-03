@@ -32,7 +32,7 @@ function reiscout_property_menu() {
  */
 function reiscout_property_form_alter(form, form_state, form_id) {
   try {
-    if (form_id == 'node_edit' && form.bundle == 'property') {
+    if ('node_edit' === form_id  && 'property' === form.bundle) {
       var node = form.arguments[0];
 
       // The title field is hidden using CSS. Here we set its value to some text.
@@ -74,8 +74,8 @@ function reiscout_property_form_alter(form, form_state, form_id) {
         form.elements['field_place_on_marketplace']['und'][0].value = default_value;
       }
 
-      // If a node's 'Address Access' product has been purchased
-      if (node._purchased_counter) {
+      // If a property's address has been purchased by someone
+      if (_reiscout_property_commerce_address_access_purchased(node)) {
         if ('undefined' !== typeof form.elements['field_geo_position']) {
           if (!drupalgap_user_has_role('administrator')) {
             form.elements['field_geo_position'].access = false;
@@ -401,10 +401,6 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
 
           reference.content = '<div class="field_image">' + image + '</div>';
         }
-
-        if (Drupal.user.uid != 0 && typeof entity._purchased_counter !== 'undefined') {
-          reference.content += 'This lead has been purchased: ' + (entity._purchased_counter == 1 ? '1 time' : entity._purchased_counter + ' times');
-        }
       }
       else if (field_name == 'field_address') {
         if (!_reiscout_property_user_can_view_property_address(entity, Drupal.user.uid)) {
@@ -422,18 +418,6 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
       else if (field_name === 'field_owner_postal_address') {
         if (!_reiscout_property_user_can_view_property_owner_info(entity, Drupal.user.uid)) {
           reference.content = '';
-        }
-        else if ('undefined' !== typeof entity.field_owner_postal_address['und']
-              && entity.field_owner_postal_address['und'][0].thoroughfare) {
-          reference.content += drupalgap_get_form('reiscout_mail_send_postcard_form', entity.nid);
-          reference.content += drupalgap_get_form('reiscout_mail_buy_sending_points_form');
-
-          // Forms that we added above are not visible by default, so we need
-          // to display one of them. But we can do it only after all the node
-          // content will be rendered and injected in the node container.
-          $('#node_' + entity.nid + '_view_container').one('create', function() {
-            _reiscout_mail_display_available_form(entity.nid);
-          });
         }
       }
       else if (field_name === 'field_owner_phone') {
@@ -525,30 +509,29 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
 }
 
 /**
- * Defines if a user has an access to view a property's address.
+ * Checks if a user may view a property's address.
  *
- * User may see a property's address if:
- * - he is a property's author OR
- * - he has bought a property's address.
+ * A user may view a property's address if:
+ * - he is the property's author OR
+ * - he has bought the property's address.
  *
  * @param {object} entity
  * @param {int} uid
  * @returns {boolean}
  */
 function _reiscout_property_user_can_view_property_address(entity, uid) {
-  // If user is an administrator.
+  // If a user has an 'administrator' user role
   if (drupalgap_user_has_role('administrator')) {
     return true;
   }
 
-  // If user is a property's author.
+  // If a user is a property's author
   if (entity.uid == uid) {
     return true;
   }
 
-  // If user has bought a property's address.
-  if (typeof entity._user_bought_address_access_product !== 'undefined'
-    && entity._user_bought_address_access_product === true) {
+  // If a user has purchased a property's address
+  if (_reiscout_property_commerce_user_purchased_address_access(entity)) {
     return true;
   }
 
@@ -556,34 +539,10 @@ function _reiscout_property_user_can_view_property_address(entity, uid) {
 }
 
 /**
- * Defines if user has an access to view a property's owner info.
- *
- * User may see info about property's owner if:
- * - he is a property's author OR
- * - he has bought a property's address.
- *
- * @param {object} entity
- * @param {int} uid
- * @returns {boolean}
+ * Checks if a user may view a property's owner info.
  */
 function _reiscout_property_user_can_view_property_owner_info(entity, uid) {
-  // If user is an administrator.
-  if (drupalgap_user_has_role('administrator')) {
-    return true;
-  }
-
-  // If user is a property's author.
-  if (entity.uid == uid) {
-    return true;
-  }
-
-  // If user has bought a property's address.
-  if (typeof entity._user_bought_address_access_product !== 'undefined'
-    && entity._user_bought_address_access_product === true) {
-    return true;
-  }
-
-  return false;
+  return _reiscout_property_user_can_view_property_address(entity, uid);
 }
 
 /**
