@@ -563,3 +563,19 @@ function _reiscout_property_build_data_quality_tags_html(tags) {
 
   return html;
 }
+
+/**
+ * Checks if a tag_name data quality tag is attached to a property.
+ */
+function _reiscout_property_is_data_quality_tag_attached(node, tag_name) {
+  if ('undefined' !== typeof node.field_data_quality_tags['und']) {
+    var tags = node.field_data_quality_tags['und'];
+    for (var tag in tags) {
+      if (tag_name === tags[tag].name) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
