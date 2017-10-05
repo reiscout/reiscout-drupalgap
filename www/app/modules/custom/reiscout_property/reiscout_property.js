@@ -62,10 +62,8 @@ function reiscout_property_form_alter(form, form_state, form_id) {
         }
       }
 
-      if ('undefined' !== typeof form.elements['field_data_locked']) {
-        if (!drupalgap_user_has_role('administrator')) {
-          form.elements['field_data_locked'].access = false;
-        }
+      if (!drupalgap_user_has_role('administrator')) {
+        form.elements['field_data_locked'].access = false;
       }
 
       // Set the initial value of the 'field_place_on_marketplace' field to its default value
@@ -76,22 +74,10 @@ function reiscout_property_form_alter(form, form_state, form_id) {
 
       // If a property's address has been purchased by someone
       if (_reiscout_property_commerce_address_access_purchased(node)) {
-        if ('undefined' !== typeof form.elements['field_geo_position']) {
-          if (!drupalgap_user_has_role('administrator')) {
-            form.elements['field_geo_position'].access = false;
-          }
-        }
-
-        if ('undefined' !== typeof form.elements['field_address']) {
-          if (!drupalgap_user_has_role('administrator')) {
-            delete form.elements['field_address'];
-          }
-        }
-
-        if ('undefined' !== typeof form.elements['field_place_on_marketplace']) {
-          if (!drupalgap_user_has_role('administrator')) {
-            form.elements['field_place_on_marketplace'].access = false;
-          }
+        if (!drupalgap_user_has_role('administrator')) {
+          form.elements['field_geo_position'].access = false;
+          delete form.elements['field_address'];
+          form.elements['field_place_on_marketplace'].access = false;
         }
 
         if ('undefined' !== typeof form.buttons.delete) {
@@ -99,19 +85,13 @@ function reiscout_property_form_alter(form, form_state, form_id) {
         }
       }
       // If the 'Lock data' field of the node is set to true
-      else if ('undefined' !== typeof node.field_data_locked['und']
+      else if ('undefined' !== typeof node.field_data_locked
+        && 'undefined' !== typeof node.field_data_locked['und']
         && 1 == node.field_data_locked['und'][0].value) {
-        if ('undefined' !== typeof form.elements['field_geo_position']) {
           if (!drupalgap_user_has_role('administrator')) {
             form.elements['field_geo_position'].access = false;
-          }
-        }
-
-        if ('undefined' !== typeof form.elements['field_address']) {
-          if (!drupalgap_user_has_role('administrator')) {
             delete form.elements['field_address'];
           }
-        }
       }
     }
   }
