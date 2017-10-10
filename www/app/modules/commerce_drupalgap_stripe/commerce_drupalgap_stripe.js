@@ -1,44 +1,40 @@
+var _commerce_stripe_order_id = null; // Holds the order id for payment.
 
 /**
  *
  */
 function commerce_drupalgap_stripe_menu() {
-  try {
-    var items = {};
-    items['checkout/payment/%'] = {
-      'title': 'Payment',
-      'page_callback': 'commerce_drupalgap_stripe_view',
-      'pageshow': 'commerce_drupalgap_stripe_view_pageshow',
-      'page_arguments': [2],
-    };
-    return items;
-  }
-  catch (error) {
-    console.log('commerce_drupalgap_stripe_menu - ' + error);
-  }
+  var items = {};
+  items['checkout/payment/%'] = {
+    title: 'Payment',
+    page_callback: 'commerce_drupalgap_stripe_view',
+    pageshow: 'commerce_drupalgap_stripe_view_pageshow',
+    page_arguments: [2]
+  };
+  return items;
 }
 
 function commerce_drupalgap_stripe_view(order_id) {
   var container_id = commerce_drupalgap_stripe_container_id(order_id);
-  return '<span class="payment-errors"></span>' +
-    '<div id="' + container_id + '"></div>';
+  return '<div class="stripe-payment-errors"></div>' +
+      '<div id="' + container_id + '"></div>';
 }
 
 function commerce_drupalgap_stripe_view_pageshow(order_id) {
   try {
     commerce_order_load(order_id, {
-        success: function(order) {
-          // Set aside the order so it can be used later without fetching
-          // it again.
-          _commerce_order[order_id] = order;
-          var form_html = drupalgap_get_form('commerce_drupalgap_stripe_form', order);
-          var container_id = commerce_drupalgap_stripe_container_id(order_id);
-          $('#' + container_id).html(form_html).trigger('create');
-          // validate the card number on input XXXX XXXX XXXX XXXX
-          $('input#edit-commerce-drupalgap-stripe-form-card-number').payment('formatCardNumber');
-          // validate the cc number on input XXX
-          $('input#edit-commerce-drupalgap-stripe-form-card-cvc').payment('formatCardCVC');
-        }
+      success: function(order) {
+        // Set aside the order so it can be used later without fetching
+        // it again.
+        _commerce_order[order_id] = order;
+        var form_html = drupalgap_get_form('commerce_drupalgap_stripe_form', order);
+        var container_id = commerce_drupalgap_stripe_container_id(order_id);
+        $('#' + container_id).html(form_html).trigger('create');
+        // validate the card number on input XXXX XXXX XXXX XXXX
+        $('input#edit-commerce-drupalgap-stripe-form-number').payment('formatCardNumber');
+        // validate the cc number on input XXX
+        $('input#edit-commerce-drupalgap-stripe-form-cvc').payment('formatCardCVC');
+      }
     });
   }
   catch (error) {
@@ -50,30 +46,47 @@ function commerce_drupalgap_stripe_view_pageshow(order_id) {
  *
  */
 function commerce_drupalgap_stripe_form(form, form_state, order) {
+  form.elements.order_id = {
+    type: 'hidden',
+    default_value: order.order_id,
+    required: true
+  };
   // 4242 4242 4242 4242 - are the test details
-  form.elements.card_number = {
+  form.elements.number = {
     title: 'Card number',
     type: 'textfield',
     default_value: '',
-    required: true
+    required: true,
+    attributes: {
+      'data-stripe': 'number'
+    }
   };
-  form.elements.card_cvc = {
+  form.elements.cvc = {
     title: 'CVC',
     type: 'textfield',
     default_value: '',
-    required: true
+    required: true,
+    attributes: {
+      'data-stripe': 'cvc'
+    }
   };
   form.elements.exp_month = {
     title: 'Expiry Month',
     type: 'textfield',
     default_value: '',
-    required: true
+    required: true,
+    attributes: {
+      'data-stripe': 'exp-month'
+    }
   };
   form.elements.exp_year = {
     title: 'Expiry Year',
     type: 'textfield',
     default_value: '',
-    required: true
+    required: true,
+    attributes: {
+      'data-stripe': 'exp-year'
+    }
   };
   // Add to cart submit button.
   form.elements.submit = {
@@ -88,51 +101,48 @@ function commerce_drupalgap_stripe_form(form, form_state, order) {
  */
 function commerce_drupalgap_stripe_form_submit(form, form_state) {
   try {
+    _commerce_stripe_order_id = form_state.values.order_id;
     Stripe.setPublishableKey(drupalgap.settings.stripe_api_key);
     $('#edit-commerce-drupalgap-stripe-form-submit').attr("disabled", "disabled");
-    Stripe.card.createToken({
-      number: form_state.values.card_number,
-      cvc: form_state.values.card_cvc,
-      exp_month: form_state.values.exp_month,
-      exp_year: form_state.values.exp_year,
-      address_line1: $('#edit-commerce-checkout-view-billing-thoroughfare').val(),
-      address_line2: $('#edit-commerce-checkout-view-billing-premise').val(),
-      address_city: $('#edit-commerce-checkout-view-billing-locality').val(),
-      address_state: $('#edit-commerce-checkout-view-billing-administrative-area').val(),
-      address_zip: $('#edit-commerce-checkout-view-billing-postal-code').val(),
-      address_country: $('#edit-commerce-checkout-view-billing-country').val(),
-      name: $('#edit-commerce-checkout-view-billing-name-line').val()
-    }, commerce_drupalgap_stripe_response);
+    Stripe.card.createToken($('#commerce_drupalgap_stripe_form'), commerce_drupalgap_stripe_response);
   }
   catch (error) { console.log('commerce_drupalgap_stripe_form_submit - ' + error); }
-  
 }
 
 function commerce_drupalgap_stripe_response(status, response) {
   try {
+    //console.log(response);
     if (response.error) {
-      $(".payment-errors").text(response.error.message);
+      $(".stripe-payment-errors").addClass('messages error').text(response.error.message);
       $('#edit-commerce-drupalgap-stripe-form-submit').removeAttr("disabled")
     } else {
-      $(".payment-errors").text('');
-      $.each(_commerce_order, function(order_id, order) {
+      $(".stripe-payment-errors").text('');
+      var order = _commerce_order[_commerce_stripe_order_id];
+      var order_id = order.order_id;
         commerce_drupalgap_stripe_create({
           data: {
             order_id: order_id,
             stripe_token: response.id,
-            payment_method: 'commerce_stripe',
-            //stripe_repsonse: JSON.stringify(response),
+            payment_method: 'commerce_stripe'
           },
           success: function(data) {
-            drupalgap_goto('checkout/complete/' + arg(2), {reloadPage: true});
+            drupalgap_remove_pages_from_dom();
+            commerce_checkout_complete({
+              data: { order_id: order_id },
+              success: function(result) {
+                drupalgap_goto('checkout/complete/' + arg(2), { reloadPage: true });
+              },
+              error: function(xhr, status, message) {
+                if (options.error) { options.error(xhr, status, message); }
+              }
+            });
           },
           error: function(error) {
-            alert('error');
+            drupalgap_alert(error);
+            console.log(JSON.stringify(error));
+            console.log('WARNING: commerce_drupalgap_stripe_response. Be sure CRUD permissions are set > admin/structure/services/list/drupalgap/resources');
           }
         });
-        // only process one order
-        return;
-      });
     }
   }
   catch (error) { console.log('commerce_drupalgap_stripe_response - ' + error); }
@@ -175,8 +185,5 @@ function commerce_drupalgap_stripe_create(options) {
  *
  */
 function commerce_drupalgap_stripe_container_id(order_id) {
-  try {
-    return 'commerce_drupalgap_stripe_form_' + order_id;
-  }
-  catch (error) { console.log('commerce_drupalgap_stripe_container_id - ' + error); }
+  return 'commerce_drupalgap_stripe_form_' + order_id;
 }
