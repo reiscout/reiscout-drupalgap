@@ -282,3 +282,18 @@ div[id^='commerce_checkout_complete_'] #link {
     font-size: 14px;
     color: #707070;
 }
+
+#commerce_checkout_view .field-name-billing-name-line,
+#commerce_checkout_view .field-name-billing-country,
+#commerce_checkout_view .field-name-billing-thoroughfare,
+#commerce_checkout_view .field-name-billing-premise,
+#commerce_checkout_view .field-name-billing-locality,
+#commerce_checkout_view .field-name-billing-administrative-area,
+#commerce_checkout_view .field-name-shipping-name-line,
+#commerce_checkout_view .field-name-shipping-country,
+#commerce_checkout_view .field-name-shipping-thoroughfare,
+#commerce_checkout_view .field-name-shipping-premise,
+#commerce_checkout_view .field-name-shipping-locality,
+#commerce_checkout_view .field-name-shipping-administrative-area {
+    margin-bottom: 0.4em;
+}
