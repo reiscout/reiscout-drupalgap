@@ -87,6 +87,24 @@ function reiscout_property_commerce_entity_post_render_field(entity, field_name,
 }
 
 /**
+ * Implements hook_services_preprocess().
+ * @param {Object} options
+ */
+function reiscout_property_commerce_services_preprocess(options) {
+  try {
+    // If Services call is initiated by commerce_drupalgap_stripe_create()
+    if (options.service === 'commerce-payment-stripe' && options.resource === 'create') {
+      options.success = function(result) {
+        drupalgap_goto('checkout/complete/' + arg(2), {reloadPage: true});
+      }
+    }
+  }
+  catch (error) {
+    console.log('reiscout_property_commerce_services_preprocess - ' + error);
+  }
+}
+
+/**
  * Checks if a user has purchased a property's address.
  */
 function _reiscout_property_commerce_user_purchased_address_access(node) {
