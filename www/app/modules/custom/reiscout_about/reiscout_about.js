@@ -18,7 +18,7 @@ function reiscout_about_menu() {
  */
 function reiscout_about_page() {
   try {
-    var html = '<div id="title">Reiscout 1.1.0</div>';
+    var html = '<div id="title">Reiscout 1.1.1</div>';
 
     html += '<div id="copyright">Copyright © 2017 Three Oaks Technology Group, LLC</div>';
     html += '<div id="url"><a href="#" onclick="javascript:window.open(\'https://reiscout.com\', \'_system\');">www.reiscout.com</a></div>';
