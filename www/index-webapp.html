@@ -76,6 +76,9 @@
         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
         ga('create', drupalgap.settings.google_analytics.id, 'auto');
+        ga('set', 'appName', drupalgap.settings.app.name);
+        ga('set', 'appId', drupalgap.settings.app.id);
+        ga('set', 'appVersion', drupalgap.settings.app.version);
 
         ga(function(tracker) {
           var originalBuildHitTask = tracker.get('buildHitTask');
