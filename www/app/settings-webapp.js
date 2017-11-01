@@ -561,3 +561,12 @@ drupalgap.settings.cache.theme_registry = false;
 drupalgap.settings.google_analytics = {
   id: 'UA-103664342-1'
 };
+
+drupalgap.settings.app = {
+  // The name of the application
+  name: 'Reiscout',
+  // The id of the application
+  id: 'com.reiscout.v1',
+  // The current version of the application
+  version: '1.1.1'
+};
