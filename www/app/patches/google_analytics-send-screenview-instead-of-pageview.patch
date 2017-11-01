@@ -1,0 +1,13 @@
+diff --git a/www/app/modules/google_analytics/google_analytics.js b/www/app/modules/google_analytics/google_analytics.js
+index 5f9cf6e..133647a 100644
+--- a/www/app/modules/google_analytics/google_analytics.js
++++ b/www/app/modules/google_analytics/google_analytics.js
+@@ -2,6 +2,6 @@
+  * Implements hook_drupalgap_goto_post_process().
+  */
+ function google_analytics_drupalgap_goto_post_process(path) {
+-  ga('set', 'page', '/' + path);
+-  ga('send', 'pageview');
++  ga('set', 'screenName', '/' + path);
++  ga('send', 'screenview');
+ }
