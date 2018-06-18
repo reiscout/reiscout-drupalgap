@@ -568,5 +568,5 @@ drupalgap.settings.app = {
   // The id of the application
   id: 'com.reiscout.v1',
   // The current version of the application
-  version: '1.1.1'
+  version: '1.1.2'
 };
