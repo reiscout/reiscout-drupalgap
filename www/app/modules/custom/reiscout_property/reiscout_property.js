@@ -46,7 +46,8 @@ function reiscout_property_form_alter(form, form_state, form_id) {
         // hide owner info fields
         'field_owner_postal_address', 'field_owner_phone',
         // hide property info fields
-        'field_assessed_value', 'field_last_sale_price', 'field_last_sale_date', 'field_mortgage_company',
+        'field_appraised_value', 'field_market_value', 'field_assessed_value',
+        'field_last_sale_price', 'field_last_sale_date', 'field_mortgage_company',
         'field_gross_area', 'field_bedrooms', 'field_full_baths', 'field_half_baths', 'field_year_built',
         'field_effective_year_built', 'field_lot_area_acres', 'field_zoning', 'field_repairs_price',
         'field_arv', 'field_under_contract',
