@@ -2,7 +2,7 @@
 <widget id="com.reiscout.v1" version="1.1.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Reiscout</name>
     <description>
-        Real Estate Investment Scout.
+        Real Estate Information Scout
     </description>
     <author email="Bbaeta@reiscout.com" href="http://reiscout.com">
         By Boris Baeta, Vladyslav Bogatyrov, Vladymir Kolos and Denis Popov
