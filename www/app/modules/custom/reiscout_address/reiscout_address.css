@@ -1,3 +1,10 @@
+.field-name-field-address,
+.field-name-field-user-postal-address label,
+.field-name-field-user-postal-address .ui-select,
+#edit-user-profile-form-field-user-postal-address-und-0-value-country-widget div:not(:nth-child(1)):not(:nth-child(2)) {
+    display: none
+}
+
 .pac-item {
     font-size: 0.9em;
 }
@@ -9,18 +16,4 @@
 }
 .pac-icon-marker {
     display: none;
-}
-
-.field-name-field-address {
-    display: none;
-}
-
-.field_address {
-    margin-top: 15px;
-}
-
-.field-name-field-user-postal-address label,
-.field-name-field-user-postal-address .ui-select,
-#edit-user-profile-form-field-user-postal-address-und-0-value-country-widget div:not(:nth-child(1)):not(:nth-child(2)) {
-    display: none
 }
