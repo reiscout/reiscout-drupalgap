@@ -43,14 +43,16 @@ function reiscout_address_form_alter(form, form_state, form_id) {
     else if (form_id === 'user_profile_form') {
       var elements = form.elements;
 
-      if ('undefined' != typeof elements.field_default_template_nid) {
+      if ('undefined' !== typeof elements.field_default_template_nid) {
         elements.field_default_template_nid.access = false;
       }
 
-      // Is it a field_user_postal_address field with addressfield_autocomplete widget enabled on it?
-      if (typeof elements.field_user_postal_address !== 'undefined') {
-        if (elements.field_user_postal_address.type === 'addressfield') {
-          if (elements.field_user_postal_address.field_info_instance.widget.type == 'addressfield_autocomplete') {
+      // If the form contains field_user_postal_address field
+      if ('undefined' !== typeof elements.field_user_postal_address) {
+        // of 'Postal address' type
+        if ('addressfield' === elements.field_user_postal_address.type) {
+          // that displayed by 'Dynamic address form' widget
+          if ('addressfield_standard' === elements.field_user_postal_address.field_info_instance.widget.type) {
             if ('undefined' === typeof field_user_postal_address_weight) {
               field_user_postal_address_weight = elements.field_user_postal_address.field_info_instance.widget.weight;
               elements.field_user_postal_address.field_info_instance.widget.weight = 0;
@@ -97,15 +99,22 @@ function reiscout_address_form_alter(form, form_state, form_id) {
         console.log('WARNING: reiscout_address_form_alter() - module geofield is not installed');
       }
 
-      // Is it a field_address field with addressfield_autocomplete widget enabled on it?
-      if (typeof elements.field_address !== 'undefined') {
-        if (elements.field_address.type === 'addressfield') {
-          if (elements.field_address.field_info_instance.widget.type == 'addressfield_autocomplete') {
+      // If the form contains field_address field
+      if ('undefined' !== typeof elements.field_address) {
+        // of 'Postal address' type
+        if ('addressfield' === elements.field_address.type) {
+          // that displayed by 'Dynamic address form' widget
+          if ('addressfield_standard' === elements.field_address.field_info_instance.widget.type) {
             if ('undefined' === typeof field_address_weight) {
               field_address_weight = elements.field_address.field_info_instance.widget.weight;
               elements.field_address.field_info_instance.widget.weight = 0;
             }
             _reiscout_address_enable_addressfield_autocomplete_widget_on_addressfield(form.id, elements, 'field_address', field_address_weight);
+
+            // If this form is used for a node creation, clear localStorage that was set by addressfield.js module.
+            if ('undefined' === typeof form.arguments[0].nid) {
+              window.localStorage.removeItem('addressfield_get_address_format_and_administrative_areas_US');
+            }
           }
         }
       }
@@ -117,34 +126,29 @@ function reiscout_address_form_alter(form, form_state, form_id) {
 }
 
 /**
- * Provides support for addressfield field, whose widget is addressfield_autocomplete.
+ * Provides the address autocomplete feature for a field of 'Postal address' type.
  */
 function _reiscout_address_enable_addressfield_autocomplete_widget_on_addressfield(form_id, elements, field_name, weight) {
-  // A value that is stored in field_info_instance.widget.module property defines what
-  // module will provide a widget for the field. addressfield_autocomplete module is not
-  // exists, so we set it to 'reiscout_address' and now _drupalgap_form_render_element()
-  // will call reiscout_address_field_widget_form().
-  elements[field_name].field_info_instance.widget.module = 'reiscout_address';
-
-  // A value_callback function will be used for form_state array generation on form submission phase.
-  elements[field_name].value_callback = 'addressfield_field_value_callback';
-
-  // We hide the field's title because field_address_autocomplete field's title will be displayed.
-  elements[field_name].title = '';
-
   var field_name_class = field_name.replace(/_/g, '-');
   var widget_id = drupalgap_form_get_element_id(field_name_class, form_id, 'und', 0);
 
-  if (typeof elements[field_name].und[0].item !== 'undefined'
-    && typeof elements[field_name].und[0].item.data_json !== 'undefined') {
-    var data_json = JSON.parse(elements[field_name].und[0].item.data_json);
+  if ('undefined' !== typeof elements[field_name].und[0].item) {
+    var address = elements[field_name].und[0].item.thoroughfare
+                + ', '
+                + elements[field_name].und[0].item.locality
+                + ', '
+                + elements[field_name].und[0].item.administrative_area
+                + ', '
+                + elements[field_name].und[0].item.postal_code;
   }
 
-  // This field will be used for address autocompleting.
+  // Address autocomplete feature will be attached to this field.
   elements[field_name_class + '-und-0-value-autocomplete'] = {
     type: 'textfield',
-    title: 'Address*',
-    default_value: (typeof data_json !== 'undefined') ? data_json['formatted_address'] : '',
+    title: 'Address',
+    description: elements[field_name].description,
+    default_value: ('undefined' !== typeof address) ? address : '',
+    required: true,
     weight: weight,
     attributes: {
       id: widget_id + '-autocomplete',
@@ -152,7 +156,7 @@ function _reiscout_address_enable_addressfield_autocomplete_widget_on_addressfie
     }
   };
 
-  // We use 'pageshow' event to enable an autocomplete feature on the field.
+  // We use 'pageshow' event to attach the autocomplete feature to the field.
   elements[field_name_class + '-autocomplete-markup'] = {
     markup: drupalgap_jqm_page_event_script_code({
       page_id: drupalgap_get_page_id(),
@@ -162,22 +166,6 @@ function _reiscout_address_enable_addressfield_autocomplete_widget_on_addressfie
         widget_id: widget_id
       })
     })
-  };
-
-  // We create latitude and longitude fields because address_autocomplete widget needs these values.
-  elements[field_name_class + '-und-0-value-latitude'] = {
-    type: 'hidden',
-    default_value: (typeof data_json !== 'undefined') ? data_json['latitude'] : '',
-    attributes: {
-      id: widget_id + '-latitude'
-    }
-  };
-  elements[field_name_class + '-und-0-value-longitude'] = {
-    type: 'hidden',
-    default_value: (typeof data_json !== 'undefined') ? data_json['longitude'] : '',
-    attributes: {
-      id: widget_id + '-longitude'
-    }
   };
 }
 
@@ -215,10 +203,6 @@ function reiscout_address_field_widget_form(form, form_state, field, instance, l
           }
         }
       });
-    }
-    else if (instance.widget.type === 'addressfield_autocomplete') {
-      // We use addressfield_standard widget to display this field.
-      addressfield_field_widget_form(form, form_state, field, instance, langcode, items, delta, element);
     }
     else {
       console.log('WARNING: reiscout_address_field_widget_form() - unsupported widget type: ' + instance.widget.type);
@@ -314,7 +298,7 @@ function _reiscout_address_getposition_click(position_id, address_autocomplete_f
 }
 
 /**
- * Enables autocomplete feature on field_address_autocomplete field.
+ * Attaches address autocomplete feature to a field.
  */
 function _reiscout_address_field_autocomplete_enable(data) {
   try {
@@ -325,7 +309,7 @@ function _reiscout_address_field_autocomplete_enable(data) {
 
     var widget_id = data.widget_id;
 
-    // Field IDs we will be put result in.
+    // IDs of fields result address will be put in.
     var fields_mapping = {
       locality: widget_id + '-locality',
       administrative_area_level_1: widget_id + '-administrative_area',
@@ -335,14 +319,12 @@ function _reiscout_address_field_autocomplete_enable(data) {
     $('#' + widget_id + '-autocomplete')
       .geocomplete(options)
       .bind("geocode:result", function(event, result) {
-        // Set 'Address 1', 'Latitude' and 'Longitude' fields' values.
+        // Fill 'Address 1' field.
         $('#' + widget_id + '-thoroughfare').val(result.formatted_address.split(',')[0]);
-        $('#' + widget_id + '-latitude').val(result.geometry.location.lat());
-        $('#' + widget_id + '-longitude').val(result.geometry.location.lng());
 
-        // Get each component of the address from the result
-        // object and fill the corresponding field on the form.
-        for (var i = 0; i < result.address_components.length; i++) {
+        // Iterate over all components of result address and
+        // fill the corresponding fields of the address widget.
+        for (var i = 0; i < result.address_components.length; ++i) {
           var address_type = result.address_components[i].types[0];
           var field_id = fields_mapping[address_type];
           if (typeof field_id !== 'undefined') {
