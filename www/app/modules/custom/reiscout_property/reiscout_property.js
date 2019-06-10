@@ -54,7 +54,9 @@ function reiscout_property_form_alter(form, form_state, form_id) {
         // hide equity percentage field
         'field_ep_calculated',
         // hide the 'Data Quality Tags' field
-        'field_data_quality_tags'
+        'field_data_quality_tags',
+        // hide 'Place this lead on the marketplace' field
+        'field_place_on_marketplace'
       ];
       for (var i in fields) {
         var fieldname = fields[i];
