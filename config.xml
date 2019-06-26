@@ -70,11 +70,6 @@
     <plugin name="cordova-plugin-file" spec="~6.0.1" />
     <plugin name="cordova-plugin-geolocation" spec="~4.0.1" />
     <plugin name="cordova-plugin-inappbrowser" spec="~3.0.0" />
-    <plugin name="cordova-plugin-media-capture" spec="~3.0.2">
-        <variable name="CAMERA_USAGE_DESCRIPTION" value="App would like to access the camera" />
-        <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="App would like to access the photo library" />
-        <variable name="MICROPHONE_USAGE_DESCRIPTION" value="App would like to access the microphone" />
-    </plugin>
     <plugin name="cordova-plugin-network-information" spec="~2.0.1" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
     <plugin name="cordova-plugin-whitelist" spec="~1.3.3" />
