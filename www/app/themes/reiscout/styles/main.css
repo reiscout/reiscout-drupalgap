@@ -48,6 +48,7 @@
 
 .node.node-view .body {
     font-size: 0.8em;
+    white-space: pre-line;
 }
 
 .node.ui-page .region_sub_header {
