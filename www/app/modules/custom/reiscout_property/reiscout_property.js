@@ -407,6 +407,17 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
         if (!_reiscout_property_user_can_view_property_owner_info(entity, Drupal.user.uid)) {
           reference.content = '';
         }
+        // If 'Owner Phone' field is set
+        else if ('undefined' !== typeof entity.field_owner_phone['und']) {
+          reference.content = '<div class="field_owner_phone">'
+                            + '<h3>Owner Phone</h3>';
+
+          $.each(entity.field_owner_phone['und'], function(key, phone) {
+            reference.content += '<div class="phone">' + phone.safe_value + '</div>';
+          });
+
+          reference.content += '</div>';
+        }
       }
       else if (field_name === 'field_data_quality_tags') {
         // If the 'Data Quality Tags' field of the node is not empty
