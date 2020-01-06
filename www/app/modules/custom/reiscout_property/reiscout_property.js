@@ -385,7 +385,7 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
           reference.content = '<div class="field_image">' + image + '</div>';
         }
       }
-      else if (field_name == 'field_address') {
+      else if (field_name === 'field_address') {
         if (!_reiscout_property_user_can_view_property_address(entity, Drupal.user.uid)) {
           if ('undefined' !== typeof entity._address) {
             reference.content = '<div class="field_address">'
