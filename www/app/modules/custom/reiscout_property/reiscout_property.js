@@ -398,6 +398,44 @@ function reiscout_property_entity_post_render_field(entity, field_name, field, r
           }
         }
       }
+      else if (field_name === 'field_last_sale_price') {
+        var last_sale_price = '';
+        var last_sale_date = '';
+
+        if ('undefined' !== typeof entity.field_last_sale_price.und) {
+          last_sale_price = number_field_formatter_view('node', entity, field, null, null, entity.field_last_sale_price.und, null);
+          last_sale_price = last_sale_price[0].markup;
+        }
+
+        if ('undefined' !== typeof entity.field_last_sale_date.und) {
+          last_sale_date = new Date(entity.field_last_sale_date.und[0].value).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+          });
+        }
+
+        if (last_sale_price || last_sale_date) {
+          reference.content = '<div class="field_last_sold">'
+                            + '<h3>Last Sold</h3>';
+
+          if (last_sale_date) {
+            reference.content += last_sale_date;
+          }
+
+          if (last_sale_price) {
+            reference.content += last_sale_date ? ' for ' + last_sale_price : last_sale_price;
+          }
+
+          reference.content += '</div>';
+        }
+        else {
+          reference.content = '';
+        }
+      }
+      else if (field_name === 'field_last_sale_date') {
+        reference.content = '';
+      }
       else if (field_name === 'field_owner_postal_address') {
         if (!_reiscout_property_user_can_view_property_owner_info(entity, Drupal.user.uid)) {
           reference.content = '';
