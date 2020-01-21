@@ -43,14 +43,19 @@ function reiscout_property_form_alter(form, form_state, form_id) {
       var fields = [
         // hide product field
         'field_address_access_product',
+        'field_fips_county_code',
         // hide owner info fields
-        'field_owner_postal_address', 'field_owner_phone',
+        'field_owner_status', 'field_owner_postal_address', 'field_owner_phone',
+        'field_last_contacted', 'field_lead_status',
         // hide property info fields
         'field_appraised_value', 'field_market_value', 'field_assessed_value',
         'field_last_sale_price', 'field_last_sale_date', 'field_mortgage_company',
-        'field_gross_area', 'field_bedrooms', 'field_full_baths', 'field_half_baths', 'field_year_built',
-        'field_effective_year_built', 'field_lot_area_acres', 'field_zoning', 'field_repairs_price',
-        'field_arv', 'field_under_contract',
+        'field_gross_area', 'field_finished_area', 'field_bedrooms', 'field_baths',
+        'field_full_baths', 'field_half_baths', 'field_rooms', 'field_year_built',
+        'field_effective_year_built', 'field_lot_area_acres', 'field_zoning',
+        'field_source', 'field_case_number', 'field_case_file_date',
+        'field_repairs_price', 'field_arv', 'field_under_contract',
+        'field_zillow_page_url',
         // hide equity percentage field
         'field_ep_calculated',
         // hide the 'Data Quality Tags' field
@@ -58,6 +63,7 @@ function reiscout_property_form_alter(form, form_state, form_id) {
         // hide 'Place this lead on the marketplace' field
         'field_place_on_marketplace'
       ];
+
       for (var i in fields) {
         var fieldname = fields[i];
         if (form.elements[fieldname]) {
