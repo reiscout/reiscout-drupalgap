@@ -54,8 +54,8 @@ function reiscout_property_form_alter(form, form_state, form_id) {
         'field_full_baths', 'field_half_baths', 'field_rooms', 'field_year_built',
         'field_effective_year_built', 'field_lot_area_acres', 'field_zoning',
         'field_list', 'field_case_number', 'field_case_file_date',
-        'field_repairs_price', 'field_arv', 'field_under_contract',
-        'field_zillow_page_url',
+        'field_foreclosure_sale_date', 'field_repairs_price', 'field_arv',
+        'field_under_contract', 'field_zillow_page_url',
         // hide equity percentage field
         'field_ep_calculated',
         // hide the 'Data Quality Tags' field
