@@ -21,6 +21,6 @@
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
     "shelljs": "^0.2.6",
-    "tmp": "0.0.23"
+    "tmp": "0.2.4"
   }
 }
